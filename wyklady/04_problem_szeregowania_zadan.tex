@@ -1,0 +1,67 @@
+\subsubsection{Opis problemu}
+Instancja problemu składa się z:
+\begin{itemize}
+	\item Zbioru zadań do wykonania $Z= \{ Z_1,...,Z_n \}$
+    \item Czasów wykonania zadań $t = \{ t_1,...,t_n\}$
+\end{itemize}
+Rozpoczęte zadnie nie może być przerwane.
+Jak uszeregować $Z$, aby średni czas ukończenia był najmniejszy?
+
+\subsubsection{Przykład dla 1 procesora}
+\begin{center}
+\begin{tabular}{ c | c | c | c | c }
+  $z$ & $z_1$	& $z_2$ & $z_3$ & $z_4$ \\ \hline
+  $t$ & 15 		&  8 	& 3 	& 10 \\ 
+\end{tabular}
+\end{center}
+Średni czas ukończenia dla kolejności $z_1, z_2, z_3, z_4$:
+$\frac{15+(15+8)+(15+8+3)+(15+8+3+10)}{4}= 25$ \\
+\\
+Średni czas ukończenia dla kolejności $z_3, z_2, z_4, z_1$:
+$\frac{3+(3+8)+(3+8+10)+(3+8+10+15)}{4} = 17\frac{3}{4}$ \\
+
+\textbf{Wniosek:} wykonujemy zadania sortując rosnąco po $t$ 
+
+\subsubsection{Przykład dla 3 procesorów}
+Przydzielamy kolejne zadania pierwszemu wolnemu procesorowi:
+\begin{center}
+\begin{tabular}{ c | c | c | c | c | c | c | c | c | c } 
+  $z$ 	& $z_1$	& $z_2$ & $z_3$ & $z_4$	& $z_5$	& $z_6$ & $z_7$ & $z_8$	& $z_9$ \\ \hline
+  $t$ 	& 3		& 5		& 6		& 10	& 11	& 14	& 15	& 18	& 20 \\ 
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{ c | c | c | c }
+  CPU1 & $z_1$ & $z_4$ & $z_7$ \\ \hline
+  CPU2 & $z_2$ & $z_5$ & $z_8$ \\ \hline
+  CPU3 & $z_3$ & $z_6$ & $z_9$ \\
+\end{tabular}
+\end{center}
+
+\subsubsection{Dowód}
+Przy uszeregowaniu $z_{i_1} ,..., z_{i_n}$ suma czasów ukończenia wynosi:
+\begin{itemize}
+	\item \textbf{dla 1 procesora:}
+	\[ \sum_{j=1}^{n} \sum_{k=1}^{j} t_{i_k} = t_{i_1} + (t_{i_1}+ t_{i_2}) + ... + (t_{i_1} + ... + t_{i_n}) = n \cdot t_{i_1} + ... + 1 \cdot t_{i_n} = \sum_{j=1}^{n} (n+1-j) t_{i_j}  \]
+    \item \textbf{dla 3 procesorów:} \\
+	$$ t_{i_1} + t_{i_2} + t_{i_3} + (t_{i_1}+ t_{i_4}) + (t_{i_2}+ t_{i_5}) + (t_{i_3}+ t_{i_6}) + ... + (t_{i_1} + ... + t_{i_{n-2}}) + (t_{i_2} + ... + t_{i_{n-1}}) + (t_{i_3} + ... + t_{i_n}) $$ \\
+	$$ = \frac{n}{3} (t_{i_1} + t_{i_2} + t_{i_3}) + \frac{n-1}{3} (t_{i_4} + t_{i_5} + t_{i_6}) + ... + 1 (t_{i_{n-2}} + t_{i_{n-1}} + t_{i_{n}}) $$ \\
+	$$ = \sum_{j=1}^{n} (\frac{n}{3} - \lfloor\frac{j-1}{3}\rfloor) t_{i_j}$$ \\
+	$$ = \sum_{j=1}^{n} \lceil \frac{n + 1 -j}{3} \rceil t_{i_j} =  $$
+	\end{itemize}
+
+\textbf{Lemat:} Niech $A_1 \geq A_2 \geq ... \geq A_n$. Dla dowolnej permutacji $\pi = (i_1, ..., i_n)$ zbioru ${1,...n}$ niech $f(\pi) = \sum_{j=1}^{n} A_j \cdot t_{i_j}$ $f(\pi)$ jest najmniejsze dla permutacji $\pi$ takich, że $t_{i_1} \leq t_{i_2} \leq ... \leq t_{i_n}$.
+\\
+\textbf{Dowód:} Niech $\pi$ będzie permutacja minimalizującą $f(\pi)$. Przypuśćmy, że dla pewnych $k$ i $l$ takich, że $k<l$ i $t_{i_k} < t_{i_l}$. Niech $\pi'$ będzie permutacją powstałą z $\pi$ za pomocą zamiany miejscami $i_k$ z $i_l$ tzn. $i'_j = i_j$ dla $j\neq k,l$ i $i'_k = i_j$ $i'_j = i_k$. \\
+Wtedy
+$$ f(\pi) - f(\pi') = \sum_{j=1}^{n} A_j \cdot t_{i_j} - \sum_{j=1}^{n} A_j  \cdot t_{i'_j} $$ \\
+$$ = A_k \cdot t_{i_k} - A_k \cdot t_{i'_k} + A_l \cdot t_{i_l} - A_l \cdot t_{i'_j} $$ \\ 
+$$ =A_k(t_{i_k} - t_{i_l} - A_l(t_{i_k} - t_{i_l}) = (A_k - A_i)(t_{i_k} - t_{i_l}) \geq 0 $$
+
+$f(\pi) \geq f(\pi')$ więc $f(\pi) \geq f(\pi')$ bo $\pi$ minimalizuje f. 
+Po pewnej liczbie takich zamian otrzymujemy $\pi$ - permutację minimalizującą f i taką, że $t_{i_1} \leq ... \leq t_{i_n}$ .
+\\
+\textbf{Wnioski:} Oba algorytmy szeregowania są poprawne.
+
+
