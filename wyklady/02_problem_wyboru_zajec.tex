@@ -1,0 +1,53 @@
+\begin{itemize}
+\item $S = \{ Z_1,...,Z_n \}$ - zbór zajęć używających tego samego zasobu (np. sali zajęc lub procesora) 
+\item $s_i$ - czas rozpoczęcia zajęcia $z_i$
+\item $t_i$ - czas zakończenia zajęcia $z_i$
+\end{itemize}
+zajęcia $z_i$ i $z_j$ są zgodne jeśli $<s_i,t_i)$ $\cup$ $<s_j,t_j) = \emptyset$ \\
+Problem: Wybrać największej liczności zbiór $A \subset S$ parami zgodnych zajęć
+\begin{center}
+\begin{tabular}{ c | c | c | c | c | c | c }
+  $i$ & $1$	& $2$ & $3$ & $4$ & $5$ & $6$ \\ \hline
+  $s_i$ & 0	&  2  & 4 	& 7 & 1 & 7 \\ \hline
+  $t_i$ & 4	&  6  & 7 	& 10 & 3 & 9 \\  
+\end{tabular}
+\end{center}
+%\includegraphics[width=\textwidth]{UI_screens/Graph.png}
+
+Algorytm zachłanny w każdym kroku wybierze zajęcie zgodne z każdym z już wybranych zajęć, które kończą się najwcześniej, żeby zostawić miejsce dla jaknajwiększej liczby kolejnych zajęć.\\
+Sortujemy zajęcia niemalejąco względem czasów zakończenia (można to zrobić w czasie $O(n(logn))$.Dalej zakładamy, że $t_1 \leq t_2 \leq ... \leq t_n$
+
+\begin{center}
+\begin{tabular}{ c | c | c | c | c | c | c }
+  $i$ & $1$	& $2$ & $3$ & $4$ & $5$ & $6$ \\ \hline
+  $s_i$ & 1	&  0  &  2	&  4  &  7  & 7 \\ \hline
+  $t_i$ & 3	&  4  &  6	&  7  &  9  & 10 \\  
+\end{tabular}
+\end{center}
+\subsubsection{Algorytm}
+gdzie s,t - wektory
+\begin{enumerate}
+	\item n $\leftarrow$ length(s)
+    \item A $\leftarrow$ $\lbrace z_1 \rbrace$
+    \item j $\leftarrow$ z
+    \item for i $\leftarrow$ z to 1
+    \item \tab if $s_i \geq t_j$ 
+    \item \tab \tab A $\leftarrow$ A $\cup \lbrace z_j \rbrace$
+    \item \tab \tab j $\leftarrow$ i
+    \item return A
+\end{enumerate}
+Algorytm działa poprawnie tzn. zwraca zbiór zajęć parami zgodnych, bo dołącza zajęcie $z_i$ do zbioru razwiązań A tylko wtedy, gdy $s_i \geq t_j$, gdzie $t_j$ jest czasem zakończenia zajęcia wykonanego poprzednio.\\
+\\
+\underline{Tw.} Algorytm zawsze znajduje optymalne rowiązania\\
+Dowód Indukcja po n\\
+\tab n = 1 ok.\\
+\tab n > 1\\
+Pokazujemy najpierw, że istnieje rozwiązanie optymalne zawierające zajęcia $z_1$.\\
+\\
+Niech $A_1$ będzie dowolnym rozwiązaniem optymalnym i niech $\vert A_1\vert = l$\\
+Jeśli $z_1 \in A_1$ to ok. \\
+Niech w $z_1 \not\in A_1$ \\
+%Niech $z_k$ będzie zajęciem z $A_1$ o najmniejszym indeksie $\forall{j} \neq k, z_j \in A_1$ $s_j \geq t_n$ oraz $t_k \geq t_1$ zatem \\
+$A_2 = (A_1 - \lbrace z_k\rbrace ) \cup \lbrace z_1 \rbrace $ też jest rozwiązaniem optymalnym \\
+$A_2$ - rozwiązanie optymalne zawierające $z_1$\\
+Rozważmy 
