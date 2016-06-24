@@ -1,5 +1,5 @@
 \begin{itemize}
-\item $S = \{ Z_1,...,Z_n \}$ - zbór zajęć używających tego samego zasobu (np. sali zajęc lub procesora) 
+\item $S = \{ Z_1,...,Z_n \}$ - zbór zajęć używających tego samego zasobu (np. sali zajęć lub procesora) 
 \item $s_i$ - czas rozpoczęcia zajęcia $z_i$
 \item $t_i$ - czas zakończenia zajęcia $z_i$
 \end{itemize}
@@ -14,7 +14,7 @@ Problem: Wybrać największej liczności zbiór $A \subset S$ parami zgodnych za
 \end{center}
 %\includegraphics[width=\textwidth]{UI_screens/Graph.png}
 
-Algorytm zachłanny w każdym kroku wybierze zajęcie zgodne z każdym z już wybranych zajęć, które kończą się najwcześniej, żeby zostawić miejsce dla jaknajwiększej liczby kolejnych zajęć.\\
+Algorytm zachłanny w każdym kroku wybierze zajęcie zgodne z każdym z już wybranych zajęć, które kończą się najwcześniej, żeby zostawić miejsce dla jak największej liczby kolejnych zajęć.\\
 Sortujemy zajęcia niemalejąco względem czasów zakończenia (można to zrobić w czasie $O(n(logn))$.Dalej zakładamy, że $t_1 \leq t_2 \leq ... \leq t_n$
 
 \begin{center}
@@ -38,16 +38,29 @@ gdzie s,t - wektory
 \end{enumerate}
 Algorytm działa poprawnie tzn. zwraca zbiór zajęć parami zgodnych, bo dołącza zajęcie $z_i$ do zbioru razwiązań A tylko wtedy, gdy $s_i \geq t_j$, gdzie $t_j$ jest czasem zakończenia zajęcia wykonanego poprzednio.\\
 \\
-\underline{Tw.} Algorytm zawsze znajduje optymalne rowiązania\\
+\underline{Tw.} Algorytm zawsze znajduje optymalne rozwiązania\\
 Dowód Indukcja po n\\
 \tab n = 1 ok.\\
-\tab n > 1\\
+\tab n $>$ 1\\
 Pokazujemy najpierw, że istnieje rozwiązanie optymalne zawierające zajęcia $z_1$.\\
 \\
 Niech $A_1$ będzie dowolnym rozwiązaniem optymalnym i niech $\vert A_1\vert = l$\\
 Jeśli $z_1 \in A_1$ to ok. \\
 Niech w $z_1 \not\in A_1$ \\
-%Niech $z_k$ będzie zajęciem z $A_1$ o najmniejszym indeksie $\forall{j} \neq k, z_j \in A_1$ $s_j \geq t_n$ oraz $t_k \geq t_1$ zatem \\
+Niech $z_k$ będzie zajęciem z $A_1$ o najmniejszym indeksie $\forall{j} \neq k, z_j \in A_1$ $s_j \geq t_n$ oraz $t_k \geq t_1$ zatem \\
 $A_2 = (A_1 - \lbrace z_k\rbrace ) \cup \lbrace z_1 \rbrace $ też jest rozwiązaniem optymalnym \\
 $A_2$ - rozwiązanie optymalne zawierające $z_1$\\
-Rozważmy 
+Rozważmy nasz problem dla zbioru $S' = \lbrace z_i \in S: s_i \geq t_i \rbrace$ Dla każdego $z_j \in A_2 - \lbrace z_1 \rbrace$ $z_j \in S'$, bo $S_j \geq t_1$, bo $A_2$ jest rozwiązaniem dla $S$. Pokażemy, że $A_2 - \lbrace z_1 \rbrace$ jest rozwiązaniem optymalnym problemu dla $S'$. Gdyby istniało rozwiązanie $B$ dla $S'$ liczniejsze od $A_2 - \lbrace z_1 \rbrace$, to $\lbrace z_1 \rbrace \cup B$ było by rozwiązaniem problemu dla $S$ liczniejszym od $A_2$. \\
+$\vert S' \vert \leq \vert S \vert$\\
+Z założenia indukcyjnego algorytm znajduje rozwiązanie optymalne $B'$ dla $S'$ o liczności $\vert A_2 \vert - 1 = l - 1$\\
+Algorytm znajduje dla zbioru $S$ rozwiązanie $\lbrace z_1 \rbrace \cup B'$ o liczności $\vert \lbrace z_1 \rbrace \cup B' \vert = 1 + l - 1 = l$, więc $\lbrace z_1 \rbrace \cup B'$, jest rozwiązaniem optymalnym.\\
+\\
+\textbf{Złożoność obliczeniowa}\\
+linia 1 \tab $O(n)$\\
+linia 2,3 \tab $O(n)$\\
+pętla w linii 4 wykonuje się $O(n)$ razy\\
+\tab wykonanie tej pętli zajmuje $O(1)$ czasu\\
+$\Theta(n)$ jeśli zajęcie są posortowane względem czasu zakończenia \\
+\underline{$O(nlogn)$ złożoność całego rozwiązania.}
+
+
