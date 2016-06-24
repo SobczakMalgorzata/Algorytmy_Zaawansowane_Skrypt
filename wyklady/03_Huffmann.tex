@@ -1,0 +1,36 @@
+Zwykle znaki są reprezentowane za pomocą 8 bitów (np. ASCII). Ponieważ jednak częstości wystąpień znaków różnią się więc opłaca się reprezentować częściej występujące znaki za pomocą krótszych ciągów bitów, a rzadziej  występujące za pomocą dłuższych ciągów bitów.\\
+\\
+Dążymy do użycia jak najmniejszej ilości bitów.\\
+\\
+\textbf{Przykład:} W pliku występuje 58 znaków a, e, i, s, t, r, n\\
+\begin{center}
+\begin{tabular}{ c | c | c | c | c | c | c | c }
+  $i$ & $a$	& $e$ & $i$ & $s$ & $t$ & $r$ & $n$ \\ \hline
+  częstość wystąpień & 10 &  15  &  12	&  3  &  4  &  13 &  1 \\ \hline
+  kod 1 (stała długość słowa kodowego) & 000 & 001 & 010 & 011 & 100 & 101 & 110 \\ \hline
+  kod 2 (zmienna długość słowa kodowego) & 001 & 01 & 10 & 00000 & 0001 & 11 & 00001 \\ \hline
+  kod 3 (zmienna długość słowa kodowego) & 001 & 01 & 10 & 00010 & 0001 & 11 & 00001 \\  
+\end{tabular}
+\end{center}
+
+W przypadku stałej długości słów kodowych zakodowanych plik ma: $58*3=174$ bity.\\
+W przypadku zmiennej długości słów kodowych zakodowany plik ma: $3*10+2*15+2*12+5*3+4*4+2*13+5*1 = 146$ bitów.\\
+Oszczędzamy około 15%.\\
+\\
+Przy kodowaniu ze zmienną długością słów kodowych chcemy, żeby spełniany był warunek, że żadne słowo nie jest prefiksem (początkiem) innego słowa. Takie kody nazywamy prefiksowymi.\\
+\\
+\textbf{Kod 3 0001001 można zdekodować na dwa sposoby:}
+\begin{itemize}
+	\item 00010 01 se
+	\item 0001 001 ta 
+\end{itemize}
+tutaj 0001 jest prefiksem słowa 00010 czyli kod t jest prefiksem kodu s.\\
+\\
+\textbf{Reprezentacja kodów za pomocą drzew}\\
+\textbf{Kod 1}\\
+%\includegraphics[width=\textwidth]{UI_screens/Graph.png}
+\textbf{Kod 3}\\
+%\includegraphics[width=\textwidth]{UI_screens/Graph.png}
+\textbf{Kod 2}\\
+%\includegraphics[width=\textwidth]{UI_screens/Graph.png} 
+\underline{stw.} Żadne słowo nie jest prefiksem innego słowa $\Leftrightarrow$ w drzewie reprezentującym ten kod wszystkie znaki są liśćmi.
