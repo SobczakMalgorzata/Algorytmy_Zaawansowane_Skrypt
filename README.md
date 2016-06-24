@@ -1,0 +1,1 @@
+Algorytmy_Zaawansowane_Skrypt
