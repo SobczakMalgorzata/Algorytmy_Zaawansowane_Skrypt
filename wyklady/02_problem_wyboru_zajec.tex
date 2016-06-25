@@ -26,16 +26,16 @@ Sortujemy zajęcia niemalejąco względem czasów zakończenia (można to zrobi�
 \end{center}
 \subsubsection{Algorytm}
 gdzie s,t - wektory
-\begin{enumerate}
-	\item n $\leftarrow$ length(s)
-    \item A $\leftarrow$ $\lbrace z_1 \rbrace$
-    \item j $\leftarrow$ z
-    \item for i $\leftarrow$ z to 1
-    \item \tab if $s_i \geq t_j$ 
-    \item \tab \tab A $\leftarrow$ A $\cup \lbrace z_j \rbrace$
-    \item \tab \tab j $\leftarrow$ i
-    \item return A
-\end{enumerate}
+\begin{lstlisting}
+n $\leftarrow$ length(s)
+A $\leftarrow$ $\lbrace z_1 \rbrace$
+j $\leftarrow$ z
+for i $\leftarrow$ z to 1
+	if $s_i \geq t_j$ 
+    	A $\leftarrow$ A $\cup \lbrace z_j \rbrace$
+    	j $\leftarrow$ i
+return A
+\end{lstlisting}
 Algorytm działa poprawnie tzn. zwraca zbiór zajęć parami zgodnych, bo dołącza zajęcie $z_i$ do zbioru razwiązań A tylko wtedy, gdy $s_i \geq t_j$, gdzie $t_j$ jest czasem zakończenia zajęcia wykonanego poprzednio.\\
 \\
 \underline{Tw.} Algorytm zawsze znajduje optymalne rozwiązania\\
