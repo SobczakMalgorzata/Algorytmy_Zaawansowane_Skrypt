@@ -3,9 +3,27 @@
 \usepackage{polski}
 \usepackage{mathtools}
 \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{listings}
 \usepackage[utf8]{inputenc}
 
 \newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\definecolor{backcolor}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{            
+    numbers=left,
+    backgroundcolor = \color{backcolor},
+    tabsize = 2
+}
+\lstset{
+	style=mystyle,
+	mathescape=true,
+	literate=
+               {<-}{$\leftarrow{}$}{1}
+               {->}{$\rightarrow{}$}{1},
+    morekeywords={if,else,return,for}
+}
 
 \begin{document}                  
 
