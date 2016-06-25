@@ -1,0 +1,33 @@
+Ten typ algorytmu składa się z dwóch etapów:
+\begin{enumerate}
+\item Dzielimy problem na mniejsze podproblemy (dziel), te podproblemy rozwiązujemy rekurencyjnie. (zwyciężaj)(DZIEL)
+\item Rozwiązanie całego problemu składowego i rozwiązań podproblemów. (ZWYCIĘŻAJ)(połącz)
+\end{enumerate}
+Zwykle zakładamy że:
+\begin{itemize}
+\item dzielimy na co najmniej dwa podproblemy.
+\item problemy na które dzielimy są rozłączne.
+\end{itemize}
+\textbf{Przykład: }Mnożenie n cyfrowych liczb naturalnych X, Y - liczby n-cyfrowe\\
+\\
+Metoda pisemna obliczenia $X*Y$ $\leftarrow$ trzeba wykonać $\Theta(n^2)$ mnożeń (liczb jednocyfrowych)\\
+\\
+Szukamy najlepszej metody\\
+Dzielimy X i Y na dwie połowy\\
+$X = x_1,x_2...x_n = x_1...x_{n/2},x_{n/2-1}...x_n = 10^{n/2}X_L+X_R$\\
+$Y = 10^{n/2}Y_L+Y_R$\\
+\\
+$X*Y = (10^{n/2}X_L+X_R)*(10^{n/2}Y_L+Y_R) = 10^n X_L Y_L + 10^{n/2}(X_L Y_L + X_R Y_R) + X_R Y_R $\\
+\\
+\textbf{T(n) - złożoność algorytmu}\\
+dodawanie liczb n-cyfrowych zajmuje O(n) czasu mnożenie przez $10^n$ jest równoważne z dopisywaniem n zer, więc zajmuje O(n) czasu. \\
+Stąd rekurencja\\
+$T(n) = 4T(n/2) + O(n)$\\
+\\
+Można to jednak zrobić sprytniej:\\
+\\
+$X_L Y_R + X_R Y_L = (X_L - X_R)(Y_R - Y_L) + X_L Y_L + X_R Y_R$\\
+\\
+Zatem policzyć trzeba tylko trzy iloczyny: $X_L Y_L$, $X_R Y_R$ i $(X_L - Y_R)(Y_R - X_L)$\\
+\\
+Stąd $T(n) = 3T(n/2) + O(n)$
