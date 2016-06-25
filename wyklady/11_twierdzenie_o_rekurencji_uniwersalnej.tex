@@ -1,2 +1,100 @@
 % z przykładem stosowania rekurencji do mnożnia macieży 
 % na przykładzie algorytmu Strassena 
+Niech $a \geq 1, b > 1$, będą stałymi, $f(n) = \Theta(n^k)$\\
+Niech: $T(n) - aT(n/b)+f(n)$ $(n/b$ oznacza $\lfloor n/b \rfloor $ lub $\lceil n/b \rceil)$\\
+\\
+wtedy 
+\[
+  T(n)=\begin{cases}
+               \Theta(n^{log_ba}),\ dla\ a>b^k \Leftrightarrow log_ba>k\\
+               \Theta(n^{log_ba}logn),\ dla\ a=b^k \Leftrightarrow log_ba=k\\
+               \Theta(n^k),\ dla\ a<b^k \Leftrightarrow log_ba<k
+            \end{cases}
+\]\\
+$a^{log_Bn}=b^{log_ba^{log_bn}}=b^{log_bnlog_ba}=b^{log_balog_bn}=b^{log_ba^{log_bn}}=n^{log_ba}$\\
+\\
+\textbf{Lemat: }Niech $a\geq 1,\ b>1$ będą stałymi, niech f(n) będzie funkcją nieujemną zdefiniowaną \\dla potęg b.\\
+Jeśli 
+\[
+  T(n)=\begin{cases}
+               \Theta(1),\ dla\ n=1\\
+               aT(n/b) + f(n),\ dla\ n=b^i,\ gdzie\ i \in {\rm I\!N}_+
+            \end{cases}
+\]\\
+to\\
+$T(n) = \Theta(n^{log_ba}) + \sum_{j=0}^{log_bn-1} a^j\ f(n/b^j)$\\
+\\
+\textbf{Dowód: }
+$T(n)=f(n) +a T(n/b)= f(n) + a(f(n/b)+a\ T(n/b^2)) =f(n)+a\ f(n/b) + a^2\ T(n/b^2) = $\\
+$=f(n) + a\ f(n/b) + a^2\ f(n/b^2) + a^3\ T(n/b^3) = ... =$\\
+$= f(n) + a\ f(n/b) + a^2\ f(n/b^2) +...+a^{log_bn-1}T(\frac{n}{b^{log_bn-1}})+ a^{log_bn}T(1)$\\
+\\
+ponieważ $a^{log_bn}=n^{log_ba}$ stąd $a^{log_bn}T(1) = \Theta(n^{log_ba})$\\
+oraz $T(n) = \Theta(n^{log_ba})+\sum_{j=0}^{log_bn-1} a^j\ f(n/b^j)$ \\
+\\
+\textbf{Dowód: }twierdzenia dla przypadku gdy n jest potęgą b (w pozostałych przypadkach dowód jest bardziej techniczny)\\
+\\
+$\Theta(\sum_{j=0}^{log_bn-1} a^j\ f(n/b^j))=\Theta(\sum_{j=0}^{log_bn-1} a^j\ (n/b^j)^k)$\\
+\begin{enumerate}
+\item Jeśli $a>b^k$, a $log_ba>k$\\
+	$\sum_{j=0}^{log_bn-1} a^j\ (n/b^j)^k = \sum_{j=0}^{log_bn-1} a^j\ \frac{n^k}{b^{jk}}=n^k\ \sum_{j=0}^{log_bn-1} (\frac{a}{b^k})^j = n^k\ \frac{1-(\frac{a}{b^k})^{log_bn}}{1-\frac{a}{b^k}}= n^k\ \frac{\frac{a^{log_bn}}{b^{klog_bn}}-1}{\frac{a}{b^k}-1}=$\\
+	$n^k\ \frac{\frac{a^{log_bn}-b^{klog_bn}}{b^{klog_bn}}}{\frac{a-b^k}{b^k}}= n^k\ \frac{a^{log_ba}-b^{log_Bn^k}}{a-b^k} \ast \frac{b^k}{b^{log_bn^k}}= n^k\ \frac{n^{log_ba}-n^k}{a\ast b^k}\ast \frac{b^k}{n^k} = \frac{b^k}{a-b^k}(n^{log_ba}-n^k) = \Theta(n^{log_ba})$\\
+	z lematu $T(n) = \Theta(n^{log_ba})$
+\item Jeśli $a=b^k$, a $log_ba=k$\\
+	$\sum_{j=0}^{log_bn-1} a^j\ (n/b^j)^k = n^k\sum_{j=0}^{log_bn-1} )\frac{a}{b^k})^j = n^k\ \sum_{j=0}^{log_bn-1} 1 = n^k \ast lob_bn$\\
+	Zatem $T(n) = \Theta(n^{log_ba}) + \Theta(n^klog)bn) = \Theta(n^{log_bn} + n^{log_ba}log_bn) = \Theta(n^{log_ba}log_bn)$
+\item Jeśli $a<b^k$, a $log_ba<k$\\
+	$\sum_{j=0}^{log_bn-1} a^j\ (n/b^j)^k = $ jak w pierwszym $ = n^k\ \frac{n^k-n^{log_ba}}{b^k-a} \ast \frac{b^k}{n^k} = \frac{b^k}{b^k-a}\ast (n^k \ast n^{log_ba})=\Theta(n^k)$\\
+	Z lematu $T(n) = \Theta(n^{log_ba}) + \Theta(n^k) = O(n^k)$
+\end{enumerate}
+
+\textbf{Wracamy do problemu mnożenia liczb n-cyfrowych}\\
+\\
+$T(n) = 4T(\frac{n}{2}) + O(n)$\\
+$a=4$\tab $b=2$\tab $k=1$\tab $4>2^1$\\
+Więc złożoność:\\
+\tab$T(n) = \Theta(n^{log_24})=\Theta(n^2)$\\
+Czyli tak jak mnożenie pisemne\\
+\\
+Dla sprytnego algorytmu: \\
+\tab $T(n) = 3T(\frac{n}{2})+O(n)$\\
+$a=3$\tab $b=2$\tab $k=1$\tab $3>2^1$\\
+$T(n)= \Theta(n^{log_23})=O(n^{1,59})$\\
+\\
+\textbf{Przykład: Mnożenie Macierzy}\\
+Zwykły algorytm mnożenia macierzy nxn działa w czasie $O(n^3)$\\
+\\
+$A\ast B=C$ A, B $=$ macierze nxn\\
+Dzielimy A i B na kwadraty\\
+\\
+\[
+A\ast B = 
+\begin{bmatrix}
+    A_{11}       & A_{12} \\
+    A_{21}       & A_{22} 
+\end{bmatrix}\ 
+\begin{bmatrix}
+    B_{11}       & B_{12} \\
+    B_{21}       & B_{22} 
+\end{bmatrix}
+=
+\begin{bmatrix}
+    C_{11}       & C_{12} \\
+    C_{21}       & C_{22} 
+\end{bmatrix} = C
+\]
+\\
+gdzie $C_{11}= A_{11}\ast B_{11}+A_{12}\ast B_{21}$\\
+\tab $C_{12}= A_{11}\ast B_{12}+A_{21}\ast B_{22}$\\
+\tab $C_{21}= A_{21}\ast B_{11}+A_{22}\ast B_{21}$\\
+\tab $C_{22}= A_{21}\ast B_{12}+A_{22}\ast B_{22}$\\
+\\
+Zamieniamy jedno mnożenie macierzy nxn na 8 mnożeń macierzy $\frac{n}{2}$x$\frac{n}{2}$ kosztujące $O(n^2)$ czasu.\\
+\\
+\tab $T(n)=8T( \frac{n}{2} )+ O(n^2)$\\
+\\
+$a=8$\tab $b=2$\tab $k=2$\tab $8>2^2$\\
+\\
+\tab $T(n)=\Theta(n^{log_28} = \Theta(n^3)$\\
+
+\textbf{Algorytm Strassena}
