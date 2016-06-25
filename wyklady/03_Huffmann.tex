@@ -4,12 +4,12 @@ Dążymy do użycia jak najmniejszej ilości bitów.\\
 \\
 \textbf{Przykład:} W pliku występuje 58 znaków a, e, i, s, t, r, n\\
 \begin{center}
-\begin{tabular}{ c | c | c | c | c | c | c | c }
-  $i$ & $a$	& $e$ & $i$ & $s$ & $t$ & $r$ & $n$ \\ \hline
-  częstość wystąpień & 10 &  15  &  12	&  3  &  4  &  13 &  1 \\ \hline
-  kod 1 (stała długość słowa kodowego) & 000 & 001 & 010 & 011 & 100 & 101 & 110 \\ \hline
-  kod 2 (zmienna długość słowa kodowego) & 001 & 01 & 10 & 00000 & 0001 & 11 & 00001 \\ \hline
-  kod 3 (zmienna długość słowa kodowego) & 001 & 01 & 10 & 00010 & 0001 & 11 & 00001 \\  
+\begin{tabular}{ l | c | c | c | c | c | c | c }
+  	 										& $a$	& $e$ 	& $i$ 	& $s$ 	& $t$ 	& $r$ 	& $n$ 	\\ \hline
+  częstość wystąpień 						& 10	&  15  	& 12	&  3  	&  4	&  13	&  1 	\\ \hline
+  kod 1 (stała długość słowa kodowego) 		& 000 	& 001 	& 010	& 011 	& 100	& 101	& 110 	\\ \hline
+  kod 2 (zmienna długość słowa kodowego) 	& 001 	& 01 	& 10	& 00000 & 0001	& 11	& 00001 \\ \hline
+  kod 3 (zmienna długość słowa kodowego) 	& 001 	& 01 	& 10	& 00010 & 0001	& 11	& 00001 \\  
 \end{tabular}
 \end{center}
 
@@ -34,3 +34,26 @@ tutaj 0001 jest prefiksem słowa 00010 czyli kod t jest prefiksem kodu s.\\
 \textbf{Kod 2}\\
 %\includegraphics[width=\textwidth]{UI_screens/Graph.png} 
 \underline{stw.} Żadne słowo nie jest prefiksem innego słowa $\Leftrightarrow$ w drzewie reprezentującym ten kod wszystkie znaki są liśćmi.
+
+\begin{tikzpicture}[->,>=stealth',level/.style={sibling distance = 5cm/#1,
+  level distance = 1.5cm}] 
+\node [treenode] {58}
+    child{ node [treenode] {33} 
+        child{ node [treenode] {18} 
+        	child{ node [treenode] {8} 
+				child{ node [treenode] {4} 
+					child{ node [treenode] (s) {s} }
+					child{ node [treenode] (n) {n} } 				
+				}
+				child{ node [treenode] (t) {t} }            	
+            }
+			child{ node [treenode] (a) {a} }	
+		}  
+		child{ node [treenode] (e) {e} }
+    }
+    child{ node [treenode] {25}
+            child{ node [treenode] (i) {i} }
+            child{ node [treenode] (r) {r} }
+	}
+; 
+\end{tikzpicture}

@@ -7,9 +7,11 @@
 \usepackage{color}
 \usepackage{listings}
 \usepackage[utf8]{inputenc}
+\usepackage{tikz}
 
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 
+%Definicje dla listingów
 \definecolor{backcolor}{rgb}{0.95,0.95,0.92}
 \lstdefinestyle{mystyle}{            
     numbers=left,
@@ -23,6 +25,12 @@
                {<-}{$\leftarrow{}$}{1}
                {->}{$\rightarrow{}$}{1},
     morekeywords={if,else,return,for, to}
+}
+%Definicje dla rysowania drzew
+\usetikzlibrary{arrows}
+\tikzset{
+  treenode/.style = {circle, align=center, inner sep=0pt, text centered,
+    font=\sffamily, black, draw=black, text width=1.5em, very thick}
 }
 
 \begin{document}                  
