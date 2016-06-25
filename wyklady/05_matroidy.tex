@@ -1,0 +1,48 @@
+\subsubsection{Definicja}
+Matroidem nazywamy strukturę $M = (S,\mathbb{A})$ taką, że:
+\begin{enumerate}
+	\item $S$ jest niepustym zbiorem skończonym
+	\item $\mathbb{A} \subset 2^S$
+	\item $\forall A,B \subset S$   $A \in \mathbb{A} \land B \subset A \implies B \in \mathbb{A}$
+	\item $\forall A,B \subset S$ 	$A,B \in \mathbb{A} \land \|B\| < \|A\| \implies \exists x \in B - A A \cup \{x\} \in \mathbb{A} $ (warunek wymiany)
+\end{enumerate}
+$\mathbb{A}$ nazywamy rodziną zbiorów niezależnych.
+\\
+
+\textbf{Przykłady:} 
+\begin{enumerate}
+	\item $S$ - zbiór wierszy macierzy \\
+	$M = (S,\mathbb{A})$;
+	$A \subset S$;
+	$A\in\mathbb{A}$ jeśli wiersze z $A$ są liniowo niezależne.
+
+	\item $S$ - zbiór krawędzi w grafie \\
+	$\mathbb{A}$ - zbiory krawędzi indukujące lasy \\
+	$M = (E,\mathbb{A})$;  
+	$G = (V,E)$;     
+	$\mathbb{A} = \{F \subset E : G(F)$ jest acykliczny$\}$
+\end{enumerate}
+
+\subsubsection{Problem}
+$M = (S,\mathbb{A})$\\
+$w:S \rightarrow (0,\infty)$ funkcja wagi \\
+$w:S^2 \rightarrow (0, \infty) = \sum{x\in A} w(x)$ \\
+Należy znaleźć zbiór niezależny $a \in \mathbb{A}$ o maksymalnej sumie wag.
+\begin{lstlisting}[caption={Greedy(M,w)}]
+$\mathbb{A} = \emptyset$
+uporzadkuj S niemalejaco wzgledem wag $w(x_1) \geq w(x_2) \geq ... \geq w(x_n)$
+for $i$ = 1 to n
+	if $A \cup \{x_i\} \in \mathbb{A}$
+		$A = A \cup \{x_i\}$
+\end{lstlisting}
+
+\textbf{Tw. (Rado Endmonds)} Algorytm Greedy znajduje zbiór niezależny Matroidu o maksymalnej wadze. \\
+\begin{lstlisting}
+
+$O(n \log n)$
+$n$
+$f(n)$ - czas sprawdzenia warunku w linii 4.
+
+\end{lstlisting}
+
+\textbf{Złożoność Greedy} $O(n \log n + n \cdot f(n)$
