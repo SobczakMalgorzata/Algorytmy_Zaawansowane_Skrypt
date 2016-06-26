@@ -8,8 +8,8 @@ Algorytm siłowy (Brute Force) - sprawdza wszystkie pary punktów, działa w cza
 \\
 W każdym rekurencyjnym wywołaniu algorytmu, danymi wejściowymi jest zbiór $P\subset Q$ oraz tablice $X$ i $Y$, z których każda zawiera wszystkie punkty z $P$.\\
 \\
-W $X$ punkty są posortowane niemalejąco względem pierwszej współrzędnej (x-owej), a w $Y$ niemalejąco względem drugiej współżędnej (y-owej).\\
-\\
+W $X$ punkty są posortowane niemalejąco względem pierwszej współrzędnej (x-owej), a w $Y$ niemalejąco względem drugiej współrzędnej (y-owej).
+
 \subsubsection{Opis Algorytmu}
 Jeśli $\vert P \vert \leq 3$ to sprawdzamy wszystkie pary\\
 Jeśli $\vert P \vert > 3$ to robimy następująco:\\
@@ -36,9 +36,9 @@ W celu sprawdzenia czy taka para punktów istnieje wykonamy następujące operac
 \end{enumerate}
 Jeśli $\delta'<\delta$ to pionowy pas zawiera parę punktów w odległości mniejszej niż znaleziona w  wywołaniach rekurencyjnych i algorytm zawiera $\delta'$ i odpowiednią parę punktów.\\
 \\
-Jeśli $\delta'>\delta$ to zwracana jest $\delta$ z wywołań rekurencyjnych oraz odpowiednia para punktów.\\
-\\
-\textbf{Poprawność: }\\
+Jeśli $\delta'>\delta$ to zwracana jest $\delta$ z wywołań rekurencyjnych oraz odpowiednia para punktów.
+
+\subsubsection{Poprawność}
 Algorytm jest w sposób oczywisty poprawny za wyjątkiem kwestii dlaczego w fazie "połącz" w punkcie 2 wystarczy sprawdzić tylko 7 następujących po sobie punktów z tablicy $Y'$. Przypuśćmy, że $p$, $q$ są najmniej odległe w całym $P$, ich odległość wynosi $\delta'$.\\
 Niech \\
 \tab $p=(x_p,y_p)$ i $q=(x_q,y_q)$,\tab \tab $y_p\leq y_q$,\\
@@ -52,4 +52,45 @@ Ponieważ $d(p,q)<\delta$, więc $y_q-y_p = \vert y_p - y_q \vert \leq \sqrt{(x_
 \\
 Ponadto $y_p\leq y_c\leq y_q$, więc $y_r-y_p \leq y_q-y_p<\delta$, więc $y_r\leq y_p + \delta$\\
 \\
+czyli co najmniej 9 punktów z $P$ znajduje się w prostokącie $=2\delta$x$\delta$ ograniczonym prostymi $y=y_p,\ y=y_p+\delta$\\
+\\
+Wtedy w lewej lub w prawej połowie prostokąta jest co najmniej 5 punktów z $P$. Dla ustalenia uwagi uznajemy, że to lewy kwadrat wtedy jednak w $P_L$ są dwa punkty odległe o mniej niż $\delta$, bo nie da się w kwadracie $\delta$x$\delta$ rozmieścić punktów wzajemnie odległych o co najmniej $\delta$.\\
+\\
+Sprzeczność bo w $P_L$ najmniej odległe punkty znajdują się w odległości $\delta_L \geq \delta$.\\
+\\
+\subsubsection{Złożoność i Pseudokod}
+Na początku musimy posortować punkty z $Q$, $X$ i $Y$ na co potrzeba $O(nlogn)$ czasu. Gdy mamy posortowane $X$ to podział na $X_L$ i $X_R$ zajmuje $O(n)$ czasu. Podobnie podział $Y$ na $Y_L$ i $Y_R$ oraz $P$ na $P_L$ i $P_R$. Można to łatwo zaimplementować tak, aby $Y_L$, $Y_R$ (oraz $X_L$, $X_R$ były nadal posortowane niemalejąco).\\
 
+\begin{lstlisting}
+length($Y_L$) $\leftarrow$ length($Y_R$) $\leftarrow$ 0
+for i $\leftarrow$ 1 to length($Y$)
+	if $X(i) \in P_L$ 
+    	length($Y_L$) $\leftarrow$ length($Y_L$)+1
+    	$Y_L$(length($Y_L$)) $\leftarrow$ Y(i)
+    else
+    	length($Y_R$) $\leftarrow$ length($Y_R$)+1
+    	$Y_R$(length($Y_R$)) $\leftarrow$ Y(i)
+\end{lstlisting}
+
+W fazie połącz tablicę $Y'$ otrzymujemy z $Y$ w czasie $O(n)$ podobnie jak poprzednio\\
+\tab $Y'$: będzie posortowane niemalejąco
+
+\begin{lstlisting}
+length($Y'$) $\leftarrow$ 0
+for i $\leftarrow$ 1 to length($Y$)
+	if $x_L-\delta \leq Y(i)x \leq x_L+\delta$ 
+    	length($Y'$) $\leftarrow$ length($Y'$)+1
+    	$Y'$(length($Y'$)) $\leftarrow$ Y(i)
+\end{lstlisting}
+
+\begin{center}
+/* $\delta = min(\delta_L,\ \delta_R)$ - minimalna odległość\\ z wywołań rekurencyjnych, a $x_R-x_L$ jest minimum prostej L */
+\end{center}
+
+Ponieważ dla każdego z $O(n)$ punktów z $Y'$ liczymy odległość do co najmniej 7 punktów więc najmniejszą odległość między punktami z $P_L$ i $P_R$ znajdziemy w czasie $O(n)$.\\
+\\
+$T(n)$ - złożoność, algorytmu nie licząc sortowania $X$ i $Y$ na początku stąd otrzymujemy\\
+\tab $T(n) = 2T(\frac{n}{2})+O(n)$\\
+\tab $T(n) = O(nlogn)$\\
+\\
+Ponieważ sortowanie też zajmuje $O(nlogn)$ czasu, więc cały algorytm działa w czasie $O(nlogn)$.
