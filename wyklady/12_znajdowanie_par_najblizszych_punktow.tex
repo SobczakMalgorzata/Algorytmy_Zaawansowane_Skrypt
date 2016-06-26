@@ -1,0 +1,55 @@
+$Q$ - zbiór $n\geq 2$ punktów na płaszczyźnie \\
+\\
+\tab $p_1= (x_1,y_1)\ p_2= (x_2,y_2)$ \\
+\tab $d(p_1,p_2)= \sqrt{(x_1-x_2)^2+(y_1-y_2)^2}$ - odległość euklidesowa\\
+\\
+\tab Znaleźć parę punktów z Q w minimalnej odległości\\
+Algorytm siłowy (Brute Force) - sprawdza wszystkie pary punktów, działa w czasie $\Theta(\binom{n}{2})=\Theta(n^2)$ pokażemy algorytm typu "dziel i zwyciężaj" działający w czasie $O(nlogn)$.\\
+\\
+W każdym rekurencyjnym wywołaniu algorytmu, danymi wejściowymi jest zbiór $P\subset Q$ oraz tablice $X$ i $Y$, z których każda zawiera wszystkie punkty z $P$.\\
+\\
+W $X$ punkty są posortowane niemalejąco względem pierwszej współrzędnej (x-owej), a w $Y$ niemalejąco względem drugiej współżędnej (y-owej).\\
+\\
+\subsubsection{Opis Algorytmu}
+Jeśli $\vert P \vert \leq 3$ to sprawdzamy wszystkie pary\\
+Jeśli $\vert P \vert > 3$ to robimy następująco:\\
+\\
+\textbf{Dziel: }\\
+\tab Dzielimy punkty z $P$ pionowo prostą L na dwa podzbiory $P_L$ i $P_R$ na lewo i prawo od L i tak, że $\vert P_L \vert= \lceil \frac{\vert P \vert}{2}\rceil,\ \vert P_R \vert = \lfloor \frac{\vert P \vert}{2} \rfloor $\\
+\\
+Tablicę X dzielimy na $X_L$ i $X_R$ zmieniając odpowiednio punkty z $P_L$ i $P_R$ posortowane niemalejąco względem współrzędnej x-owej. Analogicznie dzielimy Y na $Y_L$ i $Y_R$ zawierające odpowiednie punkty z $P_L$ i $P_R$ posortowane niemalejąco względem współrzędnej y-owej.\\
+\\
+\textbf{Zwyciężaj: }\\
+wywołujemy rekurencyjnie algorytm dla $P_L$ i $P_R$ i znajdujemy pary najmniej odległych punktów w $P_L$ i $P_R$. Niech $\delta_L$ i $\delta_R$, będą najmniejszymi znalezionymi dla $P_L$ i $P_R$. Niech $\delta=min(\delta_L,\delta_R)$\\
+\\
+\textbf{Połącz: }
+Para najbliższych punktów w $P$ składa się z dwóch punktów należących do $P_L$ lub z dwóch punktów należących do $P_R$ lub z jednego punktu należącego do $P_L$, a drugiego należącego do $P_R$.\\
+\\
+Sprawdzimy czy istnieje para punktów taka, że jeden punkt należy do $P_L$, a drugi należy do $P_R$, a ich odległość jest mniejsza niż $\delta$.\\
+\\
+Jeśli taka para istnieje, to oba punkty tej pary leżą w pasie wokół prostej L o szerokości $2\delta$.\\
+\\
+W celu sprawdzenia czy taka para punktów istnieje wykonamy następujące operacje. \\
+\begin{enumerate}
+\item Tworzymy tablicę $Y'$ uzyskaną z $Y$ przez usunięcie punktów spoza paska o szerokości $2\delta$ wokół L. Tablica $Y'$ jest posortowana niemalejąco względem współrzędnej y-owej.
+\item Dla każdego punktu $p$ z $Y'$ sprawdzamy czy odległość $p$ od $p'$ jest mniejsza niż $\delta$ dla 7 następnych punktów $p'$ w tablicy $Y'$. Algorytm oblicza najmniejszą z tych odległości $\delta'$. Zapamiętuje $\delta$ i parę punktów w tej odległości.
+\end{enumerate}
+Jeśli $\delta'<\delta$ to pionowy pas zawiera parę punktów w odległości mniejszej niż znaleziona w  wywołaniach rekurencyjnych i algorytm zawiera $\delta'$ i odpowiednią parę punktów.\\
+\\
+Jeśli $\delta'>\delta$ to zwracana jest $\delta$ z wywołań rekurencyjnych oraz odpowiednia para punktów.\\
+\\
+\textbf{Poprawność: }\\
+Algorytm jest w sposób oczywisty poprawny za wyjątkiem kwestii dlaczego w fazie "połącz" w punkcie 2 wystarczy sprawdzić tylko 7 następujących po sobie punktów z tablicy $Y'$. Przypuśćmy, że $p$, $q$ są najmniej odległe w całym $P$, ich odległość wynosi $\delta'$.\\
+Niech \\
+\tab $p=(x_p,y_p)$ i $q=(x_q,y_q)$,\tab \tab $y_p\leq y_q$,\\
+\\
+pokażemy, że znajduje tę parę punktów.\\
+\\
+\textbf{Dowód: }\\
+Przypuśćmy, że algorytm nie wykryje tej pary. Wtedy w tablicy $Y'$ znajduje się pomiędzy $p$ i $q$ co najmniej 7 punktów.\\
+Niech $r=(x_r,y_r)$ będzie jednym z nich.\\
+Ponieważ $d(p,q)<\delta$, więc $y_q-y_p = \vert y_p - y_q \vert \leq \sqrt{(x_p-x_q)^2+(y_p-y_q)^2}=d(p,q)<\delta$\\
+\\
+Ponadto $y_p\leq y_c\leq y_q$, więc $y_r-y_p \leq y_q-y_p<\delta$, więc $y_r\leq y_p + \delta$\\
+\\
+
