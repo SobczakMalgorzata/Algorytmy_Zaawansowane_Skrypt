@@ -37,20 +37,26 @@ oraz $T(n) = \Theta(n^{log_ba})+\sum_{j=0}^{log_bn-1} a^j\ f(n/b^j)$ \\
 $\Theta(\sum_{j=0}^{log_bn-1} a^j\ f(n/b^j))=\Theta(\sum_{j=0}^{log_bn-1} a^j\ (n/b^j)^k)$\\
 \begin{enumerate}
 \item Jeśli $a>b^k$, a $log_ba>k$\\
+	\\
 	$\sum_{j=0}^{log_bn-1} a^j\ (n/b^j)^k = \sum_{j=0}^{log_bn-1} a^j\ \frac{n^k}{b^{jk}}=n^k\ \sum_{j=0}^{log_bn-1} (\frac{a}{b^k})^j = n^k\ \frac{1-(\frac{a}{b^k})^{log_bn}}{1-\frac{a}{b^k}}= n^k\ \frac{\frac{a^{log_bn}}{b^{klog_bn}}-1}{\frac{a}{b^k}-1}=$\\
 	$n^k\ \frac{\frac{a^{log_bn}-b^{klog_bn}}{b^{klog_bn}}}{\frac{a-b^k}{b^k}}= n^k\ \frac{a^{log_ba}-b^{log_Bn^k}}{a-b^k} \ast \frac{b^k}{b^{log_bn^k}}= n^k\ \frac{n^{log_ba}-n^k}{a\ast b^k}\ast \frac{b^k}{n^k} = \frac{b^k}{a-b^k}(n^{log_ba}-n^k) = \Theta(n^{log_ba})$\\
+	\\
 	z lematu $T(n) = \Theta(n^{log_ba})$
 \item Jeśli $a=b^k$, a $log_ba=k$\\
+	\\
 	$\sum_{j=0}^{log_bn-1} a^j\ (n/b^j)^k = n^k\sum_{j=0}^{log_bn-1} )\frac{a}{b^k})^j = n^k\ \sum_{j=0}^{log_bn-1} 1 = n^k \ast lob_bn$\\
+	\\
 	Zatem $T(n) = \Theta(n^{log_ba}) + \Theta(n^klog)bn) = \Theta(n^{log_bn} + n^{log_ba}log_bn) = \Theta(n^{log_ba}log_bn)$
 \item Jeśli $a<b^k$, a $log_ba<k$\\
+	\\
 	$\sum_{j=0}^{log_bn-1} a^j\ (n/b^j)^k = $ jak w pierwszym $ = n^k\ \frac{n^k-n^{log_ba}}{b^k-a} \ast \frac{b^k}{n^k} = \frac{b^k}{b^k-a}\ast (n^k \ast n^{log_ba})=\Theta(n^k)$\\
+	\\
 	Z lematu $T(n) = \Theta(n^{log_ba}) + \Theta(n^k) = O(n^k)$
 \end{enumerate}
 
 \textbf{Wracamy do problemu mnożenia liczb n-cyfrowych}\\
 \\
-$T(n) = 4T(\frac{n}{2}) + O(n)$\\
+\tab $T(n) = 4T(\frac{n}{2}) + O(n)$\\
 $a=4$\tab $b=2$\tab $k=1$\tab $4>2^1$\\
 Więc złożoność:\\
 \tab$T(n) = \Theta(n^{log_24})=\Theta(n^2)$\\
@@ -59,7 +65,7 @@ Czyli tak jak mnożenie pisemne\\
 Dla sprytnego algorytmu: \\
 \tab $T(n) = 3T(\frac{n}{2})+O(n)$\\
 $a=3$\tab $b=2$\tab $k=1$\tab $3>2^1$\\
-$T(n)= \Theta(n^{log_23})=O(n^{1,59})$\\
+\tab $T(n)= \Theta(n^{log_23})=O(n^{1,59})$\\
 \\
 \textbf{Przykład: Mnożenie Macierzy}\\
 Zwykły algorytm mnożenia macierzy nxn działa w czasie $O(n^3)$\\
@@ -97,4 +103,24 @@ $a=8$\tab $b=2$\tab $k=2$\tab $8>2^2$\\
 \\
 \tab $T(n)=\Theta(n^{log_28} = \Theta(n^3)$\\
 
-\textbf{Algorytm Strassena}
+\textbf{Algorytm Strassena}\\
+\\
+Strassen zauważył,że można policzyć:\\
+$M_1=(A_{12}-A_{22})\ast (B_{21}+B_{22})$\\
+$M_2=(A_{11}-A_{22})\ast (B_{11}+B_{22})$\\
+$M_3=(A_{11}-A_{21})\ast (B_{11}+B_{12})$\\
+$M_4=(A_{11}-A_{12})\ast B_{22}$\\
+$M_5=A_{11}\ast (B_{12}-B_{22})$\\
+$M_6=A_{22}\ast (B_{21}-B_{11})$\\
+$M_7=(A_{21}+A_{22})\ast B_{11}$\\
+\\
+i wtedy: \\
+\tab $C_{11}=M_1+M_2-M_4+M_6$\\
+\tab $C_{12}=M_4+M_5$\\
+\tab $C_{21}=M_6+M_7$\\
+\tab $C_{22}=M_2-M_3+M_5-M_7$\\
+\\
+Stąd rekurencja:\\
+\tab $T(n)=7T(\frac{n}{2})+O(n^2)$\\
+$a=7$\tab $b=2$\tab $k=2$\tab $7>2^2$\\
+\tab $T(n)= \Theta(n^{log_27})=O(n^{2,81})$\\
