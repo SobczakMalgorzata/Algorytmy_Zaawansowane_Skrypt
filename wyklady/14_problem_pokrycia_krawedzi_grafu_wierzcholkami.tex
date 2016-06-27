@@ -1,0 +1,34 @@
+zbiór $W\subset V(G)$ nazywamy pokryciem wierzchołkowym grafu $G$ jeśli każda krawędź zbioru ma co najmniej jeden koniec w tym zbiorze ($W$).\\
+\\
+\textbf{Przykład: }\\
+Problem znaleźć pokrycie wierzchołkowe $G$ o minimalnej ilości.\\
+\\
+\subsubsection{Algorytm ApproxVertexCover (AVC)}
+\begin{lstlisting}[caption={AVC(G)}]
+$C \leftarrow \emptyset \tab$  /$\ast$ C - znalezione pokrycie $\ast$ /
+$F \leftarrow E(G) \tab$  /$\ast$ F - zbior jeszcze ni pokrytych krawedzi $\ast$ /
+while $F \neq \emptyset$
+	wybierz dowolna krawedz $uv \in F$
+	$C \leftarrow C \cup \lbrace u, v\rbrace$
+	usun z $F$ kazda krawedz majaca koniec w $u$ lub $v$
+return $C$
+\end{lstlisting}
+\textbf{Poprawność: }\\
+\tab Algorytm zwraca pokrycie, bo w każdym kroku algorytm dodaje wierzchołki pokrywające nie pokryte krawędzie.\\
+\\
+\textbf{Złożoność: }\\
+\begin{lstlisting}
+linia 2$O(m)$ czasu
+petla 3-6 da sie zaimplementowac tak, zeby dzilala w czasie $O(n+m)$
+\end{lstlisting}
+\begin{center}
+Zatem AVC jest algorytmem 2-aproksymacyjnym.
+\end{center}
+\textbf{Twierdzenie }AVC jest algorytmem 2-aproksymacyjnym\\
+Dowód:\\
+\tab $c^{\ast}$ - liczebność optymalnego pokrycia\\
+\tab $c$ - liczebność rozwiązania znalezionego przez algorytm\\
+\\
+Niech B będzie zbiorem krawędzi wybranych przez AVC w linii 4\\
+\\
+B jest skojarzeniem w G. Aby pokryć krawędzie tego skojarzenia trzeba do pokrycia wybrać $\geq \vert B\vert$ wierzchołków, zatem $c^{\ast} \geq \vert B\vert \wedge c = 2\vert B\vert \Rightarrow c = 2\vert B\vert \leq 2c^{\ast} \Rightarrow \frac{c}{c^{\ast}} \leq 2$
