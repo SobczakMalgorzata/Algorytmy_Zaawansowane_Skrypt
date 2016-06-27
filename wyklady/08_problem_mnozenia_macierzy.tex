@@ -1,0 +1,13 @@
+\begin{lstlisting}[caption={MatrixMultiply(A,B) - algorytm mnożenia macierzy A($p \times q)$ i $B(q \times r)$ } ]
+for $i$ <- 1 to $p$
+	for $j$ <- 1 to $r$
+		$C(i,j)$ <- 0
+		for $k$ <- 1 to $q$
+			$C(i,j)$ <- $C(i,j) + A(i,k) \cdot B(k,j)$
+return $C$
+\end{lstlisting}
+
+Złożoność zależy od ilości mnożeń skalarnych w 5. linii $p \cdot q \cdot r$
+
+
+
