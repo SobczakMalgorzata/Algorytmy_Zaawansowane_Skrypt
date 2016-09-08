@@ -1,0 +1,14 @@
+$$S=\lbrace s_1,\ ...,\ s_n \rbrace \subset N,\ t\in N$$
+$$S'\subset S\ \Sigma_{x\in S'}x \rightarrow max\Sigma_{x\in S'}\leq t$$
+\paragraph{}{Załóżmy, że mamy procedurę MergeLists(L, L')g gdzie L' są posortowanymi listami, która zwraca posortowanymi listami, która zwraca posortowaną listę elementów z L i L' i usuwa duplikaty, działającą w czasie $O(|L|+|L'|)$}
+\paragraph{Algorytm dokładny:}
+\begin{lstlisting}[caption={ExactSubsetSum(S,t)}]
+$U \leftarrow |S| \tab $/$\ast S=\lbrace x_1, ..., x_n \rbrace \ast$/
+$L_o \leftarrow \langle o \rangle$
+for $i \leftarrow 1$ to n
+	$L_i \leftarrow$ MergeLists($L_{i-1}, L{i-1}+x_i$)
+	usun z $L_i$ wszystkie elementy $>$ t
+return Najwiekszy element na liscie $L_N$
+\end{lstlisting}
+\paragraph{}{Długość listy $L_i$ może być wykładnicza względem i, nawet $2^i$}
+\paragraph{}{Jaki jest rozmiar danych?}
