@@ -1,7 +1,8 @@
-Zwykle znaki są reprezentowane za pomocą 8 bitów (np. ASCII). Ponieważ jednak częstości wystąpień znaków różnią się więc opłaca się reprezentować częściej występujące znaki za pomocą krótszych ciągów bitów, a rzadziej  występujące za pomocą dłuższych ciągów bitów.\\
-\\
+\subsection{Kody Huffmann'a}
+Zwykle znaki są reprezentowane za pomocą 8 bitów (np. ASCII). Ponieważ jednak częstości wystąpień znaków różnią się, opłaca się reprezentować częściej występujące znaki za pomocą krótszych ciągów bitów, a rzadziej  występujące za pomocą dłuższych.\\
+
 Dążymy do użycia jak najmniejszej ilości bitów.\\
-\\
+
 \textbf{Przykład:} W pliku występuje 58 znaków a, e, i, s, t, r, n\\
 \begin{center}
 \begin{tabular}{ l | c | c | c | c | c | c | c }
@@ -13,28 +14,30 @@ Dążymy do użycia jak najmniejszej ilości bitów.\\
 \end{tabular}
 \end{center}
 
-W przypadku stałej długości słów kodowych zakodowanych plik ma: $58*3=174$ bity.\\
-W przypadku zmiennej długości słów kodowych zakodowany plik ma: $3*10+2*15+2*12+5*3+4*4+2*13+5*1 = 146$ bitów.\\
-Oszczędzamy około 15%.\\
-\\
-Przy kodowaniu ze zmienną długością słów kodowych chcemy, żeby spełniany był warunek, że żadne słowo nie jest prefiksem (początkiem) innego słowa. Takie kody nazywamy prefiksowymi.\\
-\\
-\textbf{Kod 3 0001001 można zdekodować na dwa sposoby:}
+Przy stałej długości słów kodowych zakodowanych plik ma: $58*3=174$ bity. \\
+Przy zmiennej długości słów kodowych zakodowany plik ma: $3 \cdot 10+2 \cdot 15+2 \cdot 12+5 \cdot 3+4 \cdot 4+2 \cdot 13+5 \cdot 1 = 146$ bitów. Oszczędzamy około 15$\%$ .
+
+Przy kodowaniu ze zmienną długością słów kodowych chcemy, żeby spełniony był warunek, że żadne słowo nie jest prefiksem (początkiem) innego słowa. Takie kody nazywamy prefiksowymi.
+
+\textbf{Słowo 0001001 można zdekodować za pomocą kodu 3. na dwa sposoby:}
 \begin{itemize}
 	\item 00010 01 se
 	\item 0001 001 ta 
 \end{itemize}
-tutaj 0001 jest prefiksem słowa 00010 czyli kod t jest prefiksem kodu s.\\
-\\
-\textbf{Reprezentacja kodów za pomocą drzew}\\
-\textbf{Kod 1}\\
-%\includegraphics[width=\textwidth]{UI_screens/Graph.png}
-\textbf{Kod 3}\\
-%\includegraphics[width=\textwidth]{UI_screens/Graph.png}
-\textbf{Kod 2}\\
-%\includegraphics[width=\textwidth]{UI_screens/Graph.png} 
-\underline{stw.} Żadne słowo nie jest prefiksem innego słowa $\Leftrightarrow$ w drzewie reprezentującym ten kod wszystkie znaki są liśćmi.
+Tutaj 0001 jest prefiksem słowa 00010 czyli kod t jest prefiksem kodu s. \textbf{Zatem kod 3. nie jest kodem prefiksowym.}
 
+\textbf{Reprezentacja kodów za pomocą drzew}\\
+\textbf{Kod 1}
+%\includegraphics[width=\textwidth]{UI_screens/Graph.png}
+
+\textbf{Kod 3}
+%\includegraphics[width=\textwidth]{UI_screens/Graph.png}
+
+\textbf{Kod 2}
+%\includegraphics[width=\textwidth]{UI_screens/Graph.png} 
+
+\paragraph{Stwierdzenie} Żadne słowo nie jest prefiksem innego słowa wtedy i tylko wtedy, gdy w drzewie reprezentującym ten kod wszystkie znaki są liśćmi.
+\begin{center}
 \begin{tikzpicture}[->,>=stealth',level/.style={sibling distance = 5cm/#1,
   level distance = 1.5cm}] 
 \node [treenode] {58}
@@ -57,26 +60,46 @@ tutaj 0001 jest prefiksem słowa 00010 czyli kod t jest prefiksem kodu s.\\
 	}
 ; 
 \end{tikzpicture}
+\end{center}
 
-Etykietujemy wierzchołki wewnętrzne drzewa w taki sposób, aby każdy wierzchołek $x$ otrzymywał etykietę będącą sumą ilości wystąpień znaków będących liśćmi w poddrzewie o korzeniu $x$. Niech $C$ będzie alfabetem i  $f(x)$ liczbą występowania znaku $c$, $d_T$ głębokością liścia $c$ w drzewie $T$ (równą długości słowa kodowego reprezentującego $c$). Liczba bitów potrzebnych do zakodowania całego pliku wynosi $C(T) = \sum_{c \in C} f(c) \cdot d_t(c)$. 
+Etykietujemy wierzchołki wewnętrzne drzewa w taki sposób, aby każdy wierzchołek $x$ otrzymywał etykietę będącą sumą ilości wystąpień znaków będących liśćmi w poddrzewie o korzeniu $x$. 
 
-Kod prefiksowy zdefiniowany przez drzewo $T$ jest optymalny jeśli liczba $B(T)$ ???
-Drzewo ukorzenione  jest binarne jeśli każdy wierzchołek ma co najmniej 2 dzieci.
-Drzewo binarne jest regularnej jeśli każdy wewnętrzny wierzchołek ma dokładnie 2 dzieci.
+Niech:
+\begin{itemize}
+\item $C$ będzie alfabetem
+\item $f(c)$ liczbą występowania znaku $c$
+\item $d_T(c)$ głębokością liścia $c$ w drzewie 
+\item $T$ (równą długości słowa kodowego reprezentującego $c$)
+\end{itemize}  Liczba bitów potrzebnych do zakodowania całego pliku wynosi 
+$$B(T) = \sum_{c \in C} f(c) \cdot d_T(c)$$
 
-\textbf{Twierdzenie} Drzewo binarne reprezentujące kod optymalny jest regularne.
-\textbf{Dowód} $T$ - Drzewo reprezentując optymalny kod prefiksowy. Przy puśćmy, że $T$ nie jest regularne. Wtedy istnieje w T wewnętrzny wierzchołek z dokładnie jednym dzieckiem.
-$w$ - pojedyncze dziecko
-$v$ - rodzic $w$, nie będący korzeniem drzewa.
-$u$ - rodzic $v$
+Kod prefiksowy zdefiniowany przez drzewo $T$ jest optymalny jeśli liczba $B(T)$ jest najmniejsza możliwa.
+
+Drzewo ukorzenione jest \textbf{binarne} jeśli każdy wierzchołek, nie będący liściem, ma co najwyżej 2 dzieci.
+
+Drzewo binarne jest \textbf{regularne} jeśli każdy wewnętrzny wierzchołek ma dokładnie 2 dzieci.
+
+\paragraph{Twierdzenie}{Drzewo binarne reprezentujące kod optymalny jest regularne.}
+
+\paragraph{Dowód\\}{}
+Załóżmy, że:
+\begin{itemize}
+\item $T$ - Drzewo reprezentujące optymalny kod prefiksowy. Przypuśćmy, że $T$ nie jest regularne. Wtedy istnieje w T wewnętrzny (nie będący korzeniem ani liściem) wierzchołek z dokładnie jednym dzieckiem.
+\item $w$ - pojedyncze dziecko
+\item $v$ - rodzic $w$, nie będący korzeniem drzewa.
+\item $u$ - rodzic $v$
+\end{itemize}
 %Ilustracja
-Tworzymy nowe drzewo $T'$ poprzez usunięcie $v$ z drzewa i dodanie krawędzi $uw$ o ile $v$ nie jest korzeniem.
 
+Tworzymy nowe drzewo $T'$ poprzez usunięcie $v$ z drzewa i dodanie krawędzi $uw$ o ile $v$ nie jest korzeniem.
 Jeżeli $B(T) < B(T')$ zachodzi sprzeczność, ponieważ $T$ miało być drzewem optymalnym.
 
-\subsection{Algorytm tworzenia drzewa reprezentującego optymalny kod prefiksowy}
+\subsubsection{Algorytm tworzenia drzewa reprezentującego optymalny kod prefiksowy}
 Algorytm tworzenia drzewa reprezentującego optymalny kod prefiksowy dla $(C,f)$. 
-Zaczynamy od $|C|$ liści, następnie wykonujemy $|C|-1$ operacji scalania zaczynając od najrzadziej występujących znaków (będą one leżały najgłębiej w drzewie). Będziemy używać kolejki priorytetowej z klasami $f(c)$. Kolejkę priorytetową można zaimplementować jako kopiec binarny. Wtedy poszczególne operacje będą miały następujący koszt:
+
+Zaczynamy od $|C|$ liści, następnie wykonujemy $|C|-1$ operacji scalania zaczynając od najrzadziej występujących znaków (będą one leżały najgłębiej w drzewie). Będziemy używać kolejki priorytetowej z klasami $f(c)$. 
+
+Kolejkę priorytetową można zaimplementować jako kopiec binarny. Wtedy poszczególne operacje będą miały następujący koszt:
 \begin{itemize}
 \item insert $O(\log n)$ 
 \item extract\_min $O(\log n)$
@@ -84,21 +107,21 @@ Zaczynamy od $|C|$ liści, następnie wykonujemy $|C|-1$ operacji scalania zaczy
 \end{itemize}
 gdzie $n$ będzie liczbą elementów w kolejce.
 
-\subsubsection{Przykład}
+\paragraph{Przykład}
 \begin{enumerate}
 \item n:1 s:3 t:4 a:10 i:12 r:13 e:15
 %Ilustracja
 \end{enumerate}
 
-\subsection{Algorytm Huffmana}
+\subsubsection{Algorytm Huffmana}
 Załóżmy istnienie funkcji $left(z), right(z)$ - zwracające dzieci wierzchołka $z$.
 \begin{lstlisting}[caption={Huffman(C,F)}]
 n <- |C|
 Q <- create_queue(C)
-for i <- i to n-1
+for i <- 1 to n-1
 	z <- create_new_node
 	x <- left(z) <- extract_min(Q)
-	y <- right(x) <- extract_nim(Q)
+	y <- right(x) <- extract_min(Q)
 	f(z) <- f(x) + f(y)
 	insert(Q,z)
 \end{lstlisting}
@@ -112,6 +135,7 @@ $n-1$ razy
 
 Algorytm konstruuje drzewa binarne
 
+\subsubsection{Twierdzenie o poprawności Algorytmu Huffmana}
 \textbf{Lemat 1.} Niech $x$ i $y$ będą parą znaków z $C$ o najmniejszej liczbie wystąpień. Istnieje optymalny kod prefiksowy, w którym kody dla $x$ i $y$ mają tę samą długość i różnią się tylko wartością ostatniego bitu.
 
 \textbf{Dowód} Znajdujemy drzewo reprezentujące kod optymalny, w którym liście reprezentujące $x$ i $y$ są bliźniakami i są najgłębiej w drzewie. Niech $T$ będzie drzewem reprezentującym kod optymalny i niech $a$ i $b$ będą liśćmi bliźniakami najgłębiej w T. 
@@ -126,27 +150,46 @@ $$ = f(a) \cdot (d_T(a) - d_T(x)) + f(x) \cdot (d_T(x) - d_T(a)) $$
 $$ = (f(a) + f(x)) \cdot (d_T(a) - d_T(x)) \geq 0$$
 Zatem $B(T') \leq B(T)$ a jednocześnie $T$ jest optymalne. Zatem $B(T') = B(T)$ więc $T'$ też jest drzewem reprezentującym kod optymalny. Analogicznie zamieniamy $y$ z $b$.
 
-\textbf{Z lematu 1.} wynika, że możemy zacząć kodowanie optymalnego kodu prefiksowego od dwóch znaków najrzadziej występujących. Zachłanność wyboru polega na wybieraniu obiektów o najmniejszej częstości.
+\paragraph{Z lematu 1.} {wynika, że możemy zacząć kodowanie optymalnego kodu prefiksowego od dwóch znaków najrzadziej występujących. Zachłanność wyboru polega na wybieraniu obiektów o najmniejszej częstości.}
 
-\textbf{Lemat 2.} $A$ - alfabet. Niech $x$ i $y$ będą parą znaków z $A$ o  najmniejszej częstości. Niech $A'= (A - \{x,y\}) \cup \{z\}$ gdzie $z \not\in A$. Funkcję $f$ definiujemy jak dla $A$ a dodatkowo $f(z) = f(x) + f(y)$.
-$T'$ - drzewo reprezentujące kod dla $A'$
-$T$ - drzewo powstałe przez zastąpienie liścia $z$ wierzchołkiem wewnętrznym z liśćmi $x$ i $y$.
-Drzewo $T$ jest drzewem reprezentującym kod optymalny dla A.
+\paragraph{Lemat 2.} {$A$ - alfabet. Niech $x$ i $y$ będą parą znaków z $A$ o  najmniejszej częstości. 
+\\ Niech $A'= (A - \{x,y\}) \cup \{z\}$ gdzie $z \not\in A$. 
+\\ Funkcję $f$ definiujemy jak dla $A$ a dodatkowo $f(z) = f(x) + f(y)$.
 
-\textbf{Dowód} Dla $c \in A - \{x,y\}$ zachodzi $d_T(c) = d_{T'}(c)$ oraz $d_T(x) = d_T(y) = d_{T'}(z)+1$, stąd 
-$$B(T) = \sum_{c \in A}(f(c) \cdot d_T(c)) = \sum_{c \in A-\{x,y\}}(f(c) \cdot d_T(c)) + f(x) \cdot d_T(x) + f(y) \cdot d_T(y)$$
-$$ = \sum_{c \in A-\{x,y\}}(f(c) \cdot d_T(c)) + (d_{T'}(z) +1) \cdot (f(x) + f(y)) = \sum_{c \in A-\{x,y\}}(f(c) \cdot d_T(c)) + (d_{T'}(z) +1) \cdot (f(x))$$
-$$ = \sum_{c \in A'}(f(c) \cdot d_{T'}(c)) + f(x) + f(y) = B(T') + f(x) + f(y) \implies B(T') = B(T) - f(x) - f(y)$$
+$T'$ - drzewo reprezentujące kod optymalny dla $A'$
 
-Przypuśćmy, że $T$ nie reprezentuje optymalnego kodu dla A. Istnieje $T"$ reprezentujące kod optymalny dla A i $B(T"  < B(T)$. Na mocy \textbf{lematu 1.} możemy wybrać $T"$ tak, aby $x$ i $y$ były w $T'$ bliźniakami położonymi w drzewie. Niech $T'''$ będzie drzewem powstałym z $T"$ przez wyrzucenie $x$ i $y$ i dodanie $z$ oraz $f(z) = f(x) + f(y)$. $T'''$ jest drzewem reprezentującym pewien kod prefiksowy dla $A'$. Analogicznie możemy pokazać, że $B(T")$ ???
+$T$ - drzewo powstałe z $T'$ przez zastąpienie liścia $z$ wierzchołkiem wewnętrznym z dziećmi $x$ i $y$.
 
-\subsection{Twierdzenie o poprawności Algorytmu Huffmana}
-\textbf{Twierdzenie} Algorytm Huffmana zawsze znajduje optymalny kod prefiksowy.
-\textbf{Dowód} Indukcja po $n = |C|$
+Drzewo $T$ jest drzewem reprezentującym kod optymalny dla A.}
+
+\paragraph{Dowód} Dla $c \in A - \{x,y\}$ zachodzi $d_T(c) = d_{T'}(c)$ oraz $d_T(x) = d_T(y) = d_{T'}(z)+1$, stąd 
+
+$$B(T) = \sum_{c \in A}(f(c) \cdot d_T(c)) = \sum_{c \in A-\{x,y\}}f(c) \cdot d_T(c) + f(x) \cdot d_T(x) + f(y) \cdot d_T(y)$$
+
+$$ = \sum_{c \in A-\{x,y\}}f(c) \cdot d_T(c) + (d_{T'}(z) +1) \cdot (f(x) + f(y)) = \sum_{c \in A-\{x,y\}}f(c) \cdot d_T(c) + f(z) \cdot d_{T'}(z) + f(x)+ f(y)$$
+
+$$ = \sum_{c \in A'}f(c) \cdot d_{T'}(c) + f(x) + f(y) = B(T') + f(x) + f(y) \implies B(T') = B(T) - f(x) - f(y)$$
+
+Przypuśćmy, że $T$ nie reprezentuje optymalnego kodu dla A. 
+
+Istnieje $T''$ reprezentujące kod optymalny dla A i $B(T'') < B(T)$. Na mocy \textbf{lematu 1.} możemy wybrać $T''$ tak, aby $x$ i $y$ były w $T''$ bliźniakami najgłębiej położonymi w drzewie. 
+
+Niech $T'''$ będzie drzewem powstałym z $T''$ przez wyrzucenie $x$ i $y$ i dodanie $z$ oraz $f(z) = f(x) + f(y)$. $T'''$ jest drzewem reprezentującym pewien kod prefiksowy dla $A'$. 
+
+Analogicznie możemy pokazać, że $B(T''') = B(T'') - f(x) - f(y)$. Wtedy $B(T''') = B(T'') - f(x) - f(y) < B(T) - f(x) - f(y) = B(T')$. 
+
+Otrzymujemy sprzeczność $B(T''') < B(T')$ ponieważ $T'$ miało reprezentować kod optymalny dla $A'$.
+
+\paragraph{Twierdzenie} Algorytm Huffmana zawsze znajduje optymalny kod prefiksowy.
+\paragraph{Dowód} {Indukcja po $n = |C|$}
+
 Dla $n = 1,2$ twierdzenie jest prawdziwe.
+
 Dla $n > 2$:
-Po pierwszym scaleniu otrzymujemy alfabet $C' = (C - {x,y}) \cup \{z\}$, funkcję $f$ taką, że $f(z) = f(z) + f(y)$, a dla pozostałych wartości argumentu jest zdefiniowana jak przed scaleniem. $|C'| = |C| -1$
-Z założenia indukcyjnego algorytmu znajdującego drzewo $T'$ reprezentujące kod optymalny dla $C'$ algorytm znajduje dla $C$ drzewo $T$ powstałe z $T'$ przez zastąpienie liście z wierzchołkiem wewnętrznym $z$ dziećmi $X$i $y$ z \textbf{lematu 2.} T reprezentuje optymalny kod prefiksowy dla $C$
+
+Po pierwszym scaleniu otrzymujemy alfabet $C' = (C - {x,y}) \cup \{z\}$, funkcję $f$ taką, że $f(z) = f(z) + f(y)$, a dla pozostałych argumentów jest zdefiniowana jak przed scaleniem. $x$ i $y$ są najrzadziej występującymi znakami w C. 
+$$|C'| = |C| - 1$$
+Z założenia indukcyjnego algorytmu znajdującego drzewo $T'$ reprezentujące kod optymalny dla $C'$. Algorytm znajduje dla $C$ drzewo $T$ powstałe z $T'$ przez zastąpienie liścia $z$ wierzchołkiem wewnętrznym z dziećmi $x$i $y$ z \textbf{lematu 2.} $T$ reprezentuje optymalny kod prefiksowy dla $C$
 
 
 
