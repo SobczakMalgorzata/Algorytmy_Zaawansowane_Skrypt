@@ -1,14 +1,17 @@
 $$S=\lbrace s_1,\ ...,\ s_n \rbrace \subset N,\ t\in N$$
 $$S'\subset S\ \Sigma_{x\in S'}x \rightarrow max\Sigma_{x\in S'}\leq t$$
-\paragraph{}{Załóżmy, że mamy procedurę MergeLists(L, L')g gdzie L' są posortowanymi listami, która zwraca posortowanymi listami, która zwraca posortowaną listę elementów z L i L' i usuwa duplikaty, działającą w czasie $O(|L|+|L'|)$}
+\paragraph{}{Załóżmy, że mamy procedurę MergeLists(L, L'), gdzie L' są posortowanymi listami, która zwraca posortowanymi listami, która zwraca posortowaną listę elementów z L i L' i usuwa duplikaty, działającą w czasie $O(|L|+|L'|)$.}
 \paragraph{Algorytm dokładny:}
 \begin{lstlisting}[caption={ExactSubsetSum(S,t)}]
-$U \leftarrow |S| \tab $/$\ast S=\lbrace x_1, ..., x_n \rbrace \ast$/
-$L_o \leftarrow \langle o \rangle$
+$n \leftarrow |S| \tab$ /$\ast S=\lbrace x_1, ..., x_n \rbrace \ast$ /
+$L_0 \leftarrow \langle 0 \rangle$
 for $i \leftarrow 1$ to n
-	$L_i \leftarrow$ MergeLists($L_{i-1}, L{i-1}+x_i$)
+	$L_i \leftarrow MergeLists(L_{i-1}, L{i-1}+x_i)$
 	usun z $L_i$ wszystkie elementy $>$ t
 return Najwiekszy element na liscie $L_N$
 \end{lstlisting}
 \paragraph{}{Długość listy $L_i$ może być wykładnicza względem i, nawet $2^i$}
-\paragraph{}{Jaki jest rozmiar danych?}
+\paragraph{}{Jaki jest rozmiar danych? $$|I|=\Theta(log t+ \Sigma^n_{i=1}log x_i)$$ Jeśli t i $x_i$ są liczbami n cyfrowymi to logt, log$x_i=\Theta(n)$, więc $|I|>\Theta(n+n^2)=\Theta(n^2).$}
+\paragraph{}{Ponieważ ln może mieć długość $2^n$ algorytm jest wykładniczy.}
+\paragraph{}{Jeśli t jest ograniczone przez wielomian względem n = $|S|$, czyli $t=O(n^p)$ dla pewnego wielomianu p, to długość list $L_i$ są ograniczone przez $t=O(n^p)$, więc algorytm jest wielomianowy.}
+\paragraph{}{Pokarzemy w pełni wielomianowy schemat aproksymacyjny dla tego problemu.}
