@@ -1,0 +1,45 @@
+\paragraph{}{Pomysł polega na przerzedzaniu list $L_i$ przez wyrzucanie elementów, które niewiele się od siebie różnią.}
+\paragraph{}{Niech $O<\delta <1$. Z list L utworzymy krótszą listę L' taką, że dla każdego y usuniętego z L w L' pozostaje element "z" taki, że $\frac{y}{1+\delta}\leq z\leq y$ }
+\paragraph{Przykład:\\}{$$L = \langle 15, 16, 17, 25, 27, 28, 35, 36, 37 \rangle $$ 
+$$L' = \langle 15, 17, 25, 28, 35 \rangle $$}
+\paragraph{}{Następująca funkcja  Trim(L, $\delta$) implementuje ten pomysł. L to jest posortowana rosnąc lista L = $\langle y_1, ..., y_m \rangle$.}
+\begin{lstlisting}[caption={Trim(L,$\delta$)}]
+$m \leftarrow |L|$
+$L' \leftarrow \langle y_1 \rangle$
+$last \leftarrow y_1$
+for $i \leftarrow 2$ to m
+	if $y_i > last (1 + \delta)$
+		dolacz $y_i$ na koniec L'
+		$last \leftarrow y_i$
+return L'
+\end{lstlisting}
+
+\paragraph{Działa w czasie $\Theta(m)$}{Poprawność jak poprzednio.}
+\paragraph{Schemat aproksymacyjny:}
+\begin{lstlisting}[caption={ApproxSubsetSum(S,t,$\varepsilon$)}]
+$n \leftarrow |S|$
+$L_0 \leftarrow \langle 0 \rangle$
+for $i \leftarrow 1$ to n
+	$L_i \leftarrow MergeLists(L_{i-1},L_{i-1}+x_i)$
+	usun z $L_i$ wszystkie elementy $>$ t
+	$L_i \leftarrow Trim(L_i,\frac{\varepsilon}{2n})$
+return $z^*$ najwiekszy element na liscie $L_n$
+\end{lstlisting}
+\paragraph{Przykład:}{$S=\lbrace 205, 203, 400, 200\rbrace \tab n=4$ \\ $t=650$ \\ $\varepsilon = 0,4 \tab \delta=\frac{\varepsilon}{2n}=\frac{0,4}{8}=0,05$}
+
+\begin{enumerate}[start = 0]
+\item $L_0 = \langle 0 \rangle$
+\item $L_1 = \langle 0,205 \rangle$\\
+	  $L_1 = \langle 0,205 \rangle\tab$usuwanie\\
+	  $L_1 = \langle 0,205 \rangle\tab$trimowanie
+\item $L_2 = \langle 0,203,205,408 \rangle$
+	  $L_2 = \langle 0,203,205,408 \rangle\tab$usuwanie\\
+	  $L_2 = \langle 0,203,408 \rangle\tab$trimowanie
+\item $L_3 = \langle 0,203,400,408,603,808 \rangle$
+	  $L_3 = \langle 0,203,400,408,603 \rangle\tab$usuwanie\\
+	  $L_3 = \langle 0,203,400,603 \rangle\tab$trimowanie
+\item $L_4 = \langle 0,200,203,400,403,600,603,803 \rangle$
+	  $L_4 = \langle 0,200,203,400,403,600,603 \rangle\tab$usuwanie\\
+	  $L_4 = \langle 0,200,400,600 \rangle\tab$trimowanie
+\end{enumerate}
+\paragraph{Optymalne rozwiązanie:}{$z^*=600\tab$ $205+203+200 = 608\tab$ $\frac{608}{600}<1+\varepsilon = 1,4$}
