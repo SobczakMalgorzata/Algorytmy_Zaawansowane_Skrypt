@@ -1,15 +1,17 @@
-\subsubsection{Definicja}
-$S = {z_1, ... ,z_n}$ - zbiór zadań każde o $t_{i_j}=1$ \\
-$d_1, ... , d_n$,  $d_i \in \{1,...,n\}$ - deadline'y zadań \\
-$w_1, ... , w_n$, $w_i \in \{1,...,n\}$ - kary za nie wykonanie zadania $z_i$ do chwili $t=d_i$ \\
-Jeżeli zadanie zostanie ukończone po deadlinie, nazywamy je \textit{spóźnionym}, w przeciwnym przypadku zadanie jest nazywane \textit{terminowym}. \\
-
-W problemie szeregowania zadań szukamy permutacji z najmniejszą karą. \\
-
-\textbf{Lemat 1.} 
-Każde uszeregowanie można doprowadzić do uszeregowania o tej samej sumie kar, w którym:
+\subsection{Problem szeregowania zadań}
+\subsubsection{Definicja problemu}
 \begin{itemize}
-	\item zadania terminowa poprzedzają opóźnione,
+\item $S = {z_1, ... ,z_n}$ - zbiór zadań każde o $t_{i_j}=1$ 
+\item $d_1, ... , d_n$,  $d_i \in \{1,...,n\}$ - deadline'y zadań 
+\item $w_1, ... , w_n$, $w_i \in \{1,...,n\}$ - kary za nie wykonanie zadania $z_i$ do chwili $t=d_i$ \\
+\end{itemize}
+W problemie szeregowania zadań szukamy permutacji zadań z najmniejszą łączną karą. 
+
+Jeżeli zadanie zostanie ukończone po deadlinie, nazywamy je \textbf{spóźnionym}, w przeciwnym przypadku zadanie jest nazywane \textbf{terminowym}. 
+
+\paragraph{Lemat 1.}{Każde uszeregowanie można doprowadzić do uszeregowania o takiej samej sumie kar, w którym:}
+\begin{itemize}
+	\item zadania terminowe poprzedzają opóźnione,
 	\item zadania terminowe występują w kolejności niemalejącej względem deadlinów.
 \end{itemize}  
 
@@ -17,8 +19,8 @@ Każde uszeregowanie można doprowadzić do uszeregowania o tej samej sumie kar,
 \begin{enumerate}
 	\item{Niech: 
 	\begin{itemize}
-		\item $z_i$ będzie ukończone w chwili $l_i$ i spóźnione ($l_i > d_i$),
-		\item $z_j$ będzie ukończone w chwili $l_j$ i terminowe 
+		\item $z_i$ będzie spóźnione, ukończone w chwili $l_i$ $(l_i > d_i)$.
+		\item $z_j$ będzie terminowe, ukończone w chwili $l_j$ $(l_j \leq d_j)$.
 		\item $z_i$ jest wykonywane przed $z_j$ ($l_i < l_j$)
 	\end{itemize}
 	Po zamianie $z_j$ z $z_i$:
@@ -28,7 +30,13 @@ Każde uszeregowanie można doprowadzić do uszeregowania o tej samej sumie kar,
 	\end{itemize}
 	}
 	
-	\item{Niech $z_i, z_j$ będą zadaniami terminowymi ukończonymi odpowiednio w chwilach $l_i \leq d_i , l_j \leq d_j $. $l_i < l_j$ oraz $d_j < d_i$.
+	\item{Niech:
+	\begin{itemize}
+		\item $z_i$ będzie terminowe, ukończone w chwili $l_i$ $(l_i \leq d_i)$.
+		\item $z_j$ będzie terminowe, ukończone w chwili $l_j$ $(l_j \leq d_j)$.
+		\item $z_i$ jest wykonywane przed $z_j$ ($l_i < l_j$)
+		\item $d_j < d_i$
+	\end{itemize}
 	Po zamianie $z_j$ z $z_i$:
 	\begin{itemize}
 		\item $z_i$ jest ukończone w chwili $l_j \leq l_i \leq d_i$, nadal terminowe.
@@ -36,57 +44,72 @@ Każde uszeregowanie można doprowadzić do uszeregowania o tej samej sumie kar,
 	\end{itemize}
 	}
 \end{enumerate}
-
-Definiujemy $N_t(A) = |\{z_i \in A : d_i \leq t \} | $ -  liczba zadań których $d$ nie jest większe od $t$. Zbiór zadań A nazywamy niezależnym, jeśli daje się go uszeregować tak, że wszystkie zadania są terminowe. 
+Zatem dokonują zamian z punktu 1. lub punktu 2. możemy przekształcić uszeregowanie w inne o takiej samej sumie kar takie, które spełnia warunki lematu.
 \\
 
-\textbf{Lemat 2.} 
+\textbf{Pojęcia dodatkowe do lematu 2.}
+
+Zbiór zadań $A \subset S$ nazywamy \textbf{niezależnym}, jeśli daje się go uszeregować tak, że wszystkie zadania są terminowe. 
+
+Definiujemy $N_t(A) = |\{z_i \in A : d_i \leq t \}|$ - liczba zadań których $d$ nie jest większe od $t$. 
+
+\paragraph{Lemat 2.} 
 Dla każdego $A \subset S$ następujące warunki są równoważne:
 \begin{enumerate}
 	\item $A$ jest niezależne
 	\item $N_t(A) \leq t$ dla $t = 1,...,n$
-	\item jeśli zadania w $A$ są uszeregowane względem deadlinów, to żadne zadanie nie jest opóźnione.
+	\item jeśli zadania w $A$ są uszeregowane niemalejąco względem deadlinów, to żadne zadanie nie jest opóźnione.
 \end{enumerate}  
 
 \textbf{Dowód}
 \begin{itemize}
 	\item{ $1 \implies 2$: 
-	Jeśli $N_t(A) > t$ dla pewnego $t$ to do chwili $t$ trzeba by ukończyć więcej niż t zadań. Stąd nie da się szeregować zadań z $A$ tak, aby wszystkie były terminowe, więc $A$ nie jest niezależne.}
+	Jeśli $N_t(A) > t$ dla pewnego $t$ to do chwili $t$ trzeba by ukończyć więcej niż $t$ zadań. W takiej sytuacji nie da się uszeregować zadań z $A$ tak, aby wszystkie były terminowe, więc $A$ nie jest niezależne.}
 	\item{ $2 \implies 3$: 
-	Szeregujemy zadania w $A$ malejąco względem deadlinów. Gdyby pewne zadanie $z_t$ w tym uszeregowaniu było spóźnione i kończone w chwili $;_t$ to byłoby co najmniej $l_t$ zadań o deadlinie $\leq d_t$. $z_t$ jest spóźnione, więc $l_t > d_t$.}
-	\item{ $3 \implies 1$: 
-	Szukamy takiego podzbioru niezależnego $A$ tak, aby suma kar dla elementów spoza $A$ była jak najmniejsza. $\sum_{z_i \not\in A} w_i = \sum_{z_i \in S} w_i - \sum_{z_i \in A} w_i$ co oznacza maksymalizację sumy $\sum_{z_i \in A} w_i$}
+	Szeregujemy zadania w $A$ niemalejąco względem deadlinów. Gdyby pewne zadanie $z_t$ w tym uszeregowaniu było spóźnione i zakończone w chwili $l_t$ to byłoby co najmniej $l_t$ zadań o deadlinie $\leq d_t$. $z_t$ jest spóźnione, więc $l_t > d_t$.}
+	\item{ $3 \implies 1$: Z definicji zbioru niezależnego.}
 \end{itemize}
+
+\subsubsection{Algorytm rozwiązujący problem szeregowania zadań}
+Szukamy takiego podzbioru niezależnego $A$ tak, aby suma kar dla elementów spoza $A$ była jak najmniejsza. $\sum_{z_i \not\in A} w_i = \sum_{z_i \in S} w_i - \sum_{z_i \in A} w_i$ co oznacza maksymalizację sumy $\sum_{z_i \in A} w_i$. 
+
+Jeżeli nasz problem ma strukturę matroidu to możemy rozwiązać go algorytmem zachłannym (Patrz tw. RadoEndmonds).
 
 \textbf{Twierdzenie} 
 
 $S$ - zbiór zadań i jednostkowych czasach wykonania 
 
-$A$ - rodzina zbiorów niezależnych 
+$\mathbb{A}$ - rodzina zbiorów niezależnych 
 
-$(S,A)$ jest matroidem 
+$(S,\mathbb{A})$ jest matroidem 
 
 
 \textbf{Dowód}
 \begin{enumerate}
 	\item $S$ jest niepustym skończonym zbiorem
-	\item $A \subset S$
-	\item $A\in\mathbb{A}$, $B \subset A$ \\
-	Uszeregowanie B powstałe z właściwego uszeregowanie przez wykreślenie z uszeregowania $A$ elementów spoza $B$.
-	\item $A,B \in \mathbb{A}, |B| > |A|$ \\
-	Za pomocą $k, 0\leq k \leq n$ oznaczamy największe $t$ takie, że $N_t(B) \leq N_t(A)$. $k$ jest dobrze zdefiniowane, ponieważ $N_0(B) = 0 = N_0(A)$. $N_n(B) = |B| >  |A| = N_n(A)$, zatem  $0\leq k \leq n$. \\
+	\item $\mathbb{A} \subset 2^S$
+	\item $A\in\mathbb{A}$, $B \subset A$ 
+	
+	Uszeregowanie B powstałe z właściwego uszeregowania $A$ przez wykreślenie z uszeregowania elementów spoza $B$. Jeżeli wszystkie zadania z uszeregowania $A$ były terminowe to w $B$ tak samo wszystkie zadania będą terminowe.
+
+	\item $A,B \in \mathbb{A}, |B| > |A|$
+
+	Za pomocą $k, 0\leq k \leq n$ oznaczamy największe $t$ takie, że $N_t(B) \leq N_t(A)$. $k$ jest dobrze zdefiniowane, ponieważ $N_0(B) = 0 = N_0(A)$. $N_n(B) = |B| >  |A| = N_n(A)$, zatem  $0\leq k \leq n$. 
+	
 $\begin{drcases}
 	N_{k+1}(B) > N_{k+1}(A) \\
-	N_k(B) = N_k(A)
+	N_k(B) \leq N_k(A)
 \end{drcases}$ istnieje zadanie $x \in B - A$ o deadlinie równym $k+1$
+
 Niech $A' = A \cup \{x\}$. Pokażemy, że $A'$ jest niezależny używając \textbf{Lematu 2}. 
 \begin{itemize}
 	\item Ponieważ $A$ jest niezależne, dla $1 \leq t \leq k$ mamy $N_t(A') = N_t(A) \leq t$
-	\item Ponieważ $B$ jest niezależne, dla $k+1 \leq t \leq k$ mamy $N_t(A') = N_t(A)+1 \leq N_t(B) \leq t$
+	\item Ponieważ $B$ jest niezależne, dla $k+1 \leq t \leq n$ mamy $N_t(A') = N_t(A)+1 \leq N_t(B) \leq t$
 \end{itemize}
 \end{enumerate}
-Zatem $(S,A)$ jest matroidem. Z Tw. Rado Edmondsa wiemy, że algorytm Greedy zwraca optymalne rozwiązanie. Dla problemu szeregowania zadań linijkę 4. w algorytmie możemy przerobić, tak aby działała w czasie $O(n)$. Zatem złożoność całego algorytmu wynosi $O(n^2)$.
+Zatem $(S,\mathbb{A})$ jest matroidem. Z Tw. Rado-Edmondsa wiemy, że algorytm Greedy zwraca optymalne rozwiązanie. Dla problemu szeregowania zadań linijkę 4. w algorytmie możemy przerobić, tak aby działała w czasie $O(n)$. Zatem złożoność całego algorytmu wynosi $O(n^2)$.
 
+\subsubsection{Przykład działania algorytmu Greedy}
 \begin{center}
 \begin{tabular}{ c | c | c | c | c | c | c | c | c } 
   	 	& $z_1$	& $z_2$ & $z_3$ & $z_4$	& $z_5$	& $z_6$ & $z_7$ & $z_8$	\\ \hline
