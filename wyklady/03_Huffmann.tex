@@ -125,15 +125,17 @@ for i <- 1 to n-1
 	f(z) <- f(x) + f(y)
 	insert(Q,z)
 \end{lstlisting}
-Złożoność algorytmu Huffmana:
+
+Algorytm konstruuje drzewa binarne.
+
+\textbf{Złożoność algorytmu Huffmana:}
 \begin{lstlisting}
 $O(1)$
 $O(1)$
 $n-1$ razy
 	wnetrze petli $\log n$ razy
 \end{lstlisting}
-
-Algorytm konstruuje drzewa binarne
+\underline{Ostateczna złożoność algorytmu to $O(n \log n)$}
 
 \subsubsection{Twierdzenie o poprawności Algorytmu Huffmana}
 \textbf{Lemat 1.} Niech $x$ i $y$ będą parą znaków z $C$ o najmniejszej liczbie wystąpień. Istnieje optymalny kod prefiksowy, w którym kody dla $x$ i $y$ mają tę samą długość i różnią się tylko wartością ostatniego bitu.

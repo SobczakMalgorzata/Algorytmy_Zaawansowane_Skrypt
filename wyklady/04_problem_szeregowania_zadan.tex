@@ -1,3 +1,4 @@
+\subsection{Prosty problem szeregowania zadań}
 \subsubsection{Opis problemu}
 Instancja problemu składa się z:
 \begin{itemize}
@@ -14,13 +15,13 @@ Jak uszeregować $Z$, aby średni czas ukończenia był najmniejszy?
   $t$ & 15 		&  8 	& 3 	& 10 \\ 
 \end{tabular}
 \end{center}
-Średni czas ukończenia dla kolejności $z_1, z_2, z_3, z_4$:
+Średni czas ukończenia zadania dla kolejności $z_1, z_2, z_3, z_4$:
 $\frac{15+(15+8)+(15+8+3)+(15+8+3+10)}{4}= 25$ \\
 \\
-Średni czas ukończenia dla kolejności $z_3, z_2, z_4, z_1$:
+Średni czas ukończenia zadania dla kolejności $z_3, z_2, z_4, z_1$:
 $\frac{3+(3+8)+(3+8+10)+(3+8+10+15)}{4} = 17\frac{3}{4}$ \\
 
-\textbf{Wniosek:} wykonujemy zadania sortując rosnąco po $t$ 
+\textbf{Wniosek:} wykonujemy zadania sortując rosnąco po $t$.
 
 \subsubsection{Przykład dla 3 procesorów}
 Przydzielamy kolejne zadania pierwszemu wolnemu procesorowi:
@@ -51,13 +52,13 @@ Przy uszeregowaniu $z_{i_1} ,..., z_{i_n}$ suma czasów ukończenia wynosi:
 	$$ = \sum_{j=1}^{n} \lceil \frac{n + 1 -j}{3} \rceil t_{i_j} =  $$
 	\end{itemize}
 
-\textbf{Lemat:} Niech $A_1 \geq A_2 \geq ... \geq A_n$. Dla dowolnej permutacji $\pi = (i_1, ..., i_n)$ zbioru ${1,...n}$ niech $f(\pi) = \sum_{j=1}^{n} A_j \cdot t_{i_j}$ $f(\pi)$ jest najmniejsze dla permutacji $\pi$ takich, że $t_{i_1} \leq t_{i_2} \leq ... \leq t_{i_n}$.
-\\
-\textbf{Dowód:} Niech $\pi$ będzie permutacja minimalizującą $f(\pi)$. Przypuśćmy, że dla pewnych $k$ i $l$ takich, że $k<l$ i $t_{i_k} < t_{i_l}$. Niech $\pi'$ będzie permutacją powstałą z $\pi$ za pomocą zamiany miejscami $i_k$ z $i_l$ tzn. $i'_j = i_j$ dla $j\neq k,l$ i $i'_k = i_j$ $i'_j = i_k$. \\
+\paragraph{Lemat:} Niech $A_1 \geq A_2 \geq ... \geq A_n$. Dla dowolnej permutacji $\pi = (i_1, ..., i_n)$ zbioru ${1,...n}$ niech $$f(\pi) = \sum_{j=1}^{n} A_j \cdot t_{i_j}$$ $f(\pi)$ jest najmniejsze dla permutacji $\pi$ takich, że $t_{i_1} \leq t_{i_2} \leq ... \leq t_{i_n}$.
+
+\paragraph{Dowód:} Niech $\pi$ będzie permutacja minimalizującą $f(\pi)$. Przypuśćmy, że dla pewnych $k$ i $l$ takich, że $k<l$ i $t_{i_k} < t_{i_l}$. Niech $\pi'$ będzie permutacją powstałą z $\pi$ za pomocą zamiany miejscami $i_k$ z $i_l$ tzn. $i'_j = i_j$ dla $j\neq k,l$ i $i'_k = i_j$ $i'_j = i_k$. \\
 Wtedy
 $$ f(\pi) - f(\pi') = \sum_{j=1}^{n} A_j \cdot t_{i_j} - \sum_{j=1}^{n} A_j  \cdot t_{i'_j} $$ \\
-$$ = A_k \cdot t_{i_k} - A_k \cdot t_{i'_k} + A_l \cdot t_{i_l} - A_l \cdot t_{i'_j} $$ \\ 
-$$ =A_k(t_{i_k} - t_{i_l} - A_l(t_{i_k} - t_{i_l}) = (A_k - A_i)(t_{i_k} - t_{i_l}) \geq 0 $$
+$$ = A_k \cdot t_{i_k} - A_k \cdot t_{i'_k} + A_l \cdot t_{i_l} - A_l \cdot t_{i'_l} $$ \\ 
+$$ =A_k(t_{i_k} - t_{i_l}) - A_l(t_{i_k} - t_{i_l}) = (A_k - A_i)(t_{i_k} - t_{i_l}) \geq 0 $$
 
 $f(\pi) \geq f(\pi')$ więc $f(\pi) \geq f(\pi')$ bo $\pi$ minimalizuje f. 
 Po pewnej liczbie takich zamian otrzymujemy $\pi$ - permutację minimalizującą f i taką, że $t_{i_1} \leq ... \leq t_{i_n}$ .

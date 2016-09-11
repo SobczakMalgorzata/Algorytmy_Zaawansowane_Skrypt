@@ -1,15 +1,15 @@
+\subsection{Matroidy}
 \subsubsection{Definicja}
 Matroidem nazywamy strukturę $M = (S,\mathbb{A})$ taką, że:
 \begin{enumerate}
-	\item $S$ jest niepustym zbiorem skończonym
+	\item $S = \{x_1, ... , x_n \}$ jest niepustym, skończonym zbiorem.
 	\item $\mathbb{A} \subset 2^S$
-	\item $\forall A,B \subset S$   $A \in \mathbb{A} \land B \subset A \implies B \in \mathbb{A}$
-	\item $\forall A,B \subset S$ 	$A,B \in \mathbb{A} \land \|B\| < \|A\| \implies \exists x \in B - A A \cup \{x\} \in \mathbb{A} $ (warunek wymiany)
+	\item $\forall{A,B \subset S} \quad (A \in \mathbb{A}) \land (B \subset A) \implies B \in \mathbb{A}$
+	\item $\forall{A,B \subset S} \quad (A,B \in \mathbb{A}) \land (\vert B \vert > \vert A \vert) \implies \exists{x} \in (B - A) \quad A \cup \{x\} \in \mathbb{A} $ (warunek wymiany)
 \end{enumerate}
 $\mathbb{A}$ nazywamy rodziną zbiorów niezależnych.
-\\
 
-\textbf{Przykłady:} 
+\paragraph{Przykłady:} 
 \begin{enumerate}
 	\item $S$ - zbiór wierszy macierzy \\
 	$M = (S,\mathbb{A})$;
@@ -18,31 +18,33 @@ $\mathbb{A}$ nazywamy rodziną zbiorów niezależnych.
 
 	\item $S$ - zbiór krawędzi w grafie \\
 	$\mathbb{A}$ - zbiory krawędzi indukujące lasy \\
-	$M = (E,\mathbb{A})$;  
-	$G = (V,E)$;     
+	$G = (V,E)$; \quad
+	$M = (E,\mathbb{A})$; \quad  
 	$\mathbb{A} = \{F \subset E : G(F)$ jest acykliczny$\}$
 \end{enumerate}
 
-\subsubsection{Problem}
+\subsubsection{Definicja problemu dla algorytmu zachłannego}
 $M = (S,\mathbb{A})$\\
 $w:S \rightarrow (0,\infty)$ funkcja wagi \\
-$w:S^2 \rightarrow (0, \infty) = \sum{x\in A} w(x)$ \\
-Należy znaleźć zbiór niezależny $a \in \mathbb{A}$ o maksymalnej sumie wag.
+$w:2^S \rightarrow (0, \infty) $ funkcja wagi dla $A \subset S \quad w(A) = \sum_{x \in A} w(x)$ \\
+Należy znaleźć zbiór niezależny $A \in \mathbb{A}$ o maksymalnej sumie wag - $w(A)$.
+
 \begin{lstlisting}[caption={Greedy(M,w)}]
-$\mathbb{A} = \emptyset$
-uporzadkuj S niemalejaco wzgledem wag $w(x_1) \geq w(x_2) \geq ... \geq w(x_n)$
+$A = \emptyset$
+uporzadkuj S nierosnaco wzgledem wag - $w(x_1) \geq w(x_2) \geq ... \geq w(x_n)$
 for $i$ = 1 to n
 	if $A \cup \{x_i\} \in \mathbb{A}$
 		$A = A \cup \{x_i\}$
 \end{lstlisting}
 
-\textbf{Tw. (Rado Endmonds)} Algorytm Greedy znajduje zbiór niezależny Matroidu o maksymalnej wadze. \\
+\paragraph{Twierdzenie (Rado-Endmonds):} Algorytm Greedy znajduje zbiór niezależny Matroidu o maksymalnej wadze.
+
+\textbf{Złożoność algorytmu Greedy(M,w):}
 \begin{lstlisting}
-
+$O(1)$
 $O(n \log n)$
-$n$
-$f(n)$ - czas sprawdzenia warunku w linii 4.
-
+petla wykonywana jest $n$ razy
+	$f(n)$ - czas sprawdzenia warunku w linii 4. 
+		$O(1)$
 \end{lstlisting}
-
-\textbf{Złożoność Greedy} $O(n \log n + n \cdot f(n)$
+\underline{Ostateczna złożoność Greedy $O(n \log n + n \cdot f(n))$}
