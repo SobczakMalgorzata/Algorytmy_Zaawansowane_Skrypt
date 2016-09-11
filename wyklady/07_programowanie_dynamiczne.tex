@@ -1,4 +1,5 @@
-Czasami, gdy próbujemy rozwiązać problem formułą rekurencyjną otrzymujemy bardzo wolny algorytm o złożoności wykładniczej. Najczęściej do takich sytuacji dochodzi, gdy liczymy te same rzeczy wilokrotnie.
+\section{Programowanie Dynamiczne}
+Czasami, gdy próbujemy rozwiązać problem formułą rekurencyjną otrzymujemy bardzo wolny algorytm o złożoności wykładniczej. Najczęściej do takich sytuacji dochodzi, gdy liczymy te same rzeczy wielokrotnie.
 
 \subsection{Liczby Fibonacciego}
 $$ F(n) = \begin{cases}
@@ -34,10 +35,10 @@ $f(n) = \Theta((\frac{\sqrt{5}+1}{2})^n) = \Omega(1.61^n)$ więc również $S(n)
 \subsubsection{Implementacja wykorzystująca programowanie dynamiczne}
 \begin{lstlisting}[caption={FIBD(n) - dynamiczny algorytm liczący n-tą liczbę Fibonacciego}]
 if $n \leq 1$ return 1
-$F(0)$ <- $F(1)$ <- 1
+$F[0]$ <- $F[1]$ <- 1
 for $i$ <- 2 to $n$
-	$F(i)$ <- $F(n-1) + F(n-2)$
-return $F(n)$
+	$F[i]$ <- $F[n-1] + F[n-2]$
+return $F[n]$
 \end{lstlisting}
 Ilość dodawań wynosi $n-1$ zatem złożoność algorytmu FIBD(n) wynosi $\Theta(n)$.
 

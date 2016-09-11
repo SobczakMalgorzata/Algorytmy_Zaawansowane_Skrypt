@@ -1,11 +1,13 @@
+\subsection{Problem mnożenia ciągu macierzy}
 \subsubsection{Przykład}
 Dane są trzy macierze:
-$ A_1 (5 \times 10) $\\ 
-$ A_2 (10 \times 3) $\\
-$ A_3 (3 \times 2) $
+\begin{itemize}
+\item $ A_1 (5 \times 10) $
+\item $ A_2 (10 \times 3) $
+\item $ A_3 (3 \times 2) $
+\end{itemize}
 
-
-Ile trzeba mnożeń skalarnych, aby obliczyć $A_1 \cdot A_2 \cdot A_3 = A_1 \cdot (A_2 \cdot A_3) = (A_1 \cdot A_2) \cdot A_3$
+Ile trzeba mnożeń skalarnych, aby obliczyć $A_1 \cdot A_2 \cdot A_3 = A_1 \cdot (A_2 \cdot A_3) = (A_1 \cdot A_2) \cdot A_3$?
 
 Dla kolejności $A_1 \cdot (A_2 \cdot A_3)$ potrzeba $10 \cdot 3 \cdot 2 + 5 \cdot  10 \cdot 2 = 60 + 100 = 160$
 
@@ -25,6 +27,7 @@ Możliwych kolejności mnożeń jest tyle, ile możliwości rozmieszczenia nawia
 \item $A_1 \cdot ((A_2 \cdot A_3) \cdot A_4)$
 \item $A_1 \cdot (A_2 \cdot (A_3 \cdot A_4$))
 \end{enumerate}
+
 Niech $P(n)$ będzie liczbą możliwych ustawień nawiasów w mnożeniu $n$ macierzy. Niech ostatnie mnożenie ma postać $(A_1 \cdot ... \cdot A_k) \cdot (A_{k+1} \cdot ... \cdot A_n)$. Zatem:
 $$
 P(n) = 	\begin{cases}
@@ -32,15 +35,19 @@ P(n) = 	\begin{cases}
 		P(1) = 1
 		\end{cases}
 $$
+To znane równanie rekurencyjne mające rozwiązanie $P(n) = C(n-1)$, gdzie $C(n) = \frac{1}{n+1}\binom{2n}{n}$ - liczba Cathalana. $C(n) = \Omega(\frac{4^n}{n})$.
 
-To znane równanie rekurencyjne mające rozwiązanie $P(n) = C(n-1)$, gdzie $C(n) = \frac{1}{n+1}\binom{2n}{n}$ - liczba Cathalana. $C(n) = \Omega(\frac{4^n}{n})$. Zauważmy, że jeżeli optymalne rozwiązanie ma postać $(A_1 \cdot ... \cdot A_k) \cdot (A_{k+1} \cdot ... \cdot A_n)$ to iloczyny $A_1 \cdot ... \cdot A_k$ oraz $A_{k+1} \cdot ... \cdot A_n$  też muszą być optymalne. W przeciwnym razie lepsze rozmieszczenia nawiasów w $A_1 \cdot ... \cdot A_k$ lub $A_{k+1} \cdot ... \cdot A_n$ dałoby lepsze rozmieszczenie nawiasów w $(A_1 \cdot ... \cdot A_k) \cdot (A_{k+1} \cdot ... \cdot A_n)$. Optymalne rozwiązanie zawiera więc optymalne rozwiązania problemów tego samego typu. Jest o jeden z warunków skuteczności programowania dynamicznego.
+Zauważmy, że jeżeli optymalne rozwiązanie ma postać $(A_1 \cdot ... \cdot A_k) \cdot (A_{k+1} \cdot ... \cdot A_n)$ to iloczyny $A_1 \cdot ... \cdot A_k$ oraz $A_{k+1} \cdot ... \cdot A_n$  też muszą być optymalne. W przeciwnym razie lepsze rozmieszczenia nawiasów w $A_1 \cdot ... \cdot A_k$ lub $A_{k+1} \cdot ... \cdot A_n$ dałoby lepsze rozmieszczenie nawiasów w $(A_1 \cdot ... \cdot A_k) \cdot (A_{k+1} \cdot ... \cdot A_n)$. Optymalne rozwiązanie zawiera więc optymalne rozwiązania problemów tego samego typu. Jest o jeden z warunków skuteczności programowania dynamicznego.
 
 
 \textbf{Podproblemy} - rozmieszczenie nawiasów w iloczynie $A_i \cdot ... \cdot A_j$ gdzie $1 \leq i \leq j \leq n$. 
 
 $m(i,j)$ - minimalna liczba mnożeń potrzebna do policzenia iloczynu $A_i \cdot ... \cdot A_j$.
 
-Chcemy policzyć $m(1,n)$. Zakładamy, że $m(i,i) = 0$. Niech optymalne rozmieszczenie nawiasów ma postać $(A_i \cdot ... \cdot A_k) \cdot (A_{k+1} \cdot ... \cdot A_j)$ dla $1 \leq  i \leq k \leq j \leq n$. 
-Otrzymujemy rekurencję $m(i,j) = min_{i \leq k \leq j} \{ m(i,k) +m(k+1,j) + p_{i-1} \cdot p_k \cdot p_j \}$ Oznaczamy przez $s(i,j)$ tę wartość $k$ dla której osiągane jest to minimum. Innymi słowy, $s(i,j)$ jest miejscem ostatniego mnożenia w optymalnym rozwiązaniu problemu. 
+Chcemy policzyć $m(1,n)$. Zakładamy, że $m(i,i) = 0$. 
+
+Niech optymalne rozmieszczenie nawiasów ma postać $(A_i \cdot ... \cdot A_k) \cdot (A_{k+1} \cdot ... \cdot A_j)$ dla $1 \leq  i \leq k \leq j \leq n$. Otrzymujemy rekurencję: 
+$$m(i,j) = min_{i \leq k \leq j} \{ m(i,k) +m(k+1,j) + p_{i-1} \cdot p_k \cdot p_j \}$$
+Przez $s(i,j)$ oznaczamy tę wartość $k$ dla której osiągane jest to minimum. Innymi słowy, $s(i,j)$ jest miejscem ostatniego mnożenia w optymalnym rozwiązaniu podproblemu. 
 
 Gdyby zaprogramować tę rekurencję, otrzymalibyśmy algorytm o złożoności wykładniczej. Ale mamy tylko $\binom{n}{2} + n = \Theta(n^2)$ podproblemów, czyli $\Theta(n^2)$ liczb $m(i,j)$ i każdą z nich liczymy tylko raz.
