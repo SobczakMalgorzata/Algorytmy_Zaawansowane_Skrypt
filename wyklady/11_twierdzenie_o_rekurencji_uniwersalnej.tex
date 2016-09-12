@@ -1,126 +1,152 @@
-% z przykładem stosowania rekurencji do mnożnia macieży 
+\subsection{Twierdzenie o rekurencji uniwersalnej}
+% z przykładem stosowania rekurencji do mnożenia macierzy 
 % na przykładzie algorytmu Strassena 
+\paragraph{Twierdzenie:}
 Niech $a \geq 1, b > 1$, będą stałymi, $f(n) = \Theta(n^k)$\\
-Niech: $T(n) - aT(n/b)+f(n)$ $(n/b$ oznacza $\lfloor n/b \rfloor $ lub $\lceil n/b \rceil)$\\
-\\
-wtedy 
-\[
+Niech: $T(n) = a \cdot T(\frac{n}{b})+f(n)$, gdzie $\frac{n}{b}$ oznacza $\lfloor \frac{n}{b} \rfloor $ lub $\lceil \frac{n}{b} \rceil$. Wtedy:
+$$
   T(n)=\begin{cases}
-               \Theta(n^{log_ba}),\ dla\ a>b^k \Leftrightarrow log_ba>k\\
-               \Theta(n^{log_ba}logn),\ dla\ a=b^k \Leftrightarrow log_ba=k\\
-               \Theta(n^k),\ dla\ a<b^k \Leftrightarrow log_ba<k
-            \end{cases}
-\]\\
-$a^{log_Bn}=b^{log_ba^{log_bn}}=b^{log_bnlog_ba}=b^{log_balog_bn}=b^{log_ba^{log_bn}}=n^{log_ba}$\\
-\\
-\textbf{Lemat: }Niech $a\geq 1,\ b>1$ będą stałymi, niech f(n) będzie funkcją nieujemną zdefiniowaną \\dla potęg b.\\
-Jeśli 
+               \Theta(n^{\log_b a}), $ dla $ a > b^k \Leftrightarrow \log_b a>k\\
+               \Theta(n^{\log_b a} \log_b n), $ dla $ a=b^k \Leftrightarrow \log_b a=k\\
+               \Theta(n^k),$ dla $ a<b^k \Leftrightarrow \log_b a<k
+		\end{cases}
+$$
+$$a^{\log_b n}=b^{\log_b a^{\log_b n}}=b^{\log_b n \cdot \log_b a}=b^{\log_b a \cdot \log_b n}=b^{\log_b n^{\log_b a}}=n^{\log_b a}$$
+
+\paragraph{Lemat: }Niech $a\geq 1,\ b>1$ będą stałymi i niech $f(n)$ będzie funkcją nieujemną zdefiniowaną dla potęg $b$.
+Jeśli: 
 \[
-  T(n)=\begin{cases}
-               \Theta(1),\ dla\ n=1\\
-               aT(n/b) + f(n),\ dla\ n=b^i,\ gdzie\ i \in {\rm I\!N}_+
-            \end{cases}
+T(n)=\begin{cases}
+	\Theta(1), $ dla $ n=1 \\
+    a \cdot T(\frac{n}{b}) + f(n),$ dla $ n=b^i, $ gdzie $i \in \mathbf{N}_+
+\end{cases}
 \]\\
-to\\
-$T(n) = \Theta(n^{log_ba}) + \sum_{j=0}^{log_bn-1} a^j\ f(n/b^j)$\\
-\\
-\textbf{Dowód: }
-$T(n)=f(n) +a T(n/b)= f(n) + a(f(n/b)+a\ T(n/b^2)) =f(n)+a\ f(n/b) + a^2\ T(n/b^2) = $\\
-$=f(n) + a\ f(n/b) + a^2\ f(n/b^2) + a^3\ T(n/b^3) = ... =$\\
-$= f(n) + a\ f(n/b) + a^2\ f(n/b^2) +...+a^{log_bn-1}T(\frac{n}{b^{log_bn-1}})+ a^{log_bn}T(1)$\\
-\\
-ponieważ $a^{log_bn}=n^{log_ba}$ stąd $a^{log_bn}T(1) = \Theta(n^{log_ba})$\\
-oraz $T(n) = \Theta(n^{log_ba})+\sum_{j=0}^{log_bn-1} a^j\ f(n/b^j)$ \\
-\\
-\textbf{Dowód: }twierdzenia dla przypadku gdy n jest potęgą b (w pozostałych przypadkach dowód jest bardziej techniczny)\\
-\\
-$\Theta(\sum_{j=0}^{log_bn-1} a^j\ f(n/b^j))=\Theta(\sum_{j=0}^{log_bn-1} a^j\ (n/b^j)^k)$\\
+to\
+$$T(n) = \Theta(n^{\log_b a}) + \sum_{j=0}^{\log_b n-1} a^j\ f(\frac{n}{b^j})$$
+
+\textbf{Dowód lematu: }
+$$T(n)= f(n) + a \cdot T(\frac{n}{b})= f(n) + a \cdot (f(\frac{n}{b}) + a  \cdot T(\frac{n}{b^2})) = f(n) + a \cdot f(\frac{n}{b}) + a^2 \cdot T(\frac{n}{b^2}) = $$
+$$= f(n) + a \cdot f(\frac{n}{b}) + a^2 \cdot f(\frac{n}{b^2}) + a^3  \cdot T(\frac{n}{b^3}) = ... =$$
+$$= f(n) + a \cdot f(\frac{n}{b}) + a^2 \cdot f(\frac{n}{b^2}) + ... + a^{(log_b n)-1} \cdot T(\frac{n}{b^{(\log_b n) - 1}}) + a^{\log_b n} \cdot T(1)$$
+
+Ponieważ $$a^{\log_b n}=n^{\log_b a}$$ możemy powiedzieć, że $$a^{\log_b n} \cdot T(1) = \Theta(n^{\log_b a})$$
+oraz $$T(n) = \Theta(n^{\log_b a})+\sum_{j=0}^{(\log_b n)-1} a^j\ f(\frac{n}{b^j}))$$
+
+\textbf{Dowód twierdzenia} dla przypadku gdy $n$ jest potęgą $b$ ($n=b^x$, gdzie $x \in \mathbf{N}_+$). W pozostałych przypadkach dowód jest bardziej techniczny.
+
+$$\Theta(\sum_{j=0}^{(\log_b n)-1} a^j \cdot f(\frac{n}{b^j}))=\Theta(\sum_{j=0}^{(\log_b n)-1} a^j\cdot (\frac{n}{b^j})^k)$$
+
 \begin{enumerate}
-\item Jeśli $a>b^k$, a $log_ba>k$\\
-	\\
-	$\sum_{j=0}^{log_bn-1} a^j\ (n/b^j)^k = \sum_{j=0}^{log_bn-1} a^j\ \frac{n^k}{b^{jk}}=n^k\ \sum_{j=0}^{log_bn-1} (\frac{a}{b^k})^j = n^k\ \frac{1-(\frac{a}{b^k})^{log_bn}}{1-\frac{a}{b^k}}= n^k\ \frac{\frac{a^{log_bn}}{b^{klog_bn}}-1}{\frac{a}{b^k}-1}=$\\
-	$n^k\ \frac{\frac{a^{log_bn}-b^{klog_bn}}{b^{klog_bn}}}{\frac{a-b^k}{b^k}}= n^k\ \frac{a^{log_ba}-b^{log_Bn^k}}{a-b^k} \ast \frac{b^k}{b^{log_bn^k}}= n^k\ \frac{n^{log_ba}-n^k}{a\ast b^k}\ast \frac{b^k}{n^k} = \frac{b^k}{a-b^k}(n^{log_ba}-n^k) = \Theta(n^{log_ba})$\\
-	\\
-	z lematu $T(n) = \Theta(n^{log_ba})$
-\item Jeśli $a=b^k$, a $log_ba=k$\\
-	\\
-	$\sum_{j=0}^{log_bn-1} a^j\ (n/b^j)^k = n^k\sum_{j=0}^{log_bn-1} )\frac{a}{b^k})^j = n^k\ \sum_{j=0}^{log_bn-1} 1 = n^k \ast lob_bn$\\
-	\\
-	Zatem $T(n) = \Theta(n^{log_ba}) + \Theta(n^klog)bn) = \Theta(n^{log_bn} + n^{log_ba}log_bn) = \Theta(n^{log_ba}log_bn)$
-\item Jeśli $a<b^k$, a $log_ba<k$\\
-	\\
-	$\sum_{j=0}^{log_bn-1} a^j\ (n/b^j)^k = $ jak w pierwszym $ = n^k\ \frac{n^k-n^{log_ba}}{b^k-a} \ast \frac{b^k}{n^k} = \frac{b^k}{b^k-a}\ast (n^k \ast n^{log_ba})=\Theta(n^k)$\\
-	\\
-	Z lematu $T(n) = \Theta(n^{log_ba}) + \Theta(n^k) = O(n^k)$
+\item Jeśli $a > b^k$, tzn. $\log_b a > k$ to
+	$$ \sum_{j=0}^{(\log_b n)-1} a^j \cdot (\frac{n}{b^j}))^k 
+	= \sum_{j=0}^{(\log_b n)-1} a^j \cdot \frac{n^k}{b^{jk}}
+	= n^k \cdot \sum_{j=0}^{(\log_b n)-1} (\frac{a}{b^k})^j 
+	=
+	$$
+	$$= n^k \cdot \frac{1-(\frac{a}{b^k})^{\log_b n}}{1-\frac{a}{b^k}} 
+	= n^k \cdot \frac{\frac{a^{\log_b n}} {b^{k \cdot \log_b n}}-1}{\frac{a}{b^k}-1} 
+	= n^k \cdot \frac{\frac{a^{\log_b n} - b^{k \cdot \log_b n}}{b^{k \cdot \log_b n}}}{\frac{a-b^k}{b^k}} 
+	=
+	$$
+	$$
+	= n^k \cdot \frac{a^{\log_b n} - b^{\log_b n^k}}{a - b^k} \cdot  \frac{b^k}{b^{\log_b n^k}}
+	= n^k \cdot \frac{n^{\log_b a}-n^k}{a - b^k} \cdot \frac{b^k}{n^k} 
+	=	
+	$$
+	$$	
+	= \frac{b^k}{a-b^k}(n^{\log_b a}-n^k) 
+	= \Theta(n^{\log_b a})$$
+	\textbf{Z Lematu} $T(n) = \Theta(n^{\log_b a}) + \Theta(n^{\log_b a}) = \Theta(n^{\log_b a})$
+\item Jeśli $a = b^k$, tzn. $\log_b a=k$
+	$$	\sum_{j=0}^{(\log_b n)-1} a^j \cdot (\frac{n}{b^j}))^k 
+	= n^k \cdot \sum_{j=0}^{(\log_b n)-1} (\frac{a}{b^k})^j 
+	= n^k \cdot \sum_{j=0}^{(\log_b n)-1} 1 
+	= n^k \cdot \log_b n
+	$$
+	Zatem 
+	$$T(n) = \Theta(n^{\log_b a}) + \Theta(n^k \cdot \log_b n) 
+	= \Theta(n^{\log_b n} + n^{\log_b a} \cdot \log_b n) 
+	= \Theta(n^{\log_b a} \cdot \log_b n) $$
+\item Jeśli $a<b^k$, tzn. $\log_b a<k$. Tak samo jak w punkcie 1.
+	$$\sum_{j=0}^{(\log_b n)-1} a^j\ (\frac{n}{b^j})^k = n^k\ \frac{n^k-n^{log_ba}}{b^k-a} \cdot \frac{b^k}{n^k} = \frac{b^k}{b^k-a}\cdot (n^k - n^{log_ba})=\Theta(n^k)$$
+	\textbf{Z Lematu} $T(n) = \Theta(n^{log_ba}) + \Theta(n^k) = O(n^k)$
 \end{enumerate}
 
-\textbf{Wracamy do problemu mnożenia liczb n-cyfrowych}\\
-\\
-\tab $T(n) = 4T(\frac{n}{2}) + O(n)$\\
-$a=4$\tab $b=2$\tab $k=1$\tab $4>2^1$\\
-Więc złożoność:\\
-\tab$T(n) = \Theta(n^{log_24})=\Theta(n^2)$\\
-Czyli tak jak mnożenie pisemne\\
-\\
-Dla sprytnego algorytmu: \\
-\tab $T(n) = 3T(\frac{n}{2})+O(n)$\\
-$a=3$\tab $b=2$\tab $k=1$\tab $3>2^1$\\
-\tab $T(n)= \Theta(n^{log_23})=O(n^{1,59})$\\
-\\
-\textbf{Przykład: Mnożenie Macierzy}\\
-Zwykły algorytm mnożenia macierzy nxn działa w czasie $O(n^3)$\\
-\\
-$A\ast B=C$ A, B $=$ macierze nxn\\
-Dzielimy A i B na kwadraty\\
-\\
+\subsection{Złożoność algorytmu mnożenia liczb n-cyfrowych}
+\paragraph{Dla zwykłego mnożenia} złożoność wynosiła
+	$$T(n) = 4T(\frac{n}{2}) + O(n)$$
+Zatem $a,b$ oraz $k$ mają następujące wartości:
+	$$a=4 \tab b=2 \tab k=1 \tab 4>2^1$$
+Zatem złożoność ostatecznie ma wartość
+	$$T(n) = \Theta(n^{log_24})=\Theta(n^2)$$
+Czyli taką samą jak zwyczajne mnożenie pisemne.
+
+\paragraph{Dla sprytnego algorytmu} złożoność wynosiła
+	$$T(n) = 3T(\frac{n}{2})+O(n)$$
+Zatem $a,b$ oraz $k$ mają następujące wartości:
+	$$a=3 \tab b=2 \tab k=1 \tab 3>2^1$$
+Zatem złożoność ostatecznie ma wartość
+	$$T(n)= \Theta(n^{\log_2 3}) = O(n^{1,59})$$
+
+\subsection{Mnożenie Macierzy}
+Zwykły algorytm mnożenia macierzy $n \times n$ działa w czasie $O(n^3)$
+
+A, B $=$ macierze $n \times n$\\
+$C = AB$ 
+
+Dzielimy $A,B$ i $C$ na cztery kwadratowe macierze $\frac{n}{2} \times \frac{n}{2}$ w następujący sposób:
 \[
-A\ast B = 
+AB = 
 \begin{bmatrix}
-    A_{11}       & A_{12} \\
-    A_{21}       & A_{22} 
+    A_{11}	& A_{12} \\
+    A_{21}  & A_{22} 
 \end{bmatrix}\ 
 \begin{bmatrix}
-    B_{11}       & B_{12} \\
-    B_{21}       & B_{22} 
+    B_{11}  & B_{12} \\
+    B_{21}  & B_{22} 
 \end{bmatrix}
 =
 \begin{bmatrix}
-    C_{11}       & C_{12} \\
-    C_{21}       & C_{22} 
+    C_{11}  & C_{12} \\
+    C_{21}  & C_{22} 
 \end{bmatrix} = C
 \]
-\\
-gdzie $C_{11}= A_{11}\ast B_{11}+A_{12}\ast B_{21}$\\
-\tab $C_{12}= A_{11}\ast B_{12}+A_{21}\ast B_{22}$\\
-\tab $C_{21}= A_{21}\ast B_{11}+A_{22}\ast B_{21}$\\
-\tab $C_{22}= A_{21}\ast B_{12}+A_{22}\ast B_{22}$\\
-\\
-Zamieniamy jedno mnożenie macierzy nxn na 8 mnożeń macierzy $\frac{n}{2}$x$\frac{n}{2}$ kosztujące $O(n^2)$ czasu.\\
-\\
-\tab $T(n)=8T( \frac{n}{2} )+ O(n^2)$\\
-\\
-$a=8$\tab $b=2$\tab $k=2$\tab $8>2^2$\\
-\\
-\tab $T(n)=\Theta(n^{log_28} = \Theta(n^3)$\\
+gdzie 
+$$C_{11}= A_{11}B_{11}+A_{12}B_{21}$$
+$$C_{12}= A_{11}B_{12}+A_{21}B_{22}$$
+$$C_{21}= A_{21}B_{11}+A_{22}B_{21}$$
+$$C_{22}= A_{21}B_{12}+A_{22}B_{22}$$
 
-\textbf{Algorytm Strassena}\\
-\\
-Strassen zauważył,że można policzyć:\\
-$M_1=(A_{12}-A_{22})\ast (B_{21}+B_{22})$\\
-$M_2=(A_{11}-A_{22})\ast (B_{11}+B_{22})$\\
-$M_3=(A_{11}-A_{21})\ast (B_{11}+B_{12})$\\
-$M_4=(A_{11}-A_{12})\ast B_{22}$\\
-$M_5=A_{11}\ast (B_{12}-B_{22})$\\
-$M_6=A_{22}\ast (B_{21}-B_{11})$\\
-$M_7=(A_{21}+A_{22})\ast B_{11}$\\
-\\
-i wtedy: \\
-\tab $C_{11}=M_1+M_2-M_4+M_6$\\
-\tab $C_{12}=M_4+M_5$\\
-\tab $C_{21}=M_6+M_7$\\
-\tab $C_{22}=M_2-M_3+M_5-M_7$\\
-\\
-Stąd rekurencja:\\
-\tab $T(n)=7T(\frac{n}{2})+O(n^2)$\\
-$a=7$\tab $b=2$\tab $k=2$\tab $7>2^2$\\
-\tab $T(n)= \Theta(n^{log_27})=O(n^{2,81})$\\
+Zamieniamy jedno mnożenie macierzy $n \times n$ na:
+\begin{itemize}
+	\item 8 mnożeń macierzy $\frac{n}{2} \times \frac{n}{2}$ kosztujących w sumie $8 \cdot T(\frac{n}{2})$ czasu 
+	\item 4 dodawania macierzy  $\frac{n}{2} \times \frac{n}{2}$ kosztujące w sumie $4 \cdot O((\frac{n}{2})^2) = O(n^2)$ czasu.
+\end{itemize} 
+Złożoność takiego sposobu liczenia możemy policzyć z twierdzenia o  rekurencji uniwersalnej
+$$T(n)=8 \cdot T( \frac{n}{2} )+ O(n^2)$$
+$a,b$ oraz $k$ mają wartości:
+$$a=8 \tab b=2 \tab k=2 \tab 8>2^2$$
+Zatem końcowa wartość złożoności to:
+$$T(n)=\Theta(n^{log_28}) = \Theta(n^3)$$
+
+\subsection{Algorytm Strassena}
+Strassen zauważył, że można policzyć:
+$$M_1=(A_{12}-A_{22})(B_{21}+B_{22})$$
+$$M_2=(A_{11}-A_{22})(B_{11}+B_{22})$$
+$$M_3=(A_{11}-A_{21})(B_{11}+B_{12})$$
+$$M_4=(A_{11}-A_{12})B_{22}$$
+$$M_5=A_{11}(B_{12}-B_{22})$$
+$$M_6=A_{22}(B_{21}-B_{11})$$
+$$M_7=(A_{21}+A_{22})B_{11}$$
+wtedy: 
+$$C_{11}=M_1+M_2-M_4+M_6$$
+$$C_{12}=M_4+M_5$$
+$$C_{21}=M_6+M_7$$
+$$C_{22}=M_2-M_3+M_5-M_7$$
+
+Stąd rekurencja:
+$$T(n)=7 \cdot T(\frac{n}{2}) + O(n^2)$$
+$a,b$ oraz $k$ mają wartości:
+$$a=7 \tab b=2 \tab k=2 \tab 7>2^2$$
+Zatem złożoność algorytmu Strassena to:
+$$T(n)= \Theta(n^{log_27})=O(n^{2,81})$$
