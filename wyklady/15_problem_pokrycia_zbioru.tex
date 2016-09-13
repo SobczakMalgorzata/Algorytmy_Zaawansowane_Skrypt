@@ -1,24 +1,29 @@
+\subsection{Problem pokrycia zbioru}
 $X$ - Zbiór skończony
-$\mathcal{F} \subset 2^{X}$ - $\mathcal{F}$ rodzina podzbioru $X$ i tak, że $\cup_{s\in \mathcal{F}}S = X$, czyli każdy element z $X$ należy do co najmniej jednego zbioru z $\mathcal{F}$.\\
+
+$\mathcal{F} \subset 2^{X}$ - $\mathcal{F}$ rodzina podzbioru $X$ i tak, że $$\bigcup_{s\in \mathcal{F}}s = X$$ 
+Czyli każdy element z $X$ należy do co najmniej jednego zbioru z $\mathcal{F}$.
+
+\textbf{Definicja: }Rodzinę $\mathcal{A}\subset \mathcal{F}$ nazywamy pokryciem zbioru $X$ jeśli $$\bigcup_{s\in \mathcal{A}}s = X$$
 \\
-\textbf{Definicja: }Rodzinę $\mathcal{A}\subset \mathcal{F}$ nazywamy pokryciem zbioru $X$ jeśli $\cup_{s\in \mathcal{A}}S = X$\\
-\\
-\textbf{Instancja: }$(X:\ \mathcal{F})$ gdzie $\mathcal{F} \subset 2^{X}$ takie, że $\cup_{S\in \mathcal{F}}S = X$\\
-\\
-\textbf{Problem: }Znaleźć minimalnej liczebności pokrycie zbioru $X$, zbiorami z rodziny $\mathcal{F}$
+\textbf{Instancja: }$(X:\ \mathcal{F})$ gdzie $\mathcal{F} \subset 2^{X}$ takie, że $$\bigcup_{s\in \mathcal{F}}s = X$$
+
+\textbf{Problem: }Należy znaleźć minimalnej liczebności pokrycie zbioru $X$, zbiorami z rodziny $\mathcal{F}$
+
 \subsubsection{Algorytm GreedySetCover (GSC)}
 \begin{lstlisting}[caption={GreedySetCover(G)}]
-$U \leftarrow X \tab$  /$\ast$ U - zbior jeszcze nie pokrytych elementow zbioru X $\ast$ /
-$\mathcal{A} \leftarrow \emptyset \tab$  /$\ast \mathcal{A}$ - znalezione pokrycie $\ast$ /
+$U \leftarrow X \tab$  /$\ast$ $U$ - zbior jeszcze nie pokrytych elementow zbioru X $\ast$/
+$\mathcal{A} \leftarrow \emptyset \tab$  /$\ast$  $\mathcal{A}$ - znalezione pokrycie $\ast$ /
 while $U \neq \emptyset$
 	wybierz $S \in \mathcal{F}$ maksymalizujacy $\vert S \cap U\vert$
 	$\mathcal{A} \leftarrow \mathcal{A} \cup \lbrace S\rbrace$
 	$U \leftarrow U - S$
 return $\mathcal{A}$
 \end{lstlisting}
-\textbf{Poprawność: }\\
-\tab Algorytm zwraca pokrycie, bo na początku każdego przejścia pętli U zawiera elementy jeszcze nie pokryte i w każdym przejściu pętli zostaje pokryty co najmniej jeden nie pokryty element.\\
-\\
+
+\paragraph{Poprawność: }
+Algorytm zwraca poprawne pokrycie, ponieważ na początku każdego przejścia pętli $U$ zawiera elementy jeszcze nie pokryte i w każdym przejściu pętli zostaje pokryty co najmniej jeden niepokryty element.
+
 \textbf{Złożoność: }
 \begin{lstlisting}
 Liczba przejsc petli 3-6 jest $\leq \vert X\vert$ i $\leq \vert \mathcal{F} \vert$ wiec jest $\leq min\lbrace \vert X \vert,\ \vert \mathcal{F}\vert \rbrace$

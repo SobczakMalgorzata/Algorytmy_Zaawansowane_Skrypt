@@ -1,42 +1,56 @@
-$Q$ - zbiór $n\geq 2$ punktów na płaszczyźnie \\
-\\
-\tab $p_1= (x_1,y_1)\ p_2= (x_2,y_2)$ \\
-\tab $d(p_1,p_2)= \sqrt{(x_1-x_2)^2+(y_1-y_2)^2}$ - odległość euklidesowa\\
-\\
-\tab Znaleźć parę punktów z Q w minimalnej odległości\\
-Algorytm siłowy (Brute Force) - sprawdza wszystkie pary punktów, działa w czasie $\Theta(\binom{n}{2})=\Theta(n^2)$ pokażemy algorytm typu "dziel i zwyciężaj" działający w czasie $O(nlogn)$.\\
-\\
-W każdym rekurencyjnym wywołaniu algorytmu, danymi wejściowymi jest zbiór $P\subset Q$ oraz tablice $X$ i $Y$, z których każda zawiera wszystkie punkty z $P$.\\
-\\
+\subsection{Znajdowanie par najbliższych punktów}
+$Q$ - zbiór $n\geq 2$ punktów na płaszczyźnie 
+
+$$p_1= (x_1,y_1)\ p_2= (x_2,y_2)$$
+$$d(p_1,p_2)= \sqrt{(x_1-x_2)^2+(y_1-y_2)^2}$$
+
+Należy znaleźć parę punktów z Q w minimalnej odległości euklidesowej.
+
+Algorytm siłowy (Brute Force) - sprawdza wszystkie pary punktów, działa w czasie $\Theta(\binom{n}{2})=\Theta(n^2)$. Pokażemy algorytm typu "dziel i zwyciężaj" działający w czasie $O(n \log n)$.
+
+W każdym rekurencyjnym wywołaniu algorytmu, danymi wejściowymi jest zbiór $P\subset Q$ oraz tablice $X$ i $Y$, z których każda zawiera wszystkie punkty z $P$.
+
 W $X$ punkty są posortowane niemalejąco względem pierwszej współrzędnej (x-owej), a w $Y$ niemalejąco względem drugiej współrzędnej (y-owej).
 
 \subsubsection{Opis Algorytmu}
-Jeśli $\vert P \vert \leq 3$ to sprawdzamy wszystkie pary\\
-Jeśli $\vert P \vert > 3$ to robimy następująco:\\
-\\
-\textbf{Dziel: }\\
-\tab Dzielimy punkty z $P$ pionowo prostą L na dwa podzbiory $P_L$ i $P_R$ na lewo i prawo od L i tak, że $\vert P_L \vert= \lceil \frac{\vert P \vert}{2}\rceil,\ \vert P_R \vert = \lfloor \frac{\vert P \vert}{2} \rfloor $\\
-\\
-Tablicę X dzielimy na $X_L$ i $X_R$ zmieniając odpowiednio punkty z $P_L$ i $P_R$ posortowane niemalejąco względem współrzędnej x-owej. Analogicznie dzielimy Y na $Y_L$ i $Y_R$ zawierające odpowiednie punkty z $P_L$ i $P_R$ posortowane niemalejąco względem współrzędnej y-owej.\\
-\\
-\textbf{Zwyciężaj: }\\
-wywołujemy rekurencyjnie algorytm dla $P_L$ i $P_R$ i znajdujemy pary najmniej odległych punktów w $P_L$ i $P_R$. Niech $\delta_L$ i $\delta_R$, będą najmniejszymi znalezionymi dla $P_L$ i $P_R$. Niech $\delta=min(\delta_L,\delta_R)$\\
-\\
-\textbf{Połącz: }
-Para najbliższych punktów w $P$ składa się z dwóch punktów należących do $P_L$ lub z dwóch punktów należących do $P_R$ lub z jednego punktu należącego do $P_L$, a drugiego należącego do $P_R$.\\
-\\
-Sprawdzimy czy istnieje para punktów taka, że jeden punkt należy do $P_L$, a drugi należy do $P_R$, a ich odległość jest mniejsza niż $\delta$.\\
-\\
-Jeśli taka para istnieje, to oba punkty tej pary leżą w pasie wokół prostej L o szerokości $2\delta$.\\
-\\
-W celu sprawdzenia czy taka para punktów istnieje wykonamy następujące operacje. \\
-\begin{enumerate}
-\item Tworzymy tablicę $Y'$ uzyskaną z $Y$ przez usunięcie punktów spoza paska o szerokości $2\delta$ wokół L. Tablica $Y'$ jest posortowana niemalejąco względem współrzędnej y-owej.
-\item Dla każdego punktu $p$ z $Y'$ sprawdzamy czy odległość $p$ od $p'$ jest mniejsza niż $\delta$ dla 7 następnych punktów $p'$ w tablicy $Y'$. Algorytm oblicza najmniejszą z tych odległości $\delta'$. Zapamiętuje $\delta$ i parę punktów w tej odległości.
-\end{enumerate}
-Jeśli $\delta'<\delta$ to pionowy pas zawiera parę punktów w odległości mniejszej niż znaleziona w  wywołaniach rekurencyjnych i algorytm zawiera $\delta'$ i odpowiednią parę punktów.\\
-\\
-Jeśli $\delta'>\delta$ to zwracana jest $\delta$ z wywołań rekurencyjnych oraz odpowiednia para punktów.
+\begin{itemize}
+\item Jeśli $\vert P \vert \leq 3$ to sprawdzamy wszystkie pary
+
+\item Jeśli $\vert P \vert > 3$ to robimy następująco:
+
+	
+		\textbf{Dziel: } 		
+
+		Dzielimy punkty z $P$ pionową prostą L na dwa podzbiory $P_L$ i $P_R$ na lewo i prawo od L tak, że $$\vert P_L \vert= \lceil \frac{\vert P \vert}{2}\rceil,\ \vert P_R \vert = \lfloor \frac{\vert P \vert}{2} \rfloor $$
+	
+		Tablicę X dzielimy na $X_L$ i $X_R$ zmieniając odpowiednio punkty z $P_L$ i $P_R$ posortowane niemalejąco względem współrzędnej x-owej. Analogicznie dzielimy Y na $Y_L$ i $Y_R$ zawierające odpowiednie punkty z $P_L$ i $P_R$ posortowane niemalejąco względem współrzędnej y-owej.
+
+		\textbf{Zwyciężaj: }
+		
+Wywołujemy rekurencyjnie algorytm dla $P_L$ i $P_R$ i znajdujemy pary najmniej odległych punktów w $P_L$ i $P_R$. 
+
+Niech $\delta_L$ i $\delta_R$, będą najmniejszymi znalezionymi dla $P_L$ i $P_R$. 
+
+Niech $\delta=min(\delta_L,\delta_R)$
+		
+		\textbf{Połącz: } 
+
+		Para najbliższych punktów w $P$ składa się z dwóch punktów należących do $P_L$ lub z dwóch punktów należących do $P_R$ lub z jednego punktu należącego do $P_L$, a drugiego należącego do $P_R$.
+			
+		Sprawdzimy czy istnieje para punktów taka, że jeden punkt należy do $P_L$, a drugi należy do $P_R$, a ich odległość jest mniejsza niż $\delta$.
+		
+		Jeśli taka para istnieje, to oba punkty tej pary leżą w pasie wokół prostej L o szerokości $2\delta$.
+		
+		W celu sprawdzenia czy taka para punktów istnieje wykonamy następujące operacje:
+		\begin{enumerate}
+			\item Tworzymy tablicę $Y'$ uzyskaną z $Y$ przez usunięcie punktów spoza paska o szerokości $2\delta$ wokół L. Tablica $Y'$ jest posortowana niemalejąco względem współrzędnej y-owej.
+			\item Dla każdego punktu $p$ z $Y'$ sprawdzamy czy odległość $p$ od $p'$ jest mniejsza niż $\delta$ dla 7 następnych punktów $p'$ w tablicy $Y'$. Algorytm oblicza najmniejszą z tych odległości $\delta'$. Zapamiętuje $\delta$ i parę punktów w tej odległości.
+		\end{enumerate}
+		
+		Jeśli $\delta'<\delta$ to pionowy pas zawiera parę punktów w odległości mniejszej niż znaleziona w  wywołaniach rekurencyjnych i algorytm zawiera $\delta'$ i odpowiednią parę punktów.
+		
+		Jeśli $\delta'>\delta$ to zwracana jest $\delta$ z wywołań rekurencyjnych oraz odpowiednia para punktów.
+\end{itemize}
 
 \subsubsection{Poprawność}
 Algorytm jest w sposób oczywisty poprawny za wyjątkiem kwestii dlaczego w fazie "połącz" w punkcie 2 wystarczy sprawdzić tylko 7 następujących po sobie punktów z tablicy $Y'$. Przypuśćmy, że $p$, $q$ są najmniej odległe w całym $P$, ich odległość wynosi $\delta'$.\\
@@ -56,41 +70,41 @@ czyli co najmniej 9 punktów z $P$ znajduje się w prostokącie $=2\delta$x$\del
 \\
 Wtedy w lewej lub w prawej połowie prostokąta jest co najmniej 5 punktów z $P$. Dla ustalenia uwagi uznajemy, że to lewy kwadrat wtedy jednak w $P_L$ są dwa punkty odległe o mniej niż $\delta$, bo nie da się w kwadracie $\delta$x$\delta$ rozmieścić punktów wzajemnie odległych o co najmniej $\delta$.\\
 \\
-Sprzeczność bo w $P_L$ najmniej odległe punkty znajdują się w odległości $\delta_L \geq \delta$.\\
-\\
-\subsubsection{Złożoność i Pseudokod}
-Na początku musimy posortować punkty z $Q$, $X$ i $Y$ na co potrzeba $O(nlogn)$ czasu. Gdy mamy posortowane $X$ to podział na $X_L$ i $X_R$ zajmuje $O(n)$ czasu. Podobnie podział $Y$ na $Y_L$ i $Y_R$ oraz $P$ na $P_L$ i $P_R$. Można to łatwo zaimplementować tak, aby $Y_L$, $Y_R$ (oraz $X_L$, $X_R$ były nadal posortowane niemalejąco).\\
+Sprzeczność bo w $P_L$ najmniej odległe punkty znajdują się w odległości $\delta_L \geq \delta$.
+
+\subsubsection{Pseudokod i Złożoność}
+Na początku musimy posortować punkty z $Q$, $X$ i $Y$, na co potrzeba $O(n \log n)$ czasu. Gdy mamy posortowane $X$ to podział na $X_L$ i $X_R$ zajmuje $O(n)$ czasu. Podobnie podział $Y$ na $Y_L$ i $Y_R$ oraz $P$ na $P_L$ i $P_R$. Można to łatwo zaimplementować tak, aby $Y_L$, $Y_R$ (oraz $X_L$, $X_R$) były nadal posortowane niemalejąco.
 
 \begin{lstlisting}
 length($Y_L$) $\leftarrow$ length($Y_R$) $\leftarrow$ 0
 for i $\leftarrow$ 1 to length($Y$)
-	if $X(i) \in P_L$ 
+	if $Y(i) \in P_L$ 
     	length($Y_L$) $\leftarrow$ length($Y_L$)+1
     	$Y_L$(length($Y_L$)) $\leftarrow$ Y(i)
-    else
+	else
     	length($Y_R$) $\leftarrow$ length($Y_R$)+1
     	$Y_R$(length($Y_R$)) $\leftarrow$ Y(i)
 \end{lstlisting}
 
-W fazie połącz tablicę $Y'$ otrzymujemy z $Y$ w czasie $O(n)$ podobnie jak poprzednio\\
-\tab $Y'$: będzie posortowane niemalejąco
+W fazie połącz tablicę $Y'$ otrzymujemy z $Y$ w czasie $O(n)$ podobnie jak poprzednio. $Y'$ będzie posortowane niemalejąco. 
+
+$\delta = min(\delta_L,\ \delta_R)$ - minimalna odległość z wywołań rekurencyjnych. $x_R-x_L$ jest minimum prostej L.
 
 \begin{lstlisting}
 length($Y'$) $\leftarrow$ 0
 for i $\leftarrow$ 1 to length($Y$)
-	if $x_L-\delta \leq Y(i)x \leq x_L+\delta$ 
+	if $x_L-\delta \leq Y(i).x \leq x_L+\delta$ 
     	length($Y'$) $\leftarrow$ length($Y'$)+1
     	$Y'$(length($Y'$)) $\leftarrow$ Y(i)
 \end{lstlisting}
 
-\begin{center}
-/* $\delta = min(\delta_L,\ \delta_R)$ - minimalna odległość\\ z wywołań rekurencyjnych, a $x_R-x_L$ jest minimum prostej L */
-\end{center}
+Ponieważ dla każdego z $O(n)$ punktów z $Y'$ liczymy odległość do co najwyżej 7 punktów, więc najmniejszą odległość między punktami z $P_L$ i $P_R$ znajdziemy w czasie $O(n)$.
 
-Ponieważ dla każdego z $O(n)$ punktów z $Y'$ liczymy odległość do co najmniej 7 punktów więc najmniejszą odległość między punktami z $P_L$ i $P_R$ znajdziemy w czasie $O(n)$.\\
-\\
-$T(n)$ - złożoność, algorytmu nie licząc sortowania $X$ i $Y$ na początku stąd otrzymujemy\\
-\tab $T(n) = 2T(\frac{n}{2})+O(n)$\\
-\tab $T(n) = O(nlogn)$\\
-\\
-Ponieważ sortowanie też zajmuje $O(nlogn)$ czasu, więc cały algorytm działa w czasie $O(nlogn)$.
+$T(n)$ - złożoność, algorytmu nie licząc sortowania $X$ i $Y$ na początku stąd otrzymujemy wzór:
+$$T(n) = 2 \cdot T(\frac{n}{2})+O(n)$$
+$a,b$ oraz $k$ mają wartości:
+$$a=2 \tab b=2 \tab k=1 \tab 2=2^1$$
+Zatem końcowa wartość złożoności to:
+$$T(n) = O(n \log n)$$
+
+Ponieważ sortowanie również zajmuje $O(n \log n)$ czasu, zatem cały algorytm działa w czasie $O(n \log n)$.

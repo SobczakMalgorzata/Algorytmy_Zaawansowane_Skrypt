@@ -1,21 +1,46 @@
-\textbf{Algorytm aproksymacyjny (przybliżony)} - daje "prawie optymalne" rozwiązanie\\
-\\
-Stosuje się algorytmy  aproksymacyjne tam, gdzie jest mała szansa na wielomianowy algorytm dokładny\\
-\\
-$\Pi$ - problem aproksymacyjny polegający na maksymalizacji pewnej funkcji celu.\\\\
-Niech "$c^{\ast}$" - optymalne rozwiązanie $\Pi$, $c^{\ast} > 0$\\
-\tab $c$ - wartość znaleziona przez algorytm aproksymacyjny A dla $\Pi$, $c>0$\\\\
-Mówimy, że algorytm aproksymacyjny A ma ograniczenie względne (współczynnik aproksymacji) $\rho (n)$ jeśli dla dowolnych danych o rozmiarze $n$ $max(\frac{c}{c^{\ast}},\frac{c^{\ast}}{c}) \leq \rho (n)$. \\\\
-A nazywamy algorytmem $\rho(n)$ - aproksymacyjnym \\
-$\begin{drcases}
-dla\ problemu\ maksymalizacji\ 0<c\leq c^{\ast}\\
-dla\ problemu\ minimalizacji\ 0<c^{\ast}\leq c
-\end{drcases} \Rightarrow max(\frac{c}{c^{\ast}},\frac{c^{\ast}}{c})\geq 1 \Rightarrow \rho(n) \geq 1$\\\\
-Błąd względny rozwiązania $c$ to $\frac{\vert c-c^{\ast}}{c^{\ast}}$\\\\
-Mówimy, że algorytm aproksymacyjny  A posiada ograniczenia błędu  względnego $\varepsilon (n)$ jeśli dla danych o rozmiarze $n$ $\frac{\vert c-c^{\ast}\vert}{c^{\ast}} \leq \varepsilon (n)$ \\
-dla problemu maksymalizacji $\frac{\vert c^{\ast} - c\vert}{c^{\ast}} = \frac{c^{\ast}}{c} - 1 \leq \rho(n) - 1 \tab 0<c\leq c^{\ast}$\\
-dla problemu maksymalizacji $\frac{\vert c - c^{\ast}\vert}{c^{\ast}} = \frac{c - c^{\ast}}{c} = \frac{c}{c^{\ast}} - 1 \leq \rho(1) \tab 0<c^{\ast}\leq c$\\\\
+\section{Algorytmy Aproksymacyjne}
+\textbf{Algorytm aproksymacyjny (przybliżony)} - daje "prawie optymalne" rozwiązanie.
+
+Algorytmy aproksymacyjne stosuje się tam, gdzie jest mała szansa na wielomianowy algorytm dokładny.
+
+$\Pi$ - problem aproksymacyjny polegający na maksymalizacji pewnej funkcji celu.
+
+Niech $c^{\ast} > 0$ będzie optymalnym rozwiązaniem problemu $\Pi$, a $c > 0$ wartością znalezioną przez algorytm aproksymacyjny $A$ dla $\Pi$.
+
+Mówimy, że algorytm aproksymacyjny $A$ ma ograniczenie względne (współczynnik aproksymacji) $\rho (n)$ jeśli dla dowolnych danych o rozmiarze $n$ $$max(\frac{c}{c^{\ast}},\frac{c^{\ast}}{c}) \leq \rho (n)$$
+
+$A$ nazywamy algorytmem $\rho(n)$ - aproksymacyjnym jeżeli 
 \begin{center}
-$\rho = sup_{n \in {\rm I\!N}}\lbrace\rho (n) \rbrace$\tab $\varepsilon = sup_{n \in {\rm I\!N}}\lbrace\varepsilon (n) \rbrace$
+	$\begin{drcases}
+		\text{dla problemu maksymalizacji } 0<c\leq c^{\ast}\\
+		\text{dla problemu minimalizacji } 0<c^{\ast}\leq c
+	\end{drcases} 
+	\Rightarrow max(\frac{c}{c^{\ast}},\frac{c^{\ast}}{c})\geq 1 \Rightarrow \rho(n) \geq 1$
 \end{center}
-\textbf{Mówimy wtedy, że współczynnik aproksymacji wynosi $\rho$ i że A jest algorytmem $\rho$-aproksymacyjnym.}
+
+Błędem względny rozwiązania $c$ nazywamy $$\frac{\vert c-c^{\ast} \vert}{c^{\ast}}$$
+
+Mówimy, że algorytm aproksymacyjny $A$ posiada ograniczenia błędu  względnego $\varepsilon (n)$ jeśli dla danych o rozmiarze $n$ $$\frac{\vert c-c^{\ast}\vert}{c^{\ast}} \leq \varepsilon (n)$$ 
+dla problemu maksymalizacji 
+$$	\frac{\vert c^{\ast} - c\vert}{c^{\ast}} 
+	= \frac{c^\ast - c}{c^\ast}
+	\leq \frac{c^\ast - c}{c}
+	= \frac{c^{\ast}}{c} - 1 
+	\leq \rho(n) - 1 
+	\tab 0 < c \leq c^{\ast} $$
+dla problemu minimalizacji 
+$$	\frac{\vert c - c^{\ast}\vert}{c^{\ast}} 
+	= \frac{c - c^{\ast}}{c^\ast} 
+	= \frac{c}{c^{\ast}} - 1 
+	\leq \rho(n) - 1 
+	\tab 0 < c^{\ast} \leq c $$
+
+$$
+\rho = sup_{n \in \mathbf{N}}
+	\lbrace \rho(n) \rbrace 
+\tab 
+\varepsilon = sup_{n \in \mathbf{N}} 
+	\lbrace\varepsilon (n) \rbrace
+$$
+
+\textbf{Mówimy wtedy, że współczynnik aproksymacji wynosi $\rho$ i że $A$ jest algorytmem $\rho$-aproksymacyjnym.}
