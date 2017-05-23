@@ -35,7 +35,7 @@ P(n) = 	\begin{cases}
 		P(1) = 1
 		\end{cases}
 $$
-To znane równanie rekurencyjne mające rozwiązanie $P(n) = C(n-1)$, gdzie $C(n) = \frac{1}{n+1}\binom{2n}{n}$ - liczba Cathalana. $C(n) = \Omega(\frac{4^n}{n})$.
+To znane równanie rekurencyjne mające rozwiązanie $P(n) = C(n-1)$, gdzie $C(n) = \frac{1}{n+1}\binom{2n}{n}$ - liczba Cathalana. $C(n) = \Omega(\frac{4^n}{n^\frac{3}{2}})$.
 
 Zauważmy, że jeżeli optymalne rozwiązanie ma postać $(A_1 \cdot ... \cdot A_k) \cdot (A_{k+1} \cdot ... \cdot A_n)$ to iloczyny $A_1 \cdot ... \cdot A_k$ oraz $A_{k+1} \cdot ... \cdot A_n$  też muszą być optymalne. W przeciwnym razie lepsze rozmieszczenia nawiasów w $A_1 \cdot ... \cdot A_k$ lub $A_{k+1} \cdot ... \cdot A_n$ dałoby lepsze rozmieszczenie nawiasów w $(A_1 \cdot ... \cdot A_k) \cdot (A_{k+1} \cdot ... \cdot A_n)$. Optymalne rozwiązanie zawiera więc optymalne rozwiązania problemów tego samego typu. Jest o jeden z warunków skuteczności programowania dynamicznego.
 
@@ -46,8 +46,107 @@ $m(i,j)$ - minimalna liczba mnożeń potrzebna do policzenia iloczynu $A_i \cdot
 
 Chcemy policzyć $m(1,n)$. Zakładamy, że $m(i,i) = 0$. 
 
-Niech optymalne rozmieszczenie nawiasów ma postać $(A_i \cdot ... \cdot A_k) \cdot (A_{k+1} \cdot ... \cdot A_j)$ dla $1 \leq  i \leq k \leq j \leq n$. Otrzymujemy rekurencję: 
-$$m(i,j) = min_{i \leq k \leq j} \{ m(i,k) +m(k+1,j) + p_{i-1} \cdot p_k \cdot p_j \}$$
+Niech optymalne rozmieszczenie nawiasów ma postać $(A_i \cdot ... \cdot A_k) \cdot (A_{k+1} \cdot ... \cdot A_j)$ dla $1 \leq  i \leq k < j \leq n$. Otrzymujemy rekurencję: 
+$$m(i,j) = min_{i \leq k < j} \{ m(i,k) +m(k+1,j) + p_{i-1} \cdot p_k \cdot p_j \}$$
 Przez $s(i,j)$ oznaczamy tę wartość $k$ dla której osiągane jest to minimum. Innymi słowy, $s(i,j)$ jest miejscem ostatniego mnożenia w optymalnym rozwiązaniu podproblemu. 
 
 Gdyby zaprogramować tę rekurencję, otrzymalibyśmy algorytm o złożoności wykładniczej. Ale mamy tylko $\binom{n}{2} + n = \Theta(n^2)$ podproblemów, czyli $\Theta(n^2)$ liczb $m(i,j)$ i każdą z nich liczymy tylko raz.
+%\begin{lstlisting}[caption={Algorytm MatrixChainOrder(p)- algorytm wyznaczania kolejności mnożenia macierzy (A_i ma wymiary p_{i-1} \times p_i}]
+%n <- length(p) - 1
+%for i <- 1 to n
+%	m(i,i) <- 0
+%for l <- 2 to n // l - liczba macierzy w podproblemie
+%	for i <- 1 to n+1-l
+%		j <- i+l-1
+%		m(i,j) <- infinity
+%		for k <- i to j-1
+%			q = m(i,k) + m(k+1,j) + p_{i-1} \cdot p_k \cdot p_j
+%			if(q < m(i,j)
+%				m(i,j) <- q
+%				s(i,j) <- k
+%return (m,s)
+%
+%\end{lstlisting}
+Złożoność wynosi $O(n^3)$
+
+Konstruowanie najlepszego rozwiązania
+%\begin{lstlisting}[caption={MatrixChainMultiply(A,s,i,j) - algorytm mnożenia macierzy }
+%if j = 1 return A_i
+%X <- MatrixChainMultiply(A, 
+%Y <- MatrixChainMultiply(
+%return MatrixMultiply(X,Y)
+%\end{lstlisting}
+
+\subsection{Przykład}
+$$ A_1 4 \times 5 $$
+$$ A_2 5 \times 2 $$
+$$ A_3 2 \times 1 $$
+$$ A_4 1 \times 2 $$
+$$ A_5 2 \times 3 $$
+
+%
+%\begin{lstlisting}
+%MatrixChainMultiply(A,s,i,j)
+%if j = i return A_i
+%X <- MatrixChainMultiply(A,s,i,s(i,j))
+%Y <- MatrixChainMultiply(A,s,s(i,j)+1, j)
+%return MatrixMultiply(X,Y)
+%\end{lstlisting}
+
+$$s(1,5) = 3$$
+$$(A_1 * A_2 * A_3) * (A_4 * A_5)$$
+$$s(1,3) = 1$$
+$$s(4,5) = 4$$
+$$(A_1 * (A_2 * A_3)) * (A_4 * A_5)$$
+$s(2,3) = 2$$
+$$(A_1 * (A_2 * A_3)) * (A_4 * A_5)$$
+
+Podstawy metody programowania dynamicznego
+Aby algorytm programowania dynamicznego mógł dawać oczekiwane rezultaty muszą być spełnione dwa warunki:
+
+\begin{enumerate}
+\item Własność optymalnej podstruktury - optymalne rozwiązanie problemu można skonstruować z optymalnych rozwiązań podproblemów. Jest to cecha m.in. problemów rozwiązywalnych algorytmami rekurencyjnymi czy dziel i zwyciężaj.
+\item Własność wspólnych podproblemów - sytuacja gdy, algorytm rekurencyjny wielokrotnie oblicza rozwiązanie tych samych podproblemów.
+\end{enumerate}
+Liczba podproblemów nie powinna być zbyt wielka, aby nie zaburzać złożoności algorytmu.
+
+Spamiętywanie
+W klasycznej metodzie programowania kdynamicznego ozwiązanie budujemy od dołu do góry tzn od najmniejszych podproblemóW do największych. Istneje inne podejście gdzie budujemy w rozwiązanie od góry do dołu, tak jak w rekurencji z tą różnicą, żę unikamy wielokreotnego liczenia wartości funkcji poprzez zapisywanie jej do pamięci za przy pierwszym liczeniu  i odczytywanie jej w następnych wywołaniach. TO podejście nazywamy spamiętywaniem.
+
+Przykład w mnożeniu macirzy
+Jak poprzednio umieszczamy rozwiązania podproblemów w tablicy m(i.j) Dopóki nie mamy rozwiązanego podproblemu (i,j)  m(i,j) = infinity. Po obliczeniu wartości m(i,j) umieszczamy ją w tablicy i używamy jej przy następnych wywołaniach bez obliczania.
+
+\begin{enumerate}
+Algorytm LookupChain(p,i,j) //p - ciąg wymiarów macierzy
+if m(i,j) < infinity return m(i,j)
+if j = i 
+	m(i,j) <- 0 
+else
+	for k <- i to j-1
+		q <- LookupChain(p,i,k) + LookupChain(p,k+1,j) + p_{i-1} * p_k * p_j
+		if q < m(i,j)
+			m(i,j) <- q
+return m(i,j)
+\end{enumerate}
+
+\begin{enumerate}
+Algorytm MemorizedMatrixChain(p)
+n <- length(p) - 1
+for i <- 1 to n
+	for j <- i to n
+		m(i,j) <- infinity
+return LookupChain(p,i,n)
+\end{enumerate}
+
+Złożoność 
+\begin{enumerate}
+$O(n)$
+$O(n^2)$
+$O(n^2)$
+$O(n^2)$
+
+Każde z $O(n^2)$ pól tablicy $m$ jest wypełniane tylko raz modyfikowane, potem odwołanie do (i,j) zajmuje stały czas.
+Kiedy m(i,j) jest modyfikowane to zajmuje to $O(n)$ aby znaleźć jej najmniejszą wartość.
+\end{enumerate}
+Całkowity czas działania algorytmu wynosi $O(n^3)$
+

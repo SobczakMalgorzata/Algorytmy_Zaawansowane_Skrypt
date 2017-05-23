@@ -30,7 +30,7 @@ $$f(n) = S(n) + 1$$
 $$f(0) = f(1) = 1$$
 $$f(n) = S(n) + 1 = S(n-1) + S(n-2) + 1 + 1 = f(n-1) + f(n-2)$$
 $$f(n) = F(n)$$
-$f(n) = \Theta((\frac{\sqrt{5}+1}{2})^n) = \Omega(1.61^n)$ więc również $S(n) = \Theta((\frac{\sqrt{5}+1}{2})^n) $ zatem algorytm FIBR(n) ma złożoność wykładniczą.
+$f(n) = \Theta((\frac{\sqrt{5}+1}{2})^n) = \Omega(1.61^n)$ więc również $S(n) = \Theta((\frac{\sqrt{5}+1}{2})^n) $ Zatem algorytm FIBR(n) ma złożoność wykładniczą.
 
 \subsubsection{Implementacja wykorzystująca programowanie dynamiczne}
 \begin{lstlisting}[caption={FIBD(n) - dynamiczny algorytm liczący n-tą liczbę Fibonacciego}]

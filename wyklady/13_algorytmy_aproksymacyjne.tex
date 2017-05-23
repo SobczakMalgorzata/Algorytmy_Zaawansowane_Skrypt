@@ -3,7 +3,7 @@
 
 Algorytmy aproksymacyjne stosuje się tam, gdzie jest mała szansa na wielomianowy algorytm dokładny.
 
-$\Pi$ - problem aproksymacyjny polegający na maksymalizacji pewnej funkcji celu.
+$\Pi$ - problem aproksymacyjny polegający na maksymalizacji lub minimalizacji pewnej funkcji celu.
 
 Niech $c^{\ast} > 0$ będzie optymalnym rozwiązaniem problemu $\Pi$, a $c > 0$ wartością znalezioną przez algorytm aproksymacyjny $A$ dla $\Pi$.
 
@@ -18,7 +18,7 @@ $A$ nazywamy algorytmem $\rho(n)$ - aproksymacyjnym jeżeli
 	\Rightarrow max(\frac{c}{c^{\ast}},\frac{c^{\ast}}{c})\geq 1 \Rightarrow \rho(n) \geq 1$
 \end{center}
 
-Błędem względny rozwiązania $c$ nazywamy $$\frac{\vert c-c^{\ast} \vert}{c^{\ast}}$$
+Błędem względnym rozwiązania $c$ nazywamy $$\frac{\vert c-c^{\ast} \vert}{c^{\ast}}$$
 
 Mówimy, że algorytm aproksymacyjny $A$ posiada ograniczenia błędu  względnego $\varepsilon (n)$ jeśli dla danych o rozmiarze $n$ $$\frac{\vert c-c^{\ast}\vert}{c^{\ast}} \leq \varepsilon (n)$$ 
 dla problemu maksymalizacji 

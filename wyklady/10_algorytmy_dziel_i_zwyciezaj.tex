@@ -2,8 +2,9 @@
 \subsection{Definicje}
 Ten typ algorytmu składa się z dwóch etapów:
 \begin{enumerate}
-	\item DZIEL - Dzielimy problem na mniejsze podproblemy (dziel), te podproblemy rozwiązujemy rekurencyjnie. (zwyciężaj)
-	\item ZWYCIĘŻAJ - Rozwiązanie całego problemu składowego i rozwiązań podproblemów. (połącz)
+	\item DZIEL - Dzielimy problem na mniejsze rozłączne podproblemy, 
+	\item ZWYCIĘŻAJ - te podproblemy rozwiązujemy rekurencyjnie.
+	\item POŁĄCZ - konstruowanie rozwiązania całego problemu z rozwiązań podproblemów. 
 \end{enumerate}
 
 Zwykle zakładamy że:
@@ -18,7 +19,7 @@ $X,Y$ - $n$-cyfrowe liczby naturalne
 Metoda pisemna obliczenia $X \cdot Y$ $\leftarrow$ trzeba wykonać $\Theta(n^2)$ mnożeń liczb jednocyfrowych.
 
 Szukamy najlepszej metody podziału na podproblemy. Podzielmy $X$ i $Y$ na dwie połowy - $X_L, X_R$ oraz $Y_L, Y_R$.
-$$X = x_1,x_2...x_n = x_1...x_{\frac{n}{2}},x_{\frac{n}{2}-1}...x_n = 10^\frac{n}{2} \cdot X_L+X_R$$
+$$X = x_1,x_2...x_n = x_1...x_{\frac{n}{2}},x_{\frac{n}{2}+1}, ...x_n = 10^\frac{n}{2} \cdot X_L+X_R$$
 analogicznie
 $$Y = 10^\frac{n}{2} \cdot Y_L+Y_R$$
 zatem iloczyn $X \cdot Y$ wynosi

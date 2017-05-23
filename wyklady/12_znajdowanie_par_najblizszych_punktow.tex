@@ -29,7 +29,7 @@ W $X$ punkty są posortowane niemalejąco względem pierwszej współrzędnej (x
 		
 Wywołujemy rekurencyjnie algorytm dla $P_L$ i $P_R$ i znajdujemy pary najmniej odległych punktów w $P_L$ i $P_R$. 
 
-Niech $\delta_L$ i $\delta_R$, będą najmniejszymi znalezionymi dla $P_L$ i $P_R$. 
+Niech $\delta_L$ i $\delta_R$, będą najmniejszymi odległościami znalezionymi dla $P_L$ i $P_R$. 
 
 Niech $\delta=min(\delta_L,\delta_R)$
 		
@@ -68,12 +68,12 @@ Ponadto $y_p\leq y_c\leq y_q$, więc $y_r-y_p \leq y_q-y_p<\delta$, więc $y_r\l
 \\
 czyli co najmniej 9 punktów z $P$ znajduje się w prostokącie $=2\delta$x$\delta$ ograniczonym prostymi $y=y_p,\ y=y_p+\delta$\\
 \\
-Wtedy w lewej lub w prawej połowie prostokąta jest co najmniej 5 punktów z $P$. Dla ustalenia uwagi uznajemy, że to lewy kwadrat wtedy jednak w $P_L$ są dwa punkty odległe o mniej niż $\delta$, bo nie da się w kwadracie $\delta$x$\delta$ rozmieścić punktów wzajemnie odległych o co najmniej $\delta$.\\
+Wtedy w lewej lub w prawej połowie prostokąta jest co najmniej 5 punktów z $P$. Dla ustalenia uwagi uznajemy, że to lewy kwadrat, wtedy jednak w $P_L$ są dwa punkty odległe o mniej niż $\delta$, bo nie da się w kwadracie $\delta \times \delta$ rozmieścić 5 punktów wzajemnie odległych o co najmniej $\delta$.\\
 \\
 Sprzeczność bo w $P_L$ najmniej odległe punkty znajdują się w odległości $\delta_L \geq \delta$.
 
 \subsubsection{Pseudokod i Złożoność}
-Na początku musimy posortować punkty z $Q$, $X$ i $Y$, na co potrzeba $O(n \log n)$ czasu. Gdy mamy posortowane $X$ to podział na $X_L$ i $X_R$ zajmuje $O(n)$ czasu. Podobnie podział $Y$ na $Y_L$ i $Y_R$ oraz $P$ na $P_L$ i $P_R$. Można to łatwo zaimplementować tak, aby $Y_L$, $Y_R$ (oraz $X_L$, $X_R$) były nadal posortowane niemalejąco.
+Na początku musimy posortować punkty z $Q$ w tablicach $X$ i $Y$, na co potrzeba $O(n \log n)$ czasu. Gdy mamy posortowane $X$ to podział na $X_L$ i $X_R$ zajmuje $O(n)$ czasu. Podobnie podział $Y$ na $Y_L$ i $Y_R$ oraz $P$ na $P_L$ i $P_R$. Można to łatwo zaimplementować tak, aby $Y_L$, $Y_R$ (oraz $X_L$, $X_R$) były nadal posortowane niemalejąco.
 
 \begin{lstlisting}
 length($Y_L$) $\leftarrow$ length($Y_R$) $\leftarrow$ 0

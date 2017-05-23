@@ -7,7 +7,7 @@ Niech: $T(n) = a \cdot T(\frac{n}{b})+f(n)$, gdzie $\frac{n}{b}$ oznacza $\lfloo
 $$
   T(n)=\begin{cases}
                \Theta(n^{\log_b a}), $ dla $ a > b^k \Leftrightarrow \log_b a>k\\
-               \Theta(n^{\log_b a} \log_b n), $ dla $ a=b^k \Leftrightarrow \log_b a=k\\
+               \Theta(n^{\log_b a} \log n), $ dla $ a=b^k \Leftrightarrow \log_b a=k\\
                \Theta(n^k),$ dla $ a<b^k \Leftrightarrow \log_b a<k
 		\end{cases}
 $$
@@ -22,7 +22,7 @@ T(n)=\begin{cases}
 \end{cases}
 \]\\
 to\
-$$T(n) = \Theta(n^{\log_b a}) + \sum_{j=0}^{\log_b n-1} a^j\ f(\frac{n}{b^j})$$
+$$T(n) = \Theta(n^{\log_b a}) + \sum_{j=0}^{(\log_b n)-1} a^j\ f(\frac{n}{b^j})$$
 
 \textbf{Dowód lematu: }
 $$T(n)= f(n) + a \cdot T(\frac{n}{b})= f(n) + a \cdot (f(\frac{n}{b}) + a  \cdot T(\frac{n}{b^2})) = f(n) + a \cdot f(\frac{n}{b}) + a^2 \cdot T(\frac{n}{b^2}) = $$
@@ -38,7 +38,7 @@ $$\Theta(\sum_{j=0}^{(\log_b n)-1} a^j \cdot f(\frac{n}{b^j}))=\Theta(\sum_{j=0}
 
 \begin{enumerate}
 \item Jeśli $a > b^k$, tzn. $\log_b a > k$ to
-	$$ \sum_{j=0}^{(\log_b n)-1} a^j \cdot (\frac{n}{b^j}))^k 
+	$$ \sum_{j=0}^{(\log_b n)-1} a^j \cdot (\frac{n}{b^j})^k 
 	= \sum_{j=0}^{(\log_b n)-1} a^j \cdot \frac{n^k}{b^{jk}}
 	= n^k \cdot \sum_{j=0}^{(\log_b n)-1} (\frac{a}{b^k})^j 
 	=
@@ -113,7 +113,7 @@ AB =
 \]
 gdzie 
 $$C_{11}= A_{11}B_{11}+A_{12}B_{21}$$
-$$C_{12}= A_{11}B_{12}+A_{21}B_{22}$$
+$$C_{12}= A_{11}B_{12}+A_{12}B_{22}$$
 $$C_{21}= A_{21}B_{11}+A_{22}B_{21}$$
 $$C_{22}= A_{21}B_{12}+A_{22}B_{22}$$
 

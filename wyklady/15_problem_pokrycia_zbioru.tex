@@ -1,7 +1,7 @@
 \subsection{Problem pokrycia zbioru}
 $X$ - Zbiór skończony
 
-$\mathcal{F} \subset 2^{X}$ - $\mathcal{F}$ rodzina podzbioru $X$ i tak, że $$\bigcup_{s\in \mathcal{F}}s = X$$ 
+$\mathcal{F} \subset 2^{X}$ - $\mathcal{F}$ rodzina podzbiorów $X$ i taka, że $$\bigcup_{s\in \mathcal{F}}s = X$$ 
 Czyli każdy element z $X$ należy do co najmniej jednego zbioru z $\mathcal{F}$.
 
 \textbf{Definicja: }Rodzinę $\mathcal{A}\subset \mathcal{F}$ nazywamy pokryciem zbioru $X$ jeśli $$\bigcup_{s\in \mathcal{A}}s = X$$
@@ -11,7 +11,7 @@ Czyli każdy element z $X$ należy do co najmniej jednego zbioru z $\mathcal{F}$
 \textbf{Problem: }Należy znaleźć minimalnej liczebności pokrycie zbioru $X$, zbiorami z rodziny $\mathcal{F}$
 
 \subsubsection{Algorytm GreedySetCover (GSC)}
-\begin{lstlisting}[caption={GreedySetCover(G)}]
+\begin{lstlisting}[caption={GreedySetCover(X,F)}]
 $U \leftarrow X \tab$  /$\ast$ $U$ - zbior jeszcze nie pokrytych elementow zbioru X $\ast$/
 $\mathcal{A} \leftarrow \emptyset \tab$  /$\ast$  $\mathcal{A}$ - znalezione pokrycie $\ast$ /
 while $U \neq \emptyset$
@@ -27,10 +27,10 @@ Algorytm zwraca poprawne pokrycie, ponieważ na początku każdego przejścia p�
 \textbf{Złożoność: }
 \begin{lstlisting}
 Liczba przejsc petli 3-6 jest $\leq \vert X\vert$ i $\leq \vert \mathcal{F} \vert$ wiec jest $\leq min\lbrace \vert X \vert,\ \vert \mathcal{F}\vert \rbrace$
-Wnetrze petli mozna zaimplementowac zeby dzialalo w czasie $O(\vert X\vert \vert \mathcal{F}\vert)$
+Wnetrze petli mozna zaimplementowac zeby dzialalo w czasie $O(\vert X\vert \cdot \vert \mathcal{F}\vert)$
 \end{lstlisting}
 \begin{center}
-Złożoność czasowa GSC wynosi $O(\vert X\vert \ast \vert\mathcal{F}\vert \ast min\lbrace \vert X \vert,\ \vert \mathcal{F}\vert \rbrace)$
+Złożoność czasowa GSC wynosi $O(\vert X\vert \cdot \vert\mathcal{F}\vert \cdot min\lbrace \vert X \vert,\ \vert \mathcal{F}\vert \rbrace)$
 \end{center}
 \textbf{Twierdzenie: }GreedySetCover jest wielomianowym algorytmem $\rho(n)$ - aproksymacyjnym, gdzie $\rho(n) = H(max\lbrace\vert S\vert :S\in \mathcal{F}\rbrace)$, $H(m) = \lbrace 1 + \frac{1}{2} + ... +\frac{1}{m}\rbrace$, $H(0)=0$\\
 \\
@@ -38,7 +38,7 @@ Złożoność czasowa GSC wynosi $O(\vert X\vert \ast \vert\mathcal{F}\vert \ast
 \tab Niech $S_i$ będzie zbiorem dodanym do $\mathcal{A}$ w w i-tym przebiegu pętli\\\\
 Przekazujemy koszt $c_x=\frac{1}{\vert S_i-(S_1\cup ... \cup S_{i-1})\vert}$ każdemu elementowi $X\in S_i = (S_1 \cup ... \cup S_{i-1})$ (pokrytemu po raz pierwszy przez $S_i$)\\
 \\
-\tab W każdym przejściu pętli wszystkie z $S_i - (S_1 \cup ... \cup S_{i-1})$ dostają koszt $\frac{1}{\vert S_i-(S_1\cup ... \cup S_{i-1})\vert}$ więc całkowity koszt przyznawany w i-tym przejściu pętli wynosi 1.\\\\
+\tab W każdym przejściu pętli wszystkie z $S_i - (S_1 \cup ... \cup S_{i-1})$ dostają koszt $\frac{1}{\vert S_i-(S_1\cup ... \cup S_{i-1})\vert}$ więc całkowity koszt przyznawany w każdym z przejść pętli wynosi 1.\\\\
 \textbf{WYC} $\sum_{x\in X}c_x=\vert \mathcal{A}\vert$\\
 \\
 Pokażemy, że $\sum_{x\in S}c_x \leq H(\vert S\vert)$ dla każdego $S\in \mathcal{F}$\\
@@ -48,22 +48,39 @@ Dla każdego $S\in \mathcal{F}$ oraz $i=1,\ 2,\ ...,\ \vert\mathcal{A}\vert$ def
 \\
 Niech k będzie najmniejszym indeksem takim, że $n_k=0$\\
 \tab To znaczy, że S jest pokryty przez $S_1 \cup S_2 \cup ... \cup S_k$\\
-Mamy $n_0\geq n_1\geq n_2\geq ...\geq n_{\vert\mathcal{A}\vert}$\\
+Mamy $n_0\geq n_1\geq n_2\geq ...\geq n_k$\\
 \tab $n_{i-1}$ - $n_1$ jest liczbą elementów z S pokrytych po raz pierwszy przez zbiór $S_i$.\\
-Stąd $\sum_{x\in S}c_x = \sum_{i=1}^{k}(n_{i-1}-n_i)\frac{1}{\vert S_i - (S_1 \cup ... \cup S_{i-1})\vert}$\\\\
-Z wyboru zachłannego w linii 4 mamy $\vert S_i - (S_1 \cup ... \cup S_{i-1})\vert \leq \vert S - (S_1 \cup ... \cup S_{i-1})\vert = n_{i-1}$ dla dowolnego $S \in \mathcal{F} - \lbrace S_1,\ ...,\ S_{i-1}\rbrace$\\
-\tab zatem\\
-$\sum_{x\in S} c_x = \sum_{i=1}^{k} (n_{i-1}-n_i)\frac{1}{\vert S_i - (S_1 \cup ... \cup S_{i-1})\vert} \leq \sum_{i=1}^{k}(n_{i-1}- n_i)\frac{1}{n_{i-1}}=\sum_{i-1}^{k}\sum_{j=n_{i+1}}^{n_{i-1}}\frac{1}{n_{i-1}}\leq^{j\leq n_{i-1}}$\\
-$\leq \sum_{i-1}^{k}\sum_{j=n_{i+1}}^{n_{i-1}}\frac{1}{j}=\sum_{i=1}^{k}(\sum_{j=1}^{n_{i-1}} \frac{1}{j}- \sum_{j=1}^{n_i} \frac{1}{j}) = \sum_{i=1}^{k} (H(n_{i-1}) - H(n_i)) = $\\
-$ = H(n_0) - H(n_1) + H(n_1) - ... - H(n_k) = H(n_0) - H(n_k) = H(\vert S\vert ) - H(0) = H(\vert S\vert )$\\\\
-Koszt przydzielony pokryciu $\mathcal{A}^{\ast}$ wynosi \\
-\tab $\sum_{S\in \mathcal{A}^{\ast}}\sum_{x\in S}c_x$\\\\
-Skoro $\mathcal{A}^{\ast}$ jest pokryciem X to każdy $x \in X$ wystąpi co najmniej raz w tej sumie,\\
-więc\\
-\tab $\sum_{S\in \mathcal{A}^{\ast}}\sum_{x\in S}c_x \geq \sum_{x\in X}c_x = \vert \mathcal{A}\vert$\\
-więc\\
-\tab $\vert \mathcal{A}\vert \leq \sum{S\in \mathcal{A}^{\ast}}\sum_{x\in S}c_x \leq \sum_{S\in \mathcal{A}^{\ast}}H(\vert S\vert )\leq \vert \mathcal{A}^{\ast}\vert max\lbrace H(\vert S\vert):\ S\in \vert \mathcal{A}^{\ast}\vert\rbrace\leq$\\
-\tab $\leq\vert\mathcal{A}^{ast}\vert H(max\lbrace\vert S\vert :\ S\in \mathcal{F}\rbrace$\\\\
+Stąd $\sum_{x\in S}c_x = \sum_{i=1}^{k}(n_{i-1}-n_i)\frac{1}{\vert S_i - (S_1 \cup ... \cup S_{i-1})\vert}$
+
+Z wyboru zachłannego w linii 4 mamy $\vert S_i - (S_1 \cup ... \cup S_{i-1})\vert \leq \vert S - (S_1 \cup ... \cup S_{i-1})\vert = n_{i-1}$ dla dowolnego $S \in \mathcal{F} - \lbrace S_1,\ ...,\ S_{i-1}\rbrace$ zatem
+
+$$\sum_{x\in S} c_x = \sum_{i=1}^{k} (n_{i-1}-n_i)\frac{1}{\vert S_i - (S_1 \cup ... \cup S_{i-1})\vert} \leq \sum_{i=1}^{k}(n_{i-1}- n_i)\frac{1}{n_{i-1}}=\sum_{i-1}^{k}\sum_{j=n_{i+1}}^{n_{i-1}}\frac{1}{n_{i-1}} \leq$$
+
+jako że $j\leq n_{i-1}$
+
+$$\leq \sum_{i-1}^{k}\sum_{j=n_{i+1}}^{n_{i-1}}\frac{1}{j}=\sum_{i=1}^{k}(\sum_{j=1}^{n_{i-1}} \frac{1}{j}- \sum_{j=1}^{n_i} \frac{1}{j}) = \sum_{i=1}^{k} (H(n_{i-1}) - H(n_i)) = $$
+
+$$ = H(n_0) - H(n_1) + H(n_1) - ... - H(n_k) = H(n_0) - H(n_k) = H(\vert S\vert ) - H(0) = H(\vert S\vert )$$
+
+Koszt przydzielony pokryciu $\mathcal{A}^{\ast}$ wynosi $\sum_{S\in \mathcal{A}^{\ast}}\sum_{x\in S}c_x$
+
+Skoro $\mathcal{A}^{\ast}$ jest pokryciem X to każdy $x \in X$ wystąpi co najmniej raz w tej sumie, więc
+$$\sum_{S\in \mathcal{A}^{\ast}}\sum_{x\in S}c_x \geq \sum_{x\in X}c_x = \vert \mathcal{A}\vert$$
+
+więc $$\vert \mathcal{A}\vert \leq \sum_{S\in \mathcal{A}^{\ast}}\sum_{x\in S}c_x \leq \sum_{S\in \mathcal{A}^{\ast}}H(\vert S\vert )\leq \vert \mathcal{A}^{\ast}\vert \cdot max\lbrace H(\vert S\vert):\ S\in \vert \mathcal{A}^{\ast}\vert\rbrace \leq\vert\mathcal{A}^{\ast}\vert \cdot H(max\lbrace\vert S\vert :\ S\in \mathcal{F}\rbrace$$
+
 Wniosek: Algorytm GSC jest algorytmem $(ln\vert X \vert + 1)$-aproksymacyjnym\\
-Dowód: $H(n)\leq lnn+1$\\
-\tab $H(max\lbrace\vert S\vert :S\in \mathcal{F})\leq H(\vert X\vert )\leq ln\vert X\vert + 1$
+Dowód: 
+$H(n)\leq ln(n)+1$
+zatem
+$H(max\lbrace\vert S\vert :S\in \mathcal{F})\leq H(\vert X\vert )\leq ln\vert X\vert + 1$\\
+
+Uwaga: Jeśli $\forall{S \in F) S \leq k$, $k$ - stała to $\rho_{XYZ}(n) \leq ln(k) 1$
+
+$X = E(G)$
+
+$I=\{ \}$   BRAKUJE NOTATEK
+
+Problem najmniej licznego pokrycia wierzchołkowego jest szczególnym przypadkiem problemu pokrycia zbioru.
+
+Użycie algorytmu o mniejszym współczynniku wcale nie musi dać lepszego rozwiązania. Jedynie lepiej szacujemy dokładność algorytmu.
