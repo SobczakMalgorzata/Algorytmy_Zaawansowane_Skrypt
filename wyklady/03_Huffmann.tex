@@ -1,21 +1,22 @@
 \subsection{Kody Huffmann'a}
-Zwykle znaki są reprezentowane za pomocą 8 bitów (np. ASCII). Ponieważ jednak częstości wystąpień znaków różnią się, opłaca się reprezentować częściej występujące znaki za pomocą krótszych ciągów bitów, a rzadziej  występujące za pomocą dłuższych.\\
+Zwykle znaki są reprezentowane za pomocą 8 bitów (np. ASCII). Ponieważ jednak częstości wystąpień znaków różnią się, opłaca się reprezentować częściej występujące znaki za pomocą krótszych ciągów bitów, a rzadziej  występujące za pomocą dłuższych.
 
-Dążymy do użycia jak najmniejszej ilości bitów.\\
+Dążymy do użycia jak najmniejszej ilości bitów.
 
-\textbf{Przykład:} W pliku występuje 58 znaków a, e, i, s, t, r, n\\
+\textbf{Przykład:} W pliku występuje 58 znaków a, e, i, s, t, r, n
 \begin{center}
 \begin{tabular}{ l | c | c | c | c | c | c | c }
   	 										& $a$	& $e$ 	& $i$ 	& $s$ 	& $t$ 	& $r$ 	& $n$ 	\\ \hline
   częstość wystąpień 						& 10	&  15  	& 12	&  3  	&  4	&  13	&  1 	\\ \hline
   kod 1 (stała długość słowa kodowego) 		& 000 	& 001 	& 010	& 011 	& 100	& 101	& 110 	\\ \hline
   kod 2 (zmienna długość słowa kodowego) 	& 001 	& 01 	& 10	& 00000 & 0001	& 11	& 00001 \\ \hline
-  kod 3 (zmienna długość słowa kodowego) 	& 001 	& 01 	& 10	& 00010 & 0001	& 11	& 00001 \\  
+  kod 3 (zmienna długość słowa kodowego) 	& 001 	& 01 	& 10	& 00010 & 0001	& 11	& 00001  
 \end{tabular}
 \end{center}
 
-Przy stałej długości słów kodowych zakodowanych plik ma: $58*3=174$ bity. \\
-Przy zmiennej długości słów kodowych zakodowany plik ma: $3 \cdot 10+2 \cdot 15+2 \cdot 12+5 \cdot 3+4 \cdot 4+2 \cdot 13+5 \cdot 1 = 146$ bitów. Oszczędzamy około 16$\%$ .
+Przy stałej długości słów kodowych zakodowanych plik ma: $58*3=174$ bity. 
+
+Przy zmiennej długości słów kodowych zakodowany plik ma: $3 \cdot 10+2 \cdot 15+2 \cdot 12+5 \cdot 3+4 \cdot 4+2 \cdot 13+5 \cdot 1 = 146$ bitów. Oszczędzamy około 16$\%$.
 
 Przy kodowaniu ze zmienną długością słów kodowych chcemy, żeby spełniony był warunek, że żadne słowo nie jest prefiksem (początkiem) innego słowa. Takie kody nazywamy prefiksowymi. 
 

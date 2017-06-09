@@ -1,12 +1,13 @@
+\subsection{Problem sumy podzbioru wersja dokładna}
 Dane: $S=\lbrace s_1,\ ...,\ s_n \rbrace \subset N,\ t\in N$
 
 Poszukujemy zbioru $S'\subset S\ \Sigma_{x\in S'}x \rightarrow max\Sigma_{x\in S'}\leq t$
 
 Jest to problem NP zupełny.
 
-\paragraph{Dowód:}{Problem jest w NP. DLa instancji (S,t) certyfikatem jest $S' \subset S Możemy sprawdzić w czasie wielomianowym czy \forall_{x \in S'} x = t$}
+\paragraph{Dowód:}Problem jest w NP. Dla instancji $(S,t)$ certyfikatem jest $S' \subset S$. Możemy sprawdzić w czasie wielomianowym czy $ \forall_{x \in S'} x = t $ 
 
-Pokażemy, że 3-SAT $\leq_p$ SUBSET_SUM 
+Pokażemy, że 3-SAT $ \leq p $ Subset-Sum 
 
 $I$ - formuła 3-SAT w postaci CNF
 $$ x_1, x_2, x_3 - zmienne$$
@@ -15,7 +16,7 @@ $$ c_i = (x_a \lor x_b \lor x_c)$$
 
 Zakładamy że żadna klauzula nie zawiera jednocześnie zmiennej i jej negacji oraz żę każda zmienna występuje w przynajmniej jednej klauzuli.
 
-Załóżmy instancję $S,t)$ problemu SUBSET_SUM dla $I$
+Załóżmy instancję $(S,t)$ problemu Subset-Sum dla $I$
 
 Dla każdej zmiennej $x_i$ mamy 2 liczby $r_i$ oraz $r_i'$ n+m cyfrowe.
 
@@ -62,9 +63,9 @@ TABELA
 Rozwiązanie istnieje dla $I  x_1=1 , x_2=0, x_3=0$
 
 \paragraph{Lemat 1:}
-$S={x_1, ..., x_n}$$
+$$S={x_1, ..., x_n}$$
 $$P_0 = {0}$$
-$$P_i = P_{i-1} \cup (P_{i-1} + x_i) $ dla $i=1, ..., n$$
+$P_i = P_{i-1} \cup (P_{i-1} + x_i) $dla$ i=1, ..., n $
 Zbiór $P_n$ zawiera wszystkie możliwe sumy podzbiorów zbioru $S$
 
 \paragraph{Dowód:}{Pokażemy przez indukcję po i, że $P_i$ składa się ze wszystkich możliwych sum podzbiorów z $S$.
@@ -77,9 +78,9 @@ Jeśli $x_i \not\in S'$ to $\sum_{x_j \in S'} x_j \in P_{i-1} \subset P_i$
 
 Jeśli $x_i \in S'$ to $\sum_{x_j \in S'} x_j = \sum_{x_j \in S' - \{x_i\}} (x_j) + x_i \in P_{i-1} + x_i \subset P_i$
  
-Zatem P_i zwraca wszystkie sumy podzbiorów $\{ x_1, ..., x_i\}$ i nie zawiera innych liczb, bo $P_i = P_{i-1} \cup (P_{i-1} + x_i)$ 
-jeśli $x \in P_{i-1} to jest sumą podzbioru \{ x_1, ..., x_i\} $
-jeśli $x \in P_{i-1}+x_i to x-x_i jest sumą podzbioru \{ x_1, ..., x_{i-i}\} $
+Zatem $P_i$ zwraca wszystkie sumy podzbiorów $\{ x_1, ..., x_i\}$ i nie zawiera innych liczb, bo $P_i = P_{i-1} \cup (P_{i-1} + x_i)$ 
+jeśli $x \in P_{i-1}$ to jest sumą podzbioru $\{ x_1, ..., x_i\} $
+jeśli $x \in P_{i-1}+x_i$ to $x-x_i$ jest sumą podzbioru $\{ x_1, ..., x_{i-i}\} $
 dla $i=n$ otrzymujemy tezę.
 
 \paragraph{}{Załóżmy, że mamy procedurę MergeLists(L, L'), gdzie L' są posortowanymi listami, która zwraca posortowanymi listami, która zwraca posortowaną listę elementów z L i L' i usuwa duplikaty, działającą w czasie $O(|L|+|L'|)$.}

@@ -4,8 +4,8 @@
 \usepackage{mathtools}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{color}
-\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{listingsutf8}
 \usepackage[utf8]{inputenc}
 \usepackage{tikz}
 \usepackage{enumitem}
@@ -20,9 +20,10 @@
 \lstdefinestyle{mystyle}{            
     numbers=left,
     backgroundcolor = \color{backcolor},
-    tabsize = 2
+    tabsize = 2,
 }
 \lstset{
+    basicstyle = \ttfamily,
 	style=mystyle,
 	mathescape=true,
 	literate=
@@ -69,7 +70,6 @@
 \input{wyklady/14_problem_pokrycia_krawedzi_grafu_wierzcholkami.tex}
 \input{wyklady/15_problem_pokrycia_zbioru.tex}
 
-\subsection{Problem sumy podzbioru wersja dokładna}
 \input{wyklady/16_problem_sumy_podzbioru_dokladny.tex}
 
 \subsection{Problem sumy podzbioru wersja aproksymacyjna}

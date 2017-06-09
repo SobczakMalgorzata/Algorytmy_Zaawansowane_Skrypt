@@ -5,19 +5,19 @@ $\mathcal{F} \subset 2^{X}$ - $\mathcal{F}$ rodzina podzbiorów $X$ i taka, że 
 Czyli każdy element z $X$ należy do co najmniej jednego zbioru z $\mathcal{F}$.
 
 \textbf{Definicja: }Rodzinę $\mathcal{A}\subset \mathcal{F}$ nazywamy pokryciem zbioru $X$ jeśli $$\bigcup_{s\in \mathcal{A}}s = X$$
-\\
+
 \textbf{Instancja: }$(X:\ \mathcal{F})$ gdzie $\mathcal{F} \subset 2^{X}$ takie, że $$\bigcup_{s\in \mathcal{F}}s = X$$
 
 \textbf{Problem: }Należy znaleźć minimalnej liczebności pokrycie zbioru $X$, zbiorami z rodziny $\mathcal{F}$
 
 \subsubsection{Algorytm GreedySetCover (GSC)}
 \begin{lstlisting}[caption={GreedySetCover(X,F)}]
-$U \leftarrow X \tab$  /$\ast$ $U$ - zbior jeszcze nie pokrytych elementow zbioru X $\ast$/
-$\mathcal{A} \leftarrow \emptyset \tab$  /$\ast$  $\mathcal{A}$ - znalezione pokrycie $\ast$ /
+$U <- X \tab$  /$\ast$ $U$ - zbior jeszcze nie pokrytych elementow zbioru X $\ast$/
+$\mathcal{A} <- \emptyset \tab$  /$\ast$  $\mathcal{A}$ - znalezione pokrycie $\ast$ /
 while $U \neq \emptyset$
 	wybierz $S \in \mathcal{F}$ maksymalizujacy $\vert S \cap U\vert$
-	$\mathcal{A} \leftarrow \mathcal{A} \cup \lbrace S\rbrace$
-	$U \leftarrow U - S$
+	$\mathcal{A} <- \mathcal{A} \cup \lbrace S\rbrace$
+	$U <- U - S$
 return $\mathcal{A}$
 \end{lstlisting}
 
@@ -32,24 +32,28 @@ Wnetrze petli mozna zaimplementowac zeby dzialalo w czasie $O(\vert X\vert \cdot
 \begin{center}
 Złożoność czasowa GSC wynosi $O(\vert X\vert \cdot \vert\mathcal{F}\vert \cdot min\lbrace \vert X \vert,\ \vert \mathcal{F}\vert \rbrace)$
 \end{center}
-\textbf{Twierdzenie: }GreedySetCover jest wielomianowym algorytmem $\rho(n)$ - aproksymacyjnym, gdzie $\rho(n) = H(max\lbrace\vert S\vert :S\in \mathcal{F}\rbrace)$, $H(m) = \lbrace 1 + \frac{1}{2} + ... +\frac{1}{m}\rbrace$, $H(0)=0$\\
-\\
-\textbf{Dowód: }$\mathcal{A}^{\ast}$ - optymalne pokrycie znalezione przez algorytm.\\
-\tab Niech $S_i$ będzie zbiorem dodanym do $\mathcal{A}$ w w i-tym przebiegu pętli\\\\
-Przekazujemy koszt $c_x=\frac{1}{\vert S_i-(S_1\cup ... \cup S_{i-1})\vert}$ każdemu elementowi $X\in S_i = (S_1 \cup ... \cup S_{i-1})$ (pokrytemu po raz pierwszy przez $S_i$)\\
-\\
-\tab W każdym przejściu pętli wszystkie z $S_i - (S_1 \cup ... \cup S_{i-1})$ dostają koszt $\frac{1}{\vert S_i-(S_1\cup ... \cup S_{i-1})\vert}$ więc całkowity koszt przyznawany w każdym z przejść pętli wynosi 1.\\\\
-\textbf{WYC} $\sum_{x\in X}c_x=\vert \mathcal{A}\vert$\\
-\\
-Pokażemy, że $\sum_{x\in S}c_x \leq H(\vert S\vert)$ dla każdego $S\in \mathcal{F}$\\
-\\
-Dla każdego $S\in \mathcal{F}$ oraz $i=1,\ 2,\ ...,\ \vert\mathcal{A}\vert$ definiujemy $n_i = \vert S - (S_1 \cup ... \cup S_i)\vert$ (liczba elementów w S nie pokrytych po i-1 przejściu pętli)\\
-\tab $n_0=\vert S\vert$\\
-\\
-Niech k będzie najmniejszym indeksem takim, że $n_k=0$\\
-\tab To znaczy, że S jest pokryty przez $S_1 \cup S_2 \cup ... \cup S_k$\\
-Mamy $n_0\geq n_1\geq n_2\geq ...\geq n_k$\\
-\tab $n_{i-1}$ - $n_1$ jest liczbą elementów z S pokrytych po raz pierwszy przez zbiór $S_i$.\\
+\textbf{Twierdzenie: }GreedySetCover jest wielomianowym algorytmem $\rho(n)$ - aproksymacyjnym, gdzie $\rho(n) = H(max\lbrace\vert S\vert :S\in \mathcal{F}\rbrace)$, $H(m) = \lbrace 1 + \frac{1}{2} + ... +\frac{1}{m}\rbrace$, $H(0)=0$
+
+\textbf{Dowód: }$\mathcal{A}^{\ast}$ - optymalne pokrycie znalezione przez algorytm. Niech $S_i$ będzie zbiorem dodanym do $\mathcal{A}$ w w i-tym przebiegu pętli
+Przekazujemy koszt $c_x=\frac{1}{\vert S_i-(S_1\cup ... \cup S_{i-1})\vert}$ każdemu elementowi $X\in S_i = (S_1 \cup ... \cup S_{i-1})$ (pokrytemu po raz pierwszy przez $S_i$)
+
+\tab W każdym przejściu pętli wszystkie z $S_i - (S_1 \cup ... \cup S_{i-1})$ dostają koszt $\frac{1}{\vert S_i-(S_1\cup ... \cup S_{i-1})\vert}$ więc całkowity koszt przyznawany w każdym z przejść pętli wynosi 1.
+\textbf{WYC} $\sum_{x\in X}c_x=\vert \mathcal{A}\vert$
+
+Pokażemy, że $\sum_{x\in S}c_x \leq H(\vert S\vert)$ dla każdego $S\in \mathcal{F}$
+
+Dla każdego $S\in \mathcal{F}$ oraz $i=1,\ 2,\ ...,\ \vert\mathcal{A}\vert$ definiujemy $n_i = \vert S - (S_1 \cup ... \cup S_i)\vert$ (liczba elementów w S nie pokrytych po i-1 przejściu pętli)
+\tab $n_0=\vert S\vert$
+
+
+Niech $k$ będzie najmniejszym indeksem takim, że $n_k=0$ 
+
+To znaczy, że $S$ jest pokryty przez $S_1 \cup S_2 \cup ... \cup S_k$
+
+Mamy $n_0\geq n_1\geq n_2\geq ...\geq n_k$ 
+
+$n_{i-1}$ - $n_1$ jest liczbą elementów z $S$ pokrytych po raz pierwszy przez zbiór $S_i$.
+
 Stąd $\sum_{x\in S}c_x = \sum_{i=1}^{k}(n_{i-1}-n_i)\frac{1}{\vert S_i - (S_1 \cup ... \cup S_{i-1})\vert}$
 
 Z wyboru zachłannego w linii 4 mamy $\vert S_i - (S_1 \cup ... \cup S_{i-1})\vert \leq \vert S - (S_1 \cup ... \cup S_{i-1})\vert = n_{i-1}$ dla dowolnego $S \in \mathcal{F} - \lbrace S_1,\ ...,\ S_{i-1}\rbrace$ zatem
@@ -71,11 +75,11 @@ więc $$\vert \mathcal{A}\vert \leq \sum_{S\in \mathcal{A}^{\ast}}\sum_{x\in S}c
 
 Wniosek: Algorytm GSC jest algorytmem $(ln\vert X \vert + 1)$-aproksymacyjnym\\
 Dowód: 
-$H(n)\leq ln(n)+1$
+$$H(n)\leq ln(n)+1$$
 zatem
-$H(max\lbrace\vert S\vert :S\in \mathcal{F})\leq H(\vert X\vert )\leq ln\vert X\vert + 1$\\
+$$H(max\lbrace\vert S\vert :S\in \mathcal{F})\leq H(\vert X\vert )\leq ln\vert X\vert + 1$$
 
-Uwaga: Jeśli $\forall{S \in F) S \leq k$, $k$ - stała to $\rho_{XYZ}(n) \leq ln(k) 1$
+Uwaga: Jeśli $\forall_{S \in F} S \leq k$, gdzie $k$ - stała to $\rho_{XYZ}(n) \leq ln(k) 1$
 
 $X = E(G)$
 

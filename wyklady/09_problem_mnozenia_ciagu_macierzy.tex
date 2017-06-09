@@ -51,31 +51,31 @@ $$m(i,j) = min_{i \leq k < j} \{ m(i,k) +m(k+1,j) + p_{i-1} \cdot p_k \cdot p_j 
 Przez $s(i,j)$ oznaczamy tę wartość $k$ dla której osiągane jest to minimum. Innymi słowy, $s(i,j)$ jest miejscem ostatniego mnożenia w optymalnym rozwiązaniu podproblemu. 
 
 Gdyby zaprogramować tę rekurencję, otrzymalibyśmy algorytm o złożoności wykładniczej. Ale mamy tylko $\binom{n}{2} + n = \Theta(n^2)$ podproblemów, czyli $\Theta(n^2)$ liczb $m(i,j)$ i każdą z nich liczymy tylko raz.
-%\begin{lstlisting}[caption={Algorytm MatrixChainOrder(p)- algorytm wyznaczania kolejności mnożenia macierzy (A_i ma wymiary p_{i-1} \times p_i}]
-%n <- length(p) - 1
-%for i <- 1 to n
-%	m(i,i) <- 0
-%for l <- 2 to n // l - liczba macierzy w podproblemie
-%	for i <- 1 to n+1-l
-%		j <- i+l-1
-%		m(i,j) <- infinity
-%		for k <- i to j-1
-%			q = m(i,k) + m(k+1,j) + p_{i-1} \cdot p_k \cdot p_j
-%			if(q < m(i,j)
-%				m(i,j) <- q
-%				s(i,j) <- k
-%return (m,s)
-%
-%\end{lstlisting}
+\begin{lstlisting}[caption={Algorytm MatrixChainOrder($p$)- algorytm wyznaczania kolejności mnożenia macierzy ($A_i$ ma wymiary $p_{i-1} \times p_i$}]
+n <- length(p) - 1
+for i <- 1 to n
+	m(i,i) <- 0
+for l <- 2 to n // l - liczba macierzy w podproblemie
+	for i <- 1 to n+1-l
+		j <- i+l-1
+		m(i,j) <- infinity
+		for k <- i to j-1
+			q = m(i,k) + m(k+1,j) + p_{i-1} \cdot p_k \cdot p_j
+			if(q < m(i,j)
+				m(i,j) <- q
+				s(i,j) <- k
+return (m,s)
+
+\end{lstlisting}
 Złożoność wynosi $O(n^3)$
 
 Konstruowanie najlepszego rozwiązania
-%\begin{lstlisting}[caption={MatrixChainMultiply(A,s,i,j) - algorytm mnożenia macierzy }
-%if j = 1 return A_i
-%X <- MatrixChainMultiply(A, 
-%Y <- MatrixChainMultiply(
-%return MatrixMultiply(X,Y)
-%\end{lstlisting}
+\begin{lstlisting}[caption={MatrixChainMultiply($A,s,i,j$) - algorytm mnożenia macierzy}]
+if j = 1 return A_i
+X <- MatrixChainMultiply(A, ) //HELP
+Y <- MatrixChainMultiply(   )//HELP
+return MatrixMultiply(X,Y)
+\end{lstlisting}
 
 \subsection{Przykład}
 $$ A_1 4 \times 5 $$
@@ -84,21 +84,20 @@ $$ A_3 2 \times 1 $$
 $$ A_4 1 \times 2 $$
 $$ A_5 2 \times 3 $$
 
-%
-%\begin{lstlisting}
-%MatrixChainMultiply(A,s,i,j)
-%if j = i return A_i
-%X <- MatrixChainMultiply(A,s,i,s(i,j))
-%Y <- MatrixChainMultiply(A,s,s(i,j)+1, j)
-%return MatrixMultiply(X,Y)
-%\end{lstlisting}
+\begin{lstlisting}
+MatrixChainMultiply(A,s,i,j)
+if j = i return A_i
+X <- MatrixChainMultiply(A,s,i,s(i,j))
+Y <- MatrixChainMultiply(A,s,s(i,j)+1, j)
+return MatrixMultiply(X,Y)
+\end{lstlisting}
 
 $$s(1,5) = 3$$
 $$(A_1 * A_2 * A_3) * (A_4 * A_5)$$
 $$s(1,3) = 1$$
 $$s(4,5) = 4$$
 $$(A_1 * (A_2 * A_3)) * (A_4 * A_5)$$
-$s(2,3) = 2$$
+$$s(2,3) = 2$$
 $$(A_1 * (A_2 * A_3)) * (A_4 * A_5)$$
 
 Podstawy metody programowania dynamicznego
@@ -116,37 +115,37 @@ W klasycznej metodzie programowania kdynamicznego ozwiązanie budujemy od dołu 
 Przykład w mnożeniu macirzy
 Jak poprzednio umieszczamy rozwiązania podproblemów w tablicy m(i.j) Dopóki nie mamy rozwiązanego podproblemu (i,j)  m(i,j) = infinity. Po obliczeniu wartości m(i,j) umieszczamy ją w tablicy i używamy jej przy następnych wywołaniach bez obliczania.
 
-\begin{enumerate}
-Algorytm LookupChain(p,i,j) //p - ciąg wymiarów macierzy
-if m(i,j) < infinity return m(i,j)
-if j = i 
-	m(i,j) <- 0 
+\begin{lstlisting}
+Algorytm LookupChain($p,i,j$) //$p$ - ciag wymiarow macierzy
+if $m(i,j) < \infty$ return $m(i,j)$
+if $j = i$ 
+	$m(i,j)$ <- 0 
 else
-	for k <- i to j-1
-		q <- LookupChain(p,i,k) + LookupChain(p,k+1,j) + p_{i-1} * p_k * p_j
-		if q < m(i,j)
-			m(i,j) <- q
-return m(i,j)
-\end{enumerate}
+	for $k <- i$ to $j-1$
+		q <- LookupChain($p,i,k$) + LookupChain($p,k+1,j$) + $p_{i-1}$ * $p_k$ * $p_j$
+		if $q < m(i,j)$
+			$m(i,j)$ <- $q$
+return $m(i,j)$
+\end{lstlisting}
 
-\begin{enumerate}
-Algorytm MemorizedMatrixChain(p)
-n <- length(p) - 1
-for i <- 1 to n
-	for j <- i to n
-		m(i,j) <- infinity
-return LookupChain(p,i,n)
-\end{enumerate}
+\begin{lstlisting}
+Algorytm MemorizedMatrixChain($p$)
+$n$ <- length($p$) - 1
+for $i$ <- 1 to $n$
+	for $j$ <- $i$ to $n$
+		$m(i,j)$ <- $\infty$
+return LookupChain($p,i,n$)
+\end{lstlisting}
 
 Złożoność 
-\begin{enumerate}
+\begin{lstlisting}
 $O(n)$
 $O(n^2)$
 $O(n^2)$
 $O(n^2)$
+\end{lstlisting}
 
 Każde z $O(n^2)$ pól tablicy $m$ jest wypełniane tylko raz modyfikowane, potem odwołanie do (i,j) zajmuje stały czas.
 Kiedy m(i,j) jest modyfikowane to zajmuje to $O(n)$ aby znaleźć jej najmniejszą wartość.
-\end{enumerate}
 Całkowity czas działania algorytmu wynosi $O(n^3)$
 

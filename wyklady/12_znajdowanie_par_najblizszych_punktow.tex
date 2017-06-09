@@ -53,23 +53,26 @@ Niech $\delta=min(\delta_L,\delta_R)$
 \end{itemize}
 
 \subsubsection{Poprawność}
-Algorytm jest w sposób oczywisty poprawny za wyjątkiem kwestii dlaczego w fazie "połącz" w punkcie 2 wystarczy sprawdzić tylko 7 następujących po sobie punktów z tablicy $Y'$. Przypuśćmy, że $p$, $q$ są najmniej odległe w całym $P$, ich odległość wynosi $\delta'$.\\
-Niech \\
-\tab $p=(x_p,y_p)$ i $q=(x_q,y_q)$,\tab \tab $y_p\leq y_q$,\\
-\\
-pokażemy, że znajduje tę parę punktów.\\
-\\
-\textbf{Dowód: }\\
-Przypuśćmy, że algorytm nie wykryje tej pary. Wtedy w tablicy $Y'$ znajduje się pomiędzy $p$ i $q$ co najmniej 7 punktów.\\
-Niech $r=(x_r,y_r)$ będzie jednym z nich.\\
-Ponieważ $d(p,q)<\delta$, więc $y_q-y_p = \vert y_p - y_q \vert \leq \sqrt{(x_p-x_q)^2+(y_p-y_q)^2}=d(p,q)<\delta$\\
-\\
-Ponadto $y_p\leq y_c\leq y_q$, więc $y_r-y_p \leq y_q-y_p<\delta$, więc $y_r\leq y_p + \delta$\\
-\\
-czyli co najmniej 9 punktów z $P$ znajduje się w prostokącie $=2\delta$x$\delta$ ograniczonym prostymi $y=y_p,\ y=y_p+\delta$\\
-\\
-Wtedy w lewej lub w prawej połowie prostokąta jest co najmniej 5 punktów z $P$. Dla ustalenia uwagi uznajemy, że to lewy kwadrat, wtedy jednak w $P_L$ są dwa punkty odległe o mniej niż $\delta$, bo nie da się w kwadracie $\delta \times \delta$ rozmieścić 5 punktów wzajemnie odległych o co najmniej $\delta$.\\
-\\
+Algorytm jest w sposób oczywisty poprawny za wyjątkiem kwestii dlaczego w fazie "połącz" w punkcie 2 wystarczy sprawdzić tylko 7 następujących po sobie punktów z tablicy $Y'$. Przypuśćmy, że $p$, $q$ są najmniej odległe w całym $P$, ich odległość wynosi $\delta'$.
+
+Niech 
+$p=(x_p,y_p)$ i $q=(x_q,y_q)$,\tab \tab $y_p \leq y_q$
+pokażemy, że znajduje tę parę punktów.
+
+\textbf{Dowód: }
+
+Przypuśćmy, że algorytm nie wykryje tej pary. Wtedy w tablicy $Y'$ znajduje się pomiędzy $p$ i $q$ co najmniej 7 punktów.
+
+Niech $r=(x_r,y_r)$ będzie jednym z nich.
+
+Ponieważ $d(p,q)<\delta$, więc $y_q-y_p = \vert y_p - y_q \vert \leq \sqrt{(x_p-x_q)^2+(y_p-y_q)^2}=d(p,q)<\delta$
+
+ponadto $y_p\leq y_c\leq y_q$, więc $y_r-y_p \leq y_q-y_p<\delta$, więc $y_r\leq y_p + \delta$
+
+czyli co najmniej 9 punktów z $P$ znajduje się w prostokącie $=2\delta$x$\delta$ ograniczonym prostymi $y=y_p,\ y=y_p+\delta$
+
+Wtedy w lewej lub w prawej połowie prostokąta jest co najmniej 5 punktów z $P$. Dla ustalenia uwagi uznajemy, że to lewy kwadrat, wtedy jednak w $P_L$ są dwa punkty odległe o mniej niż $\delta$, bo nie da się w kwadracie $\delta \times \delta$ rozmieścić 5 punktów wzajemnie odległych o co najmniej $\delta$.
+
 Sprzeczność bo w $P_L$ najmniej odległe punkty znajdują się w odległości $\delta_L \geq \delta$.
 
 \subsubsection{Pseudokod i Złożoność}

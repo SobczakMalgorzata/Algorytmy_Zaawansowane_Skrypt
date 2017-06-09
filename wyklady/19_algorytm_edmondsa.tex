@@ -1,0 +1,42 @@
+\paragraph Algorytm Edmonds'a 
+Edmonds($G$) 
+\begin{lstlisting}
+$M$ <- $\emptyset$
+$L$ <- zbior wierzcholkow wolnych wzgledem $M$
+repeat
+    if istnieje wierzcholek zewnetrzny $x \in V(L)$ i sasiadujacy z nim $y \in V(L)$
+        $L$ <- $L \cup \{xy, yz\}$ gdzie $yz \in M$ // Fakt 2. 
+    else if istnieja sasiednie wierzcholki zewnetrzne $x_1,x_2$ z roznych drzew z $L$
+        $P_1$ - sciezka z $x_1$ do korzenia w $L$
+        $P_2$ - sciezka z $x_2$ do korzenia w $L$
+        $P$ <-  $P_1 \cup {x_1x_2} \cup P_2$ // $P$ jest rozszerzajaca wzgledem $M$  -> Fakt 3
+        rozwin wszystkie sciagniete cykle w $G$
+        $M$ <- $M \div E(P)$
+        $L$ <- zbior wierzcholkow wolnych wzgledem $M$
+    else if istnieja wierzcholki zewnetrzne $x_1x_2$ z tego samego drzewa 
+        $C$ <- cykl utworzony ze sciezki $x_1-x_2$ oraz krawedzi $x_1x_2$
+        $P$ <- sciezka laczaca w $L$ cykl $C$ z korzeniem (najkrotsza)
+        $M$ <- $M \div E(P)$
+        $G$ <- graf utworzony z $G$ poprzez sciagniecie $C$  
+    else 
+        rozwin wszystkie sciagniete cykle w $G$
+return $M$
+\end{lstlisting}
+
+\paragraph{Twierdzenie}{Algorytm Edmondsa znajduje najliczniejsze skojarzenie w grafie}
+\paragraph{Dowód:}
+Algorytm zatrzymuje się kiedy każdy wierzchołek zewnętrzny nie sąsiaduje z wierzchołkiem spoza lasu, ani z innym zewnętrznym wierzchołkiem.
+
+Niech $S$ będzie zbiorem wierzchołków wewnętrznych, a $Z$ zewnętrznych. Graf $G-S$ sklada się z izolowanych wierzchołków z $Z$ więc $c(G-S)=|Z|$.
+
+Niech $K$ będzie zbiorem wierzchołków wolnych względem $M$ (czyli $|K|$ jest liczbą drzew w $L$). Z lematu 3 $|Z|-|S|=|K|$.
+
+Zatem $c(G-S) - |S| = |Z| - |S| = |K|$
+
+Z drugiej strony $|K| = |V| - 2|M|$ stąd
+
+$$ 2|M| = |V| - |K| = |V| - c(G-S) + |S| $$
+Z lematu 1. $M$ jest najliczniejszym skojarzeniem w grafie $G$.
+
+\paragraph{ZłożonośĆ}
+Przy odpowiednich strukturach danych można zaimplementowa algorytm Edmondsa tak, żeby działał w czasie $O(n^3)$ gdzie $n$ - liczba wierzchołków.

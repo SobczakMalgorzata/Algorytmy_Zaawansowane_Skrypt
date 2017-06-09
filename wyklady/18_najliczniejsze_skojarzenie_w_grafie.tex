@@ -1,0 +1,183 @@
+\paragraph{Problem najliczniejszego skojarzenia w grafie dwudzielnym}
+Skojarzenie w grafie G to zbiór rozłącznych krawędzi. Inaczej mówiąc to podzbiór $M$ zbioru $E$ taki, że każdy $v \in V$ należy do co najmniej jednej krawędzi z $M$.
+
+Mówimy, że wierzchołek jest skojarzony gdy należy do krawędzi z $M$ i jest wolny, gdy nie należy do krawędzi z $M$. Tak samo krawędź skojarzona to taka należąca do $M$, a wolna nie należąca do $M$.
+
+\paragraph{Dane:}{Graf $G$}
+\paragraph{Problem:}{Znaleźć skojarzenie największej liczności w $G$}
+$G = (V,E)$, $M \subset E$ ustalone
+
+Def. ścieżka rozszerzająca względem $M$ to ścieżka prosta złożona na przemian z krawędzi wolnych i skojarzonych.
+
+P - ścieżka 
+$M \div E(P) = (M- E(P)) \cup (E(P)-M)$
+
+P - ścieżka rozszerzająca względem M
+$M' = M \div E(P)$
+$M'$ jest skojarzeniem większym od $M$ i $M'$ jest skojarzeniem.
+
+\paragraph{Twierdzenie:}
+$G=(V,E)$, $M$ - skojarzenie w $G$.
+
+$M$ jest skojarzeniem najliczniejszym $\iff$ nie istnieje ścieżka rozszerzająca względem $M$.
+
+\paragraph{Dowód:}
+$\implies$ Jeśli P jest ścieżką rozszerzającą względem $M$ to $M' = M \div E(P)$ jest skojarzeniem liczniejszym od $M$.
+
+$\impliedby$ Nie wprost. Niech $M'$ będzie skojarzeniem w $G$ takim, że $|M'| > |M|$
+Niech $H$ będzie podgrafem grafu $G$ utworzonym z krawędzi z $M' \div M$ dokładniej $H = (V, M' \div M)$. W $H$ styczne wierzchołki są $\leq 2$ więc każda składowa $H$ jest cyklem lub ścieżką. 
+
+$M,M'$ są skojarzeniami więc w $H$ nie ma cykli nieparzystych.
+
+//DWA ZDANIA OD ANI
+
+\paragraph{Algorytm znajdujący najliczniejsze skojarzenie w grafie dowolnym}
+
+$G(V_1, V_2, E)$, $M \in E$ - skojarzenie
+
+Definiujemy bigraf $G_M$
+$$G_M = (V_1 \cup V_2, E_M)$$ 
+$$E_M = \{uv : uv \in E-M, u \in V_1\} cup \{vu : uv \in M, u \in V_1, v \in V_2\}$$
+
+Przykład:
+
+\paragraph{Algorytm znajdowania ścieżki rozszerzającej}
+AugmentingPathSearch(G,M)
+\begin{lstlisting}
+$V_1'$ <- zbior wierzcholkow wolnych w $V_1$
+$V_2'$ <- zbior wierzcholkow wolnych w $V_2$
+Skonstruuj digraf $G_M = (V_1,V_2,E_M)$
+Znajdz sciezke P z $V_1'$ do $V_2'$ w $G_M$
+if $P$ istnieje 
+	return $P$
+return NULL // nie istnieje taka sciezka
+\end{lstlisting}
+
+\paragraph{Lemat:} Algorytm AugmentingPathSearch zwraca ścieżkę $P$ $\implies$ istnieje ścieżka rozszerzająca względem $M$ w $G$. Ponadto zwrócona ścieżka po pominięciu skierowań jest ścieżką rozszerzającą względem $M$.
+
+\paragraph{Dowód:} 
+$\implies$ Jeśli algorytm zwraca ścieżkę P to P zaczyna się w $V_1'$ (w wierzchołki wolnym), kończy sie w wierzchołku z $V_2'$ (w wierzchołku wolnym). Z definicji $G_M$ wynika, że pierwsza z krawędzi P jest wolna druga jest skojarzona, trzecia wolna, itd.  ... Zatem P jest ścieżką rozszerzającą względem $M$.
+$\impliedby$ Gdy w $G$ istnieje ścieżka rozszerzająca względem $M$, to w $G_M$ istnieje ścieżka skierowana z wierzchołka z $V_1'$ do wierzchołka w $V_2'$. Taką ścieżkę znajdzie algorytm.
+
+
+\paragraph{Algorytm znajdowania najliczniejszego skojarzenia}
+MaximumMatching(G)
+\begin{lstlisting}
+$M$ <-  $\emptyset$
+repeat
+	$P$ <-  AugmentingPathSearch($G,M$)
+	if $P \not= $ NULL
+		$M$ <-  $M \div E(P)$
+until $P$ = NULL
+return $M$
+\end{lstlisting}
+Poprawność wynika z tw. Berge'a.
+
+\paragraph{Złożoność:}
+Wykonanie procedury AugmentingPathSearch zajmuje $O(|E|)$ czasu (linia 4 - przeszukiwanie wszerz).
+
+Pętla repeat wykonuje się co najwyżej $\frac{|V|}{2}$ razy ponieważ po każdym przejściu pętli wartość $|M|$ rośnie o 1, a maksymalna liczebność skojarzenia to $\frac{|V|}{2}$. 
+
+Całkowita złożoność wynosi $O(|E| \cdot |V|)$
+
+\subsection{Znajdowanie najliczniejszego skojarzenia w dowolnym grafie}
+
+Tw. Berge'a jest prawdziwe dla dowolnych grafów. Problem w przypadku grafów niedwudzielnych polega na trudności znajdowanie ścieżek rozszerzających. Nie możemy skonstruować digrafu $G_M$, bo nie ma naturalnego skierowania/podziału krawędzi.
+
+Zaczniemy od innego warunku dostatecznego najliczniejszości skojarzenia. Niech $c(G)$ oznacza liczbę składowych o nieparzystej liczbie wierzchołków grafu $G$.
+
+\paragraph{Lemat 1:} $G=(V,E)$
+
+Jeśli dla pewnego $S \in V$ i skojarzenia $M$ w $G$ zachodzi:
+$$ 2 |M| = |V|  - c(G-S) + |S|$$ 
+to $M$ jest skojarzeniem najliczniejszym w $G$.
+
+\paragraph{Dowód:}
+
+Niech $M^*$ będzie najliczniejszym skojarzeniem w $G$, a $S \in V$. Niech $t = c(G-S)$.
+
+RYSUNEK
+
+$G_1,...,G_t$ - składowe nieparzystego rzędu grafu G-S
+
+Grafy $G_i$ mają nieparzystą liczbę wierzchołków, więc jeśli wszystkie wierzchołki w $G_i$ są pokryte przez $M^*$ to co najmniej jedna krawędź z tyk pokrywających krawędzi musi mieć koniec w S. Ale krawędzi z $G_i$ do $S$ jest w $M^*$ co najmniej $|S|$. Wobec tego jest co najmniej $t-|S| = c(G-S) - |S|$ niepokrytych przez $M^*$ wierzchołków w $G$ czyli 
+$$|V|-2|M^*| \geq c(G-S) - |S| \implies 2 |M^*| \leq |V| - c(G-S) + |S|$$
+
+Z założenia o najliczniejszości $M^*$ mamy
+$$ 2|M| \leq 2|M^*| \leq |V| - c(G-S) + |S| = 2|M|$$
+
+więc $|M| = |M^*|$ więc $M$ jest najliczniejszym skojarzeniem 2 $G$.
+
+\paragraph{Lemat 2:}{(o ściąganiu cyklu)}
+Niech $G$ będzie grafem, $M$ - skojarzeniem w $G$ i niech $Z$ będzie cyklem o długości $2k+1$, ktory zawiera $k$ krawedzi z $M$ i jest wierzchołkowo rozłączny z pozostałymi krawędziami z $M$.
+Niech $G'$ będzie grafem powstałym przez ściągnięcie cyklu $Z$ do wierzchołka. Wówczas $M' = M - E(Z)$ jest najliczniejszym skojarzeniem w $G' \iff M$ jest najliczniejszym skojarzeniem w $G$.
+
+\paragraph{Dowód:}
+$\implies$ przypuśmy, że M jest najliczniejszym skojarzeniem w $G$. Z tw Berge'a wynika, że istnieje ściażka $P$ rozszerzająca względem $M$. Jeśli $P$ jest rozłączne z $Z$ to $P$ jest też ścieżką rozszerzającą względem $M'$ w $G'$.
+więc z tw. Berge'a $M$ nie jest najliczniejszym skojarzeniem w $G'$. Załóżmy, że $P$ przecina $Z$. W $Z$ jest tylko jeden dobry wierzchołek, a oba końce $P$ są wolne, więc któryś z końców $P$ jest poza $Z$. Nazwijmy go $x$.
+
+Niech $z$ będzie pierwszym wierzchołkiem $P$ należącym do $Z$ (startującej z $x$) i niech $P'$ będzie fragmentem $P$ od $x$ do $z$.
+Po ściągnięciu $Z$ do wierzchołka w $G'$ ścieżka $P'$ jest rozszerzająca względem $M'$, bo nowy wierzchołe (powstały po ściągnięciu $Z$) jest wolny.
+
+Zatem $M'$ nie jest najliczniejszym skojarzeniem w $G'$. (z tw. Berge'a)
+
+$\impliedby$ PrzypuśĆmy, że $M'$ nie jest skojarzeniem najliczniejszym  $G'$ i niech $N'$ będziem najliczniejszym skojarzeniem w $G'$.
+Rozwijamy cykl $Z$ i otrzymujemy graf $G$. Wtedy $N'$ staje się skojarzeniem w $G'$ i  $N'$ pokrywa $\leq 1$ wierzchołek z $Z$. 
+Niech $N$ będzie skojarzeniem powstałym z $N'$ przez dodanie odpowiednich $k$ krawędzi z $Z$.
+
+$$ |N| = |N'| + k > |M'| + k = |M| $$ 
+
+zatem $M$ nie jest najliczniejszym skojarzeniem w $G$.
+
+\paragraph{Uwaga:}
+Dowód lematu jest konstruktywny, to znaczy jeśli znajdziemy naliczniejsze skojarzeniew $G'$ to potrafimy znaleźć najliczniejsze skojarzenie w $G$.
+
+\paragraph{Definicja}{Las n-alternujący}
+$G$ - graf; $M$ - skojarzenie w grafie $G$; $S$ - zbiór wierzchołków wolnych względem $M$
+Lasem n-alternującym nazywamy las $L$ złożony z drzew ukorzenionych wwierzchołkach o następujących właściwościach.
+\begin{enumerate}
+	\item korzeniami każdego drzewa w $L$ jest wierzchołek z $S$, jest to jedyny wierzchołek z $S$ w tym drzewie.
+	\item każdy wierzchołek z $S$ jest korzeniem drzewa w $L$.
+	\item liczba krawędzi drzewa w $L$ znajdująca się w nieparzystej odległości od korzenia, należy do $M$.
+	\item wierzchołki wewnętrzne w $L$ mają stopień $= 2$
+\end{enumerate} 
+Wierzchołki w $L$ w nieparzystej odległości od korzenia nazywamy wewnętrznymi, a w parzystej nieparzystymi.
+
+OBRAZEK DRZEWA
+
+\paragraph{Lemat 3}
+Każde drzewow lesie $M$-alternującym $L$ ma o jeden więcej wierzchołków zewnętrznych niż wewnętrznych.
+\paragraph{Dowód}
+Każda krawędź z $M$ należąca do drzewa z $L$ ma jeden koniec w wierzchołku zwenętrznym, a drugi w wewnętrznym. 
+Tylko korzeń, który jest wierzchołkiem zewnętrznym) nie jest pokryty przez $M$.
+
+\paragraph{Fakt 1}
+Jeśli $xy \in M$ i $x \in V(L)$ to $y \in V(L)$
+\paragraph{Dowód}
+$x$ jest wewnętrzny $\implies \deg_L(x) = 2 \implies y \in V(L)$ \\
+$x$ jest zewnętrzny $\implies y$ leży na ścieżce z $x$ do korzenia
+
+\paragraph{Fakt 2}
+Jeśli istnieje wierzchołek zewnętrzny $x \in V(L)$ sąsiadujący z $y \not\in V(L)$ to istnieje $z \not\in V(L)$ taki, że $yz \in M$.
+\paragraph{Dowód}
+$y \not\in V(L) \implies y \in S \implies y$ jest pokryty przez $M$. Niech $yz \in M$. 
+Gdyby $z \in V(L)$ to z Faktu 1 $y \in V(L)$. Czyli $z \not\in V(L)$.
+
+\paragraph{Fakt 3}
+Jeśli istnieją wierzchołki zewnętrzne $x_1, x_2$ należące do różnych drzew z $L$ i takie, że $x_1x_2 \in E(G)$ to $P_1 \cup \{x_1x_2\} \cup \P_2$, gdzie $P_i$ jest ścieżką od $x_i$ do korzenia w $L$, jest ścieżką rozszerzającą względem $M$.
+
+%patrz rysunek
+
+\paragraph{Fakt 4}
+Jeśli istnieją wierzchołki zewnętrzne $x_1x_2$ należące do tego samego drzewa w $L$ i takie, że $x_1x_2 \in E(G)$ to 
+
+niech $C = Q \cup {x_1x_2}$ gdzie $Q$ jest $x_1 - x_2$ ścieżką w $L$,
+
+niech $P$ będzie najkrótszą ścieżką łączącą $C$ z korzeniem drzewa w $L$.
+
+Wtedy P jest naprzemienna oraz $M' = M \div E(C)$ spełnia założenia lematu 2.
+
+
+
+
+
