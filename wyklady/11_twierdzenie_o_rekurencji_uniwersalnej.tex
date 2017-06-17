@@ -6,9 +6,9 @@ Niech $a \geq 1, b > 1$, będą stałymi, $f(n) = \Theta(n^k)$\\
 Niech: $T(n) = a \cdot T(\frac{n}{b})+f(n)$, gdzie $\frac{n}{b}$ oznacza $\lfloor \frac{n}{b} \rfloor $ lub $\lceil \frac{n}{b} \rceil$. Wtedy:
 $$
   T(n)=\begin{cases}
-               \Theta(n^{\log_b a}), $ dla $ a > b^k \Leftrightarrow \log_b a>k\\
-               \Theta(n^{\log_b a} \log n), $ dla $ a=b^k \Leftrightarrow \log_b a=k\\
-               \Theta(n^k),$ dla $ a<b^k \Leftrightarrow \log_b a<k
+               \Theta(n^{\log_b a}), \text{ dla } a > b^k \Leftrightarrow \log_b a>k\\
+               \Theta(n^{\log_b a} \log_b n), \text{ dla } a=b^k \Leftrightarrow \log_b a=k\\
+               \Theta(n^k), \text{ dla } a<b^k \Leftrightarrow \log_b a<k
 		\end{cases}
 $$
 $$a^{\log_b n}=b^{\log_b a^{\log_b n}}=b^{\log_b n \cdot \log_b a}=b^{\log_b a \cdot \log_b n}=b^{\log_b n^{\log_b a}}=n^{\log_b a}$$
