@@ -29,27 +29,31 @@ Algorytm zwraca poprawne pokrycie, ponieważ na początku każdego przejścia p�
 Liczba przejsc petli 3-6 jest $\leq \vert X\vert$ i $\leq \vert \mathcal{F} \vert$ wiec jest $\leq min\lbrace \vert X \vert,\ \vert \mathcal{F}\vert \rbrace$
 Wnetrze petli mozna zaimplementowac zeby dzialalo w czasie $O(\vert X\vert \vert \mathcal{F}\vert)$
 \end{lstlisting}
-\begin{center}
-Złożoność czasowa GSC wynosi $O(\vert X\vert \ast \vert\mathcal{F}\vert \ast min\lbrace \vert X \vert,\ \vert \mathcal{F}\vert \rbrace)$
-\end{center}
-\textbf{Twierdzenie: }GreedySetCover jest wielomianowym algorytmem $\rho(n)$ - aproksymacyjnym, gdzie $\rho(n) = H(max\lbrace\vert S\vert :S\in \mathcal{F}\rbrace)$, $H(m) = \lbrace 1 + \frac{1}{2} + ... +\frac{1}{m}\rbrace$, $H(0)=0$\\
-\\
-\textbf{Dowód: }$\mathcal{A}^{\ast}$ - optymalne pokrycie znalezione przez algorytm.\\
-\tab Niech $S_i$ będzie zbiorem dodanym do $\mathcal{A}$ w w i-tym przebiegu pętli\\\\
-Przekazujemy koszt $c_x=\frac{1}{\vert S_i-(S_1\cup ... \cup S_{i-1})\vert}$ każdemu elementowi $X\in S_i = (S_1 \cup ... \cup S_{i-1})$ (pokrytemu po raz pierwszy przez $S_i$)\\
-\\
-\tab W każdym przejściu pętli wszystkie z $S_i - (S_1 \cup ... \cup S_{i-1})$ dostają koszt $\frac{1}{\vert S_i-(S_1\cup ... \cup S_{i-1})\vert}$ więc całkowity koszt przyznawany w i-tym przejściu pętli wynosi 1.\\\\
-\textbf{WYC} $\sum_{x\in X}c_x=\vert \mathcal{A}\vert$\\
-\\
-Pokażemy, że $\sum_{x\in S}c_x \leq H(\vert S\vert)$ dla każdego $S\in \mathcal{F}$\\
-\\
-Dla każdego $S\in \mathcal{F}$ oraz $i=1,\ 2,\ ...,\ \vert\mathcal{A}\vert$ definiujemy $n_i = \vert S - (S_1 \cup ... \cup S_i)\vert$ (liczba elementów w S nie pokrytych po i-1 przejściu pętli)\\
-\tab $n_0=\vert S\vert$\\
-\\
-Niech k będzie najmniejszym indeksem takim, że $n_k=0$\\
-\tab To znaczy, że S jest pokryty przez $S_1 \cup S_2 \cup ... \cup S_k$\\
-Mamy $n_0\geq n_1\geq n_2\geq ...\geq n_{\vert\mathcal{A}\vert}$\\
-\tab $n_{i-1}$ - $n_1$ jest liczbą elementów z S pokrytych po raz pierwszy przez zbiór $S_i$.\\
+
+\underline{Złożoność czasowa GSC wynosi $O(\vert X\vert \cdot \vert\mathcal{F}\vert \cdot min\lbrace \vert X \vert,\ \vert \mathcal{F}\vert \rbrace)$}
+
+\paragraph{Twierdzenie: }GreedySetCover jest wielomianowym algorytmem $\rho(n)$ - aproksymacyjnym, gdzie $\rho(n) = H(max\lbrace\vert S\vert :S\in \mathcal{F}\rbrace)$, $H(m) = \lbrace 1 + \frac{1}{2} + ... +\frac{1}{m}\rbrace$, $H(0)=0$
+
+\paragraph{Dowód: }
+Niech:
+\begin{itemize}
+	\item $A^{\ast}$ będzie optymalnym pokryciem.
+	\item $A$ będzie pokryciem znalezionym przez algorytm.
+	\item $S_i$ będzie zbiorem dodanym do $A$ w w i-tym przebiegu pętli.
+\end{itemize}
+
+Każdemu elementowi $X\in S_i = (S_1 \cup ... \cup S_{i-1})$ (pokrytemu po raz pierwszy przez $S_i$) przyznajemy koszt $$c_x=\frac{1}{\vert S_i-(S_1\cup ... \cup S_{i-1})\vert}$$
+
+W każdym przejściu pętli wszystkie z $S_i - (S_1 \cup ... \cup S_{i-1})$ dostają koszt $\frac{1}{\vert S_i-(S_1\cup ... \cup S_{i-1})\vert}$ więc całkowity koszt przyznawany w $i$-tym przejściu pętli wynosi 1. Więc $$\sum_{x\in X}c_x=\vert A \vert$$
+
+Pokażemy, że dla każdego $S\in \mathcal{F}$ $$\sum_{x \in S}c_x \leq H(\vert S\vert)$$ 
+
+Dla każdego $S\in \mathcal{F}$ oraz $i=1,2,...,\vert A \vert$ definiujemy $n_i(S) = \vert S - (S_1 \cup ... \cup S_i)\vert$ (liczba elementów w $S$ nie pokrytych po $i-1$ przejściu pętli)
+$n_0(S) = \vert S\vert$
+
+Niech $k$ będzie najmniejszym indeksem takim, że $n_k=0$. To znaczy, że $S$ jest pokryty przez $S_1 \cup S_2 \cup ... \cup S_k$. $n_0\geq n_1\geq n_2\geq ...\geq n_{\vert A \vert}$
+
+$n_{i-1} - n_1$ jest liczbą elementów z S pokrytych po raz pierwszy przez zbiór $S_i$.
 Stąd $\sum_{x\in S}c_x = \sum_{i=1}^{k}(n_{i-1}-n_i)\frac{1}{\vert S_i - (S_1 \cup ... \cup S_{i-1})\vert}$\\\\
 Z wyboru zachłannego w linii 4 mamy $\vert S_i - (S_1 \cup ... \cup S_{i-1})\vert \leq \vert S - (S_1 \cup ... \cup S_{i-1})\vert = n_{i-1}$ dla dowolnego $S \in \mathcal{F} - \lbrace S_1,\ ...,\ S_{i-1}\rbrace$\\
 \tab zatem\\

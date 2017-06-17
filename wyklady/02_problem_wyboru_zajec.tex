@@ -40,14 +40,14 @@ for i $\leftarrow$ 2 to n
 return A
 \end{lstlisting}
 
-Algorytm działa poprawnie tzn. zwraca zbiór zajęć parami zgodnych, bo dołącza zajęcie $z_i$ do zbioru razwiązań A tylko wtedy, gdy $s_i \geq t_j$, gdzie $t_j$ jest czasem zakończenia zajęcia wykonanego poprzednio.
+Algorytm działa poprawnie tzn. zwraca zbiór zajęć parami zgodnych, bo dołącza zajęcie $z_i$ do zbioru rozwiązań A tylko wtedy, gdy $s_i \geq t_j$, gdzie $t_j$ jest czasem zakończenia zajęcia wykonanego poprzednio.
 
-\paragraph{Twierdzenie:} {Algorytm zawsze znajduje optymalne rozwiązania.
+\paragraph{Twierdzenie:} {Algorytm zawsze znajduje optymalne rozwiązania.}
 \paragraph{Dowód:} {Indukcja po n}
 
-\subparagraph{$n = 1$ \\}
+\subparagraph{$n = 1$ }
 	OK
-\subparagraph{$n < 1$ }{Pokazujemy najpierw, że istnieje rozwiązanie optymalne zawierające zajęcie $z_1$:
+\subparagraph{$n > 1$ }{Pokazujemy najpierw, że istnieje rozwiązanie optymalne zawierające zajęcie $z_1$:
 
 Niech $A_1$ będzie dowolnym rozwiązaniem optymalnym i niech $\vert A_1\vert = l$ 
 
